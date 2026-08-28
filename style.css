@@ -1405,6 +1405,23 @@ footer div:last-child {
   text-align: center;
   min-width: 70px;
 }
-
+/* Thanh điều hướng tìm kiếm & Filter */
+.member-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+.search-box input {
+  width: 280px;
+  padding: 10px 16px;
+  border: 1px solid #e2e2ec;
+  border-radius: 20px;
+  outline: none;
+  font-size: 13px;
+}
+.filter-tabs { display: flex; gap: 8px; }
 .event-date-box .day { font-size: 22px; font-weight: 900; line-height: 1; }
 .event-date-box .month { font-size: 11px; font-weight: 800; text-transform: uppercase; margin-top: 4px; }
