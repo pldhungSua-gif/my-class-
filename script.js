@@ -1,1492 +1,1385 @@
 /* =================================================
-KHỞI TẠO
+   KHỞI TẠO WEBSITE
 ================================================= */
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", function () {
 
-```
-loadClassInfo();
+    loadClassInfo();
 
-renderMembers();
+    loadMembers();
 
-renderSchedule();
+    loadRanking();
 
-renderAnnouncements();
+    loadSchedule();
 
-renderRanking();
+    loadAnnouncements();
 
-setupNavigation();
+    setupNavigation();
 
-setupAuth();
+    setupButtons();
 
-updateAuthUI();
-```
+    setupAuthentication();
+
+    checkLogin();
 
 });
 
+
 /* =================================================
-LOCAL STORAGE
+   LOCAL STORAGE
 ================================================= */
 
-const USERS_KEY = "toan1_users";
+const STORAGE_USERS = "toan1_users";
 
-const CURRENT_USER_KEY = "toan1_current_user";
+const STORAGE_CURRENT_USER = "toan1_current_user";
+
 
 /* =================================================
-LẤY USER
+   HÀM LẤY USER
 ================================================= */
 
 function getUsers() {
 
-```
-try {
+    const data = localStorage.getItem(STORAGE_USERS);
 
-    const data =
-        localStorage.getItem(USERS_KEY);
+    if (!data) {
+        return [];
+    }
 
-    return data
-        ? JSON.parse(data)
-        : [];
+    try {
 
-} catch (error) {
+        return JSON.parse(data);
 
-    console.error(
-        "Không thể đọc dữ liệu tài khoản.",
-        error
-    );
+    } catch (error) {
 
-    return [];
+        console.error("Lỗi đọc users:", error);
 
-}
-```
+        return [];
+
+    }
 
 }
+
 
 /* =================================================
-LƯU USER
+   LƯU USER
 ================================================= */
 
 function saveUsers(users) {
 
-```
-localStorage.setItem(
-    USERS_KEY,
-    JSON.stringify(users)
-);
-```
-
-}
-
-/* =================================================
-USER HIỆN TẠI
-================================================= */
-
-function getCurrentUser() {
-
-```
-const username =
-    localStorage.getItem(
-        CURRENT_USER_KEY
+    localStorage.setItem(
+        STORAGE_USERS,
+        JSON.stringify(users)
     );
 
-if (!username) {
-    return null;
 }
 
-const users = getUsers();
-
-return users.find(
-    user =>
-        user.username === username
-) || null;
-```
-
-}
 
 /* =================================================
-THÔNG TIN LỚP
+   THÔNG TIN LỚP
 ================================================= */
 
 function loadClassInfo() {
 
-```
-const elements = {
+    const className =
+        document.getElementById("className");
 
-    className:
-        document.getElementById("className"),
+    const homeClassName =
+        document.getElementById("homeClassName");
 
-    homeClassName:
-        document.getElementById("homeClassName"),
+    const aboutClassName =
+        document.getElementById("aboutClassName");
 
-    aboutClassName:
-        document.getElementById("aboutClassName"),
+    const description =
+        document.getElementById("homeDescription");
 
-    description:
-        document.getElementById("homeDescription"),
+    const goal =
+        document.getElementById("goal");
 
-    goal:
-        document.getElementById("goal"),
+    const unity =
+        document.getElementById("unity");
 
-    unity:
-        document.getElementById("unity"),
-
-    memory:
-        document.getElementById("memory")
-
-};
+    const memory =
+        document.getElementById("memory");
 
 
-if (elements.className)
-    elements.className.textContent =
-        classInfo.name;
+    if (className) {
+        className.textContent = classInfo.name;
+    }
 
-if (elements.homeClassName)
-    elements.homeClassName.textContent =
-        classInfo.name;
+    if (homeClassName) {
+        homeClassName.textContent = classInfo.name;
+    }
 
-if (elements.aboutClassName)
-    elements.aboutClassName.textContent =
-        classInfo.name;
+    if (aboutClassName) {
+        aboutClassName.textContent = classInfo.name;
+    }
 
-if (elements.description)
-    elements.description.textContent =
-        classInfo.description;
+    if (description) {
+        description.textContent =
+            classInfo.description;
+    }
 
-if (elements.goal)
-    elements.goal.textContent =
-        classInfo.goal;
+    if (goal) {
+        goal.textContent =
+            classInfo.goal;
+    }
 
-if (elements.unity)
-    elements.unity.textContent =
-        classInfo.unity;
+    if (unity) {
+        unity.textContent =
+            classInfo.unity;
+    }
 
-if (elements.memory)
-    elements.memory.textContent =
-        classInfo.memory;
-```
+    if (memory) {
+        memory.textContent =
+            classInfo.memory;
+    }
 
 }
 
+
 /* =================================================
-NAVIGATION
+   THÀNH VIÊN
+================================================= */
+
+function loadMembers() {
+
+    const container =
+        document.getElementById("membersList");
+
+    if (!container) {
+        return;
+    }
+
+    container.innerHTML = "";
+
+    const users =
+        getUsers();
+
+    /*
+       Kết hợp thành viên mặc định
+       với những học sinh đăng ký.
+    */
+
+    const allMembers = [...members];
+
+    users.forEach(function (user) {
+
+        const exists =
+            allMembers.some(function (member) {
+
+                return member.username === user.username;
+
+            });
+
+        if (!exists) {
+
+            allMembers.push({
+
+                id:
+                    "user_" + user.username,
+
+                name:
+                    user.fullname,
+
+                username:
+                    user.username,
+
+                role:
+                    "Học sinh",
+
+                score:
+                    user.score || 0
+
+            });
+
+        }
+
+    });
+
+
+    allMembers.forEach(function (member) {
+
+        const card =
+            document.createElement("div");
+
+        card.className = "member";
+
+        const firstLetter =
+            member.name
+                .trim()
+                .charAt(0)
+                .toUpperCase();
+
+
+        card.innerHTML = `
+
+            <div class="avatar">
+                ${escapeHTML(firstLetter)}
+            </div>
+
+            <h3>
+                ${escapeHTML(member.name)}
+            </h3>
+
+            <p>
+                ${escapeHTML(member.role)}
+            </p>
+
+            <div class="member-score">
+                ⭐ ${Number(member.score) || 0} điểm
+            </div>
+
+        `;
+
+        container.appendChild(card);
+
+    });
+
+}
+
+
+/* =================================================
+   XẾP HẠNG
+================================================= */
+
+function loadRanking() {
+
+    const container =
+        document.getElementById("rankingList");
+
+    if (!container) {
+        return;
+    }
+
+    container.innerHTML = "";
+
+
+    const users =
+        getUsers();
+
+
+    const rankingData = [];
+
+
+    /*
+       Thành viên mặc định
+    */
+
+    members.forEach(function (member) {
+
+        rankingData.push({
+
+            name:
+                member.name,
+
+            score:
+                Number(member.score) || 0
+
+        });
+
+    });
+
+
+    /*
+       Người dùng đăng ký
+    */
+
+    users.forEach(function (user) {
+
+        rankingData.push({
+
+            name:
+                user.fullname,
+
+            score:
+                Number(user.score) || 0
+
+        });
+
+    });
+
+
+    /*
+       Sắp xếp điểm giảm dần
+    */
+
+    rankingData.sort(function (a, b) {
+
+        return b.score - a.score;
+
+    });
+
+
+    rankingData.forEach(function (student, index) {
+
+        const rank =
+            index + 1;
+
+
+        const item =
+            document.createElement("div");
+
+        item.className =
+            "ranking-item";
+
+
+        let medal = "";
+
+        if (rank === 1) {
+            medal = "🥇";
+        } else if (rank === 2) {
+            medal = "🥈";
+        } else if (rank === 3) {
+            medal = "🥉";
+        } else {
+            medal = rank;
+        }
+
+
+        item.innerHTML = `
+
+            <div class="rank-number">
+                ${medal}
+            </div>
+
+            <div class="rank-avatar">
+                ${escapeHTML(
+                    student.name
+                        .trim()
+                        .charAt(0)
+                        .toUpperCase()
+                )}
+            </div>
+
+            <div class="rank-name">
+
+                <strong>
+                    ${escapeHTML(student.name)}
+                </strong>
+
+                <span>
+                    Học sinh
+                </span>
+
+            </div>
+
+            <div class="rank-score">
+                ${student.score} điểm
+            </div>
+
+        `;
+
+
+        container.appendChild(item);
+
+    });
+
+}
+
+
+/* =================================================
+   THỜI KHÓA BIỂU
+================================================= */
+
+function loadSchedule() {
+
+    const tbody =
+        document.getElementById("scheduleBody");
+
+    if (!tbody) {
+        return;
+    }
+
+    tbody.innerHTML = "";
+
+
+    schedule.forEach(function (day) {
+
+        const row =
+            document.createElement("tr");
+
+
+        let html = `
+
+            <td>
+                <strong>
+                    ${escapeHTML(day.day)}
+                </strong>
+            </td>
+
+        `;
+
+
+        day.lessons.forEach(function (lesson) {
+
+            html += `
+
+                <td>
+                    ${escapeHTML(lesson)}
+                </td>
+
+            `;
+
+        });
+
+
+        row.innerHTML = html;
+
+        tbody.appendChild(row);
+
+    });
+
+}
+
+
+/* =================================================
+   THÔNG BÁO
+================================================= */
+
+function loadAnnouncements() {
+
+    const container =
+        document.getElementById(
+            "announcementList"
+        );
+
+    if (!container) {
+        return;
+    }
+
+    container.innerHTML = "";
+
+
+    announcements.forEach(function (announcement) {
+
+        const item =
+            document.createElement("div");
+
+        item.className =
+            "announcement";
+
+
+        item.innerHTML = `
+
+            <div class="announcement-date">
+                ${escapeHTML(announcement.date)}
+            </div>
+
+            <h3>
+                ${escapeHTML(announcement.title)}
+            </h3>
+
+            <p>
+                ${escapeHTML(announcement.content)}
+            </p>
+
+        `;
+
+
+        container.appendChild(item);
+
+    });
+
+}
+
+
+/* =================================================
+   CHUYỂN TRANG
 ================================================= */
 
 function setupNavigation() {
 
-```
-const buttons =
-    document.querySelectorAll(
-        ".nav-button"
-    );
+    const navButtons =
+        document.querySelectorAll(".nav-button");
 
 
-const pages =
-    document.querySelectorAll(
-        ".page"
-    );
-
-
-buttons.forEach(button => {
-
-    button.addEventListener(
-        "click",
-        () => {
-
-            const pageId =
-                button.dataset.page;
-
-            pages.forEach(page => {
-
-                page.classList.remove(
-                    "active"
-                );
-
-            });
-
-
-            buttons.forEach(btn => {
-
-                btn.classList.remove(
-                    "active"
-                );
-
-            });
-
-
-            const target =
-                document.getElementById(
-                    pageId
-                );
-
-
-            if (target) {
-
-                target.classList.add(
-                    "active"
-                );
-
-            }
-
-
-            button.classList.add(
-                "active"
-            );
-
-        }
-    );
-
-});
-
-
-document
-    .querySelectorAll("[data-go]")
-    .forEach(button => {
+    navButtons.forEach(function (button) {
 
         button.addEventListener(
             "click",
-            () => {
+            function () {
 
-                const pageId =
-                    button.dataset.go;
+                const page =
+                    button.dataset.page;
 
-                showPage(pageId);
+                showPage(page);
 
             }
         );
 
     });
-```
 
 }
 
+
 /* =================================================
-HIỂN THỊ TRANG
+   HIỂN THỊ TRANG
 ================================================= */
 
 function showPage(pageId) {
 
-```
-const target =
-    document.getElementById(pageId);
+    const pages =
+        document.querySelectorAll(".page");
 
-const button =
-    document.querySelector(
-        `.nav-button[data-page="${pageId}"]`
-    );
+    const buttons =
+        document.querySelectorAll(".nav-button");
 
 
-document
-    .querySelectorAll(".page")
-    .forEach(page => {
+    pages.forEach(function (page) {
 
         page.classList.remove("active");
 
     });
 
 
-document
-    .querySelectorAll(".nav-button")
-    .forEach(btn => {
+    buttons.forEach(function (button) {
 
-        btn.classList.remove("active");
+        button.classList.remove("active");
 
     });
 
 
-if (target) {
+    const target =
+        document.getElementById(pageId);
 
-    target.classList.add("active");
 
-}
-
-
-if (button) {
-
-    button.classList.add("active");
-
-}
-```
-
-}
-
-/* =================================================
-THÀNH VIÊN
-================================================= */
-
-function renderMembers() {
-
-```
-const container =
-    document.getElementById(
-        "membersList"
-    );
-
-
-if (!container) return;
-
-
-container.innerHTML = "";
-
-
-members.forEach((member, index) => {
-
-    const card =
-        document.createElement("div");
-
-
-    card.className = "member";
-
-
-    card.innerHTML = `
-
-        <div class="avatar">
-            👤
-        </div>
-
-        <h3>
-            ${escapeHTML(member.name)}
-        </h3>
-
-        <p>
-            ${escapeHTML(member.role)}
-        </p>
-
-    `;
-
-
-    container.appendChild(card);
-
-});
-```
-
-}
-
-/* =================================================
-THỜI KHÓA BIỂU
-================================================= */
-
-function renderSchedule() {
-
-```
-const body =
-    document.getElementById(
-        "scheduleBody"
-    );
-
-
-if (!body) return;
-
-
-body.innerHTML = "";
-
-
-schedule.forEach(day => {
-
-    const row =
-        document.createElement("tr");
-
-
-    row.innerHTML = `
-
-        <td>
-            <strong>
-                ${escapeHTML(day.day)}
-            </strong>
-        </td>
-
-        <td>${escapeHTML(day.lessons[0])}</td>
-        <td>${escapeHTML(day.lessons[1])}</td>
-        <td>${escapeHTML(day.lessons[2])}</td>
-        <td>${escapeHTML(day.lessons[3])}</td>
-        <td>${escapeHTML(day.lessons[4])}</td>
-
-    `;
-
-
-    body.appendChild(row);
-
-});
-```
-
-}
-
-/* =================================================
-THÔNG BÁO
-================================================= */
-
-function renderAnnouncements() {
-
-```
-const container =
-    document.getElementById(
-        "announcementList"
-    );
-
-
-if (!container) return;
-
-
-container.innerHTML = "";
-
-
-announcements.forEach(item => {
-
-    const announcement =
-        document.createElement("div");
-
-
-    announcement.className =
-        "announcement";
-
-
-    announcement.innerHTML = `
-
-        <small>
-            ${escapeHTML(item.date)}
-        </small>
-
-        <h3>
-            ${escapeHTML(item.title)}
-        </h3>
-
-        <p>
-            ${escapeHTML(item.content)}
-        </p>
-
-    `;
-
-
-    container.appendChild(
-        announcement
-    );
-
-});
-```
-
-}
-
-/* =================================================
-DỮ LIỆU XẾP HẠNG
-================================================= */
-
-function getRankingData() {
-
-```
-const users = getUsers();
-
-
-const students = [];
-
-
-/*
-    Thành viên có sẵn
-*/
-
-members.forEach(member => {
-
-    students.push({
-
-        name: member.name,
-
-        username: "",
-
-        score:
-            Number(member.score) || 0
-
-    });
-
-});
-
-
-/*
-    Tài khoản đăng ký
-*/
-
-users.forEach(user => {
-
-    students.push({
-
-        name: user.name,
-
-        username: user.username,
-
-        score:
-            Number(user.score) || 0
-
-    });
-
-});
-
-
-/*
-    Xóa học sinh trùng tên
-*/
-
-const unique = [];
-
-
-students.forEach(student => {
-
-    const existing =
-        unique.find(
-            item =>
-                item.name.toLowerCase() ===
-                student.name.toLowerCase()
+    const activeButton =
+        document.querySelector(
+            `.nav-button[data-page="${pageId}"]`
         );
 
 
-    if (!existing) {
+    if (target) {
 
-        unique.push(student);
-
-    } else if (student.username) {
-
-        existing.username =
-            student.username;
-
-        existing.score =
-            student.score;
+        target.classList.add("active");
 
     }
 
-});
 
+    if (activeButton) {
 
-/*
-    Sắp xếp điểm giảm dần
-*/
+        activeButton.classList.add("active");
 
-unique.sort(
-    (a, b) =>
-        b.score - a.score
-);
-
-
-return unique;
-```
+    }
 
 }
+
 
 /* =================================================
-BẢNG XẾP HẠNG
+   CÁC BUTTON
 ================================================= */
 
-function renderRanking() {
+function setupButtons() {
 
-```
-const topThree =
-    document.getElementById(
-        "topThree"
-    );
+    const startButton =
+        document.querySelector(".start-button");
 
 
-const rankingList =
-    document.getElementById(
-        "rankingList"
-    );
+    if (startButton) {
 
-
-if (!topThree || !rankingList)
-    return;
-
-
-const ranking =
-    getRankingData();
-
-
-topThree.innerHTML = "";
-
-rankingList.innerHTML = "";
-
-
-/*
-    TOP 3
-*/
-
-ranking
-    .slice(0, 3)
-    .forEach((student, index) => {
-
-        const item =
-            document.createElement("div");
-
-
-        item.className =
-            `top-student top-${index + 1}`;
-
-
-        const medals = [
-            "🥇",
-            "🥈",
-            "🥉"
-        ];
-
-
-        item.innerHTML = `
-
-            <div class="rank-medal">
-                ${medals[index]}
-            </div>
-
-            <div class="rank-avatar">
-                👤
-            </div>
-
-            <h3>
-                ${escapeHTML(student.name)}
-            </h3>
-
-            <strong>
-                ${student.score} điểm
-            </strong>
-
-        `;
-
-
-        topThree.appendChild(item);
-
-    });
-
-
-/*
-    HẠNG 4 TRỞ ĐI
-*/
-
-ranking
-    .slice(3)
-    .forEach((student, index) => {
-
-        const rank =
-            index + 4;
-
-
-        const row =
-            document.createElement("div");
-
-
-        row.className =
-            "ranking-row";
-
-
-        row.innerHTML = `
-
-            <div class="ranking-number">
-                ${rank}
-            </div>
-
-            <div class="ranking-avatar">
-                👤
-            </div>
-
-            <div class="ranking-name">
-
-                <strong>
-                    ${escapeHTML(student.name)}
-                </strong>
-
-                ${
-                    student.username
-                    ?
-                    `<small>
-                        @${escapeHTML(student.username)}
-                    </small>`
-                    :
-                    ""
-                }
-
-            </div>
-
-            <div class="ranking-score">
-                ${student.score}
-            </div>
-
-        `;
-
-
-        rankingList.appendChild(row);
-
-    });
-
-
-if (ranking.length === 0) {
-
-    rankingList.innerHTML = `
-
-        <div class="empty-ranking">
-            Chưa có dữ liệu xếp hạng.
-        </div>
-
-    `;
-
-}
-```
-
-}
-
-/* =================================================
-AUTH
-================================================= */
-
-function setupAuth() {
-
-```
-const loginButton =
-    document.getElementById(
-        "loginButton"
-    );
-
-
-const registerButton =
-    document.getElementById(
-        "registerButton"
-    );
-
-
-const logoutButton =
-    document.getElementById(
-        "logoutButton"
-    );
-
-
-const profileButton =
-    document.getElementById(
-        "profileButton"
-    );
-
-
-if (loginButton) {
-
-    loginButton.addEventListener(
-        "click",
-        () => openModal("loginModal")
-    );
-
-}
-
-
-if (registerButton) {
-
-    registerButton.addEventListener(
-        "click",
-        () => openModal("registerModal")
-    );
-
-}
-
-
-if (logoutButton) {
-
-    logoutButton.addEventListener(
-        "click",
-        logout
-    );
-
-}
-
-
-if (profileButton) {
-
-    profileButton.addEventListener(
-        "click",
-        () => {
-
-            updateProfile();
-
-            showPage("profile");
-
-        }
-    );
-
-}
-
-
-/*
-    Chuyển đăng nhập -> đăng ký
-*/
-
-document
-    .getElementById("switchToRegister")
-    ?.addEventListener(
-        "click",
-        () => {
-
-            closeModal("loginModal");
-
-            clearMessages();
-
-            openModal("registerModal");
-
-        }
-    );
-
-
-/*
-    Chuyển đăng ký -> đăng nhập
-*/
-
-document
-    .getElementById("switchToLogin")
-    ?.addEventListener(
-        "click",
-        () => {
-
-            closeModal("registerModal");
-
-            clearMessages();
-
-            openModal("loginModal");
-
-        }
-    );
-
-
-/*
-    Đóng modal
-*/
-
-document
-    .querySelectorAll(".close-modal")
-    .forEach(button => {
-
-        button.addEventListener(
+        startButton.addEventListener(
             "click",
-            () => {
+            function () {
 
-                closeModal(
-                    button.dataset.close
+                showPage(
+                    startButton.dataset.go
                 );
 
             }
         );
 
-    });
+    }
 
 
-/*
-    Click ra ngoài modal
-*/
+    const homeLoginButton =
+        document.getElementById(
+            "homeLoginButton"
+        );
 
-document
-    .querySelectorAll(".modal")
-    .forEach(modal => {
 
-        modal.addEventListener(
+    if (homeLoginButton) {
+
+        homeLoginButton.addEventListener(
             "click",
-            event => {
+            function () {
+
+                openLoginModal();
+
+            }
+        );
+
+    }
+
+
+    const loginHeaderButton =
+        document.getElementById(
+            "loginHeaderButton"
+        );
+
+
+    if (loginHeaderButton) {
+
+        loginHeaderButton.addEventListener(
+            "click",
+            function () {
+
+                openLoginModal();
+
+            }
+        );
+
+    }
+
+
+    const logoutButton =
+        document.getElementById(
+            "logoutButton"
+        );
+
+
+    if (logoutButton) {
+
+        logoutButton.addEventListener(
+            "click",
+            logout
+        );
+
+    }
+
+}
+
+
+/* =================================================
+   AUTHENTICATION
+================================================= */
+
+function setupAuthentication() {
+
+    const loginForm =
+        document.getElementById("loginForm");
+
+
+    const registerForm =
+        document.getElementById(
+            "registerForm"
+        );
+
+
+    const openRegister =
+        document.getElementById(
+            "openRegister"
+        );
+
+
+    const openLogin =
+        document.getElementById(
+            "openLogin"
+        );
+
+
+    const closeLogin =
+        document.getElementById(
+            "closeLoginModal"
+        );
+
+
+    const closeRegister =
+        document.getElementById(
+            "closeRegisterModal"
+        );
+
+
+    if (loginForm) {
+
+        loginForm.addEventListener(
+            "submit",
+            handleLogin
+        );
+
+    }
+
+
+    if (registerForm) {
+
+        registerForm.addEventListener(
+            "submit",
+            handleRegister
+        );
+
+    }
+
+
+    if (openRegister) {
+
+        openRegister.addEventListener(
+            "click",
+            function () {
+
+                closeLoginModal();
+
+                openRegisterModal();
+
+            }
+        );
+
+    }
+
+
+    if (openLogin) {
+
+        openLogin.addEventListener(
+            "click",
+            function () {
+
+                closeRegisterModal();
+
+                openLoginModal();
+
+            }
+        );
+
+    }
+
+
+    if (closeLogin) {
+
+        closeLogin.addEventListener(
+            "click",
+            closeLoginModal
+        );
+
+    }
+
+
+    if (closeRegister) {
+
+        closeRegister.addEventListener(
+            "click",
+            closeRegisterModal
+        );
+
+    }
+
+
+    /*
+       Click ra ngoài modal
+    */
+
+    const loginModal =
+        document.getElementById(
+            "loginModal"
+        );
+
+
+    const registerModal =
+        document.getElementById(
+            "registerModal"
+        );
+
+
+    if (loginModal) {
+
+        loginModal.addEventListener(
+            "click",
+            function (event) {
 
                 if (
-                    event.target === modal
+                    event.target ===
+                    loginModal
                 ) {
 
-                    modal.classList.remove(
-                        "show"
-                    );
+                    closeLoginModal();
 
                 }
 
             }
         );
 
-    });
+    }
 
 
-/*
-    Form đăng ký
-*/
+    if (registerModal) {
 
-document
-    .getElementById("registerForm")
-    ?.addEventListener(
-        "submit",
-        handleRegister
-    );
+        registerModal.addEventListener(
+            "click",
+            function (event) {
 
+                if (
+                    event.target ===
+                    registerModal
+                ) {
 
-/*
-    Form đăng nhập
-*/
+                    closeRegisterModal();
 
-document
-    .getElementById("loginForm")
-    ?.addEventListener(
-        "submit",
-        handleLogin
-    );
-```
+                }
+
+            }
+        );
+
+    }
 
 }
 
+
 /* =================================================
-ĐĂNG KÝ
+   ĐĂNG KÝ
 ================================================= */
 
 function handleRegister(event) {
 
-```
-event.preventDefault();
+    event.preventDefault();
 
 
-const name =
-    document
-        .getElementById(
-            "registerName"
-        )
-        .value
-        .trim();
+    const fullname =
+        document.getElementById(
+            "registerFullname"
+        ).value.trim();
 
 
-const username =
-    document
-        .getElementById(
+    const username =
+        document.getElementById(
             "registerUsername"
-        )
-        .value
-        .trim()
+        ).value.trim()
         .toLowerCase();
 
 
-const password =
-    document
-        .getElementById(
+    const password =
+        document.getElementById(
             "registerPassword"
-        )
-        .value;
+        ).value;
 
 
-const confirmPassword =
-    document
-        .getElementById(
-            "registerPasswordConfirm"
-        )
-        .value;
+    const password2 =
+        document.getElementById(
+            "registerPassword2"
+        ).value;
 
 
-const message =
+    const message =
+        document.getElementById(
+            "registerMessage"
+        );
+
+
+    if (fullname.length < 2) {
+
+        showMessage(
+            message,
+            "Vui lòng nhập họ và tên.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if (username.length < 3) {
+
+        showMessage(
+            message,
+            "Tên đăng nhập phải có ít nhất 3 ký tự.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if (password.length < 4) {
+
+        showMessage(
+            message,
+            "Mật khẩu phải có ít nhất 4 ký tự.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if (password !== password2) {
+
+        showMessage(
+            message,
+            "Mật khẩu nhập lại không khớp.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    const users =
+        getUsers();
+
+
+    const exists =
+        users.some(function (user) {
+
+            return user.username === username;
+
+        });
+
+
+    if (exists) {
+
+        showMessage(
+            message,
+            "Tên đăng nhập này đã tồn tại.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    const newUser = {
+
+        id:
+            Date.now(),
+
+        fullname:
+            fullname,
+
+        username:
+            username,
+
+        password:
+            password,
+
+        score:
+            0,
+
+        createdAt:
+            new Date().toISOString()
+
+    };
+
+
+    users.push(newUser);
+
+    saveUsers(users);
+
+
+    showMessage(
+        message,
+        "Đăng ký thành công! Bạn có thể đăng nhập.",
+        "success"
+    );
+
+
     document.getElementById(
-        "registerMessage"
-    );
+        "registerForm"
+    ).reset();
 
 
-/*
-    Kiểm tra tên
-*/
+    setTimeout(function () {
 
-if (name.length < 2) {
+        closeRegisterModal();
 
-    showMessage(
-        message,
-        "Vui lòng nhập họ và tên.",
-        "error"
-    );
+        openLoginModal();
 
-    return;
-
-}
+    }, 1000);
 
 
-/*
-    Kiểm tra username
-*/
+    /*
+       Cập nhật danh sách
+       và bảng xếp hạng.
+    */
 
-if (
-    username.length < 3 ||
-    !/^[a-zA-Z0-9_]+$/.test(username)
-) {
+    loadMembers();
 
-    showMessage(
-        message,
-        "Tên đăng nhập phải có ít nhất 3 ký tự và chỉ gồm chữ, số hoặc dấu gạch dưới.",
-        "error"
-    );
-
-    return;
+    loadRanking();
 
 }
 
-
-/*
-    Kiểm tra password
-*/
-
-if (password.length < 4) {
-
-    showMessage(
-        message,
-        "Mật khẩu phải có ít nhất 4 ký tự.",
-        "error"
-    );
-
-    return;
-
-}
-
-
-/*
-    Kiểm tra password lần 2
-*/
-
-if (password !== confirmPassword) {
-
-    showMessage(
-        message,
-        "Mật khẩu nhập lại không khớp.",
-        "error"
-    );
-
-    return;
-
-}
-
-
-const users =
-    getUsers();
-
-
-/*
-    Kiểm tra username tồn tại
-*/
-
-const exists =
-    users.some(
-        user =>
-            user.username === username
-    );
-
-
-if (exists) {
-
-    showMessage(
-        message,
-        "Tên đăng nhập này đã tồn tại.",
-        "error"
-    );
-
-    return;
-
-}
-
-
-/*
-    Tạo tài khoản
-*/
-
-const newUser = {
-
-    id: Date.now(),
-
-    name: name,
-
-    username: username,
-
-    password: password,
-
-    score: 0,
-
-    createdAt:
-        new Date().toISOString()
-
-};
-
-
-users.push(newUser);
-
-
-saveUsers(users);
-
-
-/*
-    Thông báo thành công
-*/
-
-showMessage(
-    message,
-    "🎉 Đăng ký thành công!",
-    "success"
-);
-
-
-document
-    .getElementById("registerForm")
-    .reset();
-
-
-setTimeout(() => {
-
-    closeModal("registerModal");
-
-    openModal("loginModal");
-
-}, 900);
-```
-
-}
 
 /* =================================================
-ĐĂNG NHẬP
+   ĐĂNG NHẬP
 ================================================= */
 
 function handleLogin(event) {
 
-```
-event.preventDefault();
+    event.preventDefault();
 
 
-const username =
-    document
-        .getElementById(
+    const username =
+        document.getElementById(
             "loginUsername"
-        )
-        .value
-        .trim()
+        ).value.trim()
         .toLowerCase();
 
 
-const password =
-    document
-        .getElementById(
+    const password =
+        document.getElementById(
             "loginPassword"
-        )
-        .value;
+        ).value;
 
 
-const message =
-    document.getElementById(
-        "loginMessage"
+    const message =
+        document.getElementById(
+            "loginMessage"
+        );
+
+
+    /*
+       Tài khoản mặc định
+       trong data.js
+    */
+
+    const defaultMember =
+        members.find(function (member) {
+
+            return member.username === username;
+
+        });
+
+
+    if (
+        defaultMember &&
+        password === "123456"
+    ) {
+
+        const currentUser = {
+
+            fullname:
+                defaultMember.name,
+
+            username:
+                defaultMember.username,
+
+            score:
+                defaultMember.score
+
+        };
+
+
+        localStorage.setItem(
+            STORAGE_CURRENT_USER,
+            JSON.stringify(currentUser)
+        );
+
+
+        showMessage(
+            message,
+            "Đăng nhập thành công!",
+            "success"
+        );
+
+
+        setTimeout(function () {
+
+            closeLoginModal();
+
+            checkLogin();
+
+        }, 700);
+
+
+        return;
+
+    }
+
+
+    /*
+       Kiểm tra tài khoản
+       đã đăng ký.
+    */
+
+    const users =
+        getUsers();
+
+
+    const user =
+        users.find(function (item) {
+
+            return (
+                item.username === username &&
+                item.password === password
+            );
+
+        });
+
+
+    if (!user) {
+
+        showMessage(
+            message,
+            "Tên đăng nhập hoặc mật khẩu không đúng.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    const currentUser = {
+
+        fullname:
+            user.fullname,
+
+        username:
+            user.username,
+
+        score:
+            user.score || 0
+
+    };
+
+
+    localStorage.setItem(
+        STORAGE_CURRENT_USER,
+        JSON.stringify(currentUser)
     );
 
-
-const users =
-    getUsers();
-
-
-const user =
-    users.find(
-        item =>
-            item.username === username &&
-            item.password === password
-    );
-
-
-if (!user) {
 
     showMessage(
         message,
-        "❌ Tên đăng nhập hoặc mật khẩu không đúng.",
-        "error"
+        "Đăng nhập thành công!",
+        "success"
     );
 
-    return;
+
+    setTimeout(function () {
+
+        closeLoginModal();
+
+        checkLogin();
+
+    }, 700);
 
 }
 
-
-/*
-    Lưu người đang đăng nhập
-*/
-
-localStorage.setItem(
-    CURRENT_USER_KEY,
-    user.username
-);
-
-
-showMessage(
-    message,
-    "✅ Đăng nhập thành công!",
-    "success"
-);
-
-
-document
-    .getElementById("loginForm")
-    .reset();
-
-
-setTimeout(() => {
-
-    closeModal("loginModal");
-
-    updateAuthUI();
-
-    renderRanking();
-
-    updateProfile();
-
-    showPage("profile");
-
-}, 700);
-```
-
-}
 
 /* =================================================
-ĐĂNG XUẤT
+   KIỂM TRA ĐĂNG NHẬP
+================================================= */
+
+function checkLogin() {
+
+    const data =
+        localStorage.getItem(
+            STORAGE_CURRENT_USER
+        );
+
+
+    const loginButton =
+        document.getElementById(
+            "loginHeaderButton"
+        );
+
+
+    const userHeader =
+        document.getElementById(
+            "userHeader"
+        );
+
+
+    const headerUsername =
+        document.getElementById(
+            "headerUsername"
+        );
+
+
+    if (!data) {
+
+        if (loginButton) {
+            loginButton.style.display =
+                "block";
+        }
+
+        if (userHeader) {
+            userHeader.style.display =
+                "none";
+        }
+
+        return;
+
+    }
+
+
+    let user;
+
+
+    try {
+
+        user = JSON.parse(data);
+
+    } catch (error) {
+
+        localStorage.removeItem(
+            STORAGE_CURRENT_USER
+        );
+
+        return;
+
+    }
+
+
+    if (loginButton) {
+
+        loginButton.style.display =
+            "none";
+
+    }
+
+
+    if (userHeader) {
+
+        userHeader.style.display =
+            "flex";
+
+    }
+
+
+    if (headerUsername) {
+
+        headerUsername.textContent =
+            "👤 " + user.fullname;
+
+    }
+
+}
+
+
+/* =================================================
+   ĐĂNG XUẤT
 ================================================= */
 
 function logout() {
 
-```
-localStorage.removeItem(
-    CURRENT_USER_KEY
-);
+    localStorage.removeItem(
+        STORAGE_CURRENT_USER
+    );
 
 
-updateAuthUI();
+    checkLogin();
 
-showPage("home");
-```
+    alert("Bạn đã đăng xuất.");
 
 }
 
+
 /* =================================================
-CẬP NHẬT GIAO DIỆN USER
+   MODAL
 ================================================= */
 
-function updateAuthUI() {
+function openLoginModal() {
 
-```
-const guestArea =
-    document.getElementById(
-        "guestArea"
-    );
-
-
-const userArea =
-    document.getElementById(
-        "userArea"
-    );
+    const modal =
+        document.getElementById(
+            "loginModal"
+        );
 
 
-const userNameDisplay =
-    document.getElementById(
-        "userNameDisplay"
-    );
+    if (modal) {
 
+        modal.classList.add("show");
 
-const user =
-    getCurrentUser();
-
-
-if (user) {
-
-    if (guestArea)
-        guestArea.style.display =
-            "none";
-
-
-    if (userArea)
-        userArea.style.display =
-            "flex";
-
-
-    if (userNameDisplay)
-        userNameDisplay.textContent =
-            user.name;
-
-
-    updateProfile();
-
-} else {
-
-    if (guestArea)
-        guestArea.style.display =
-            "flex";
-
-
-    if (userArea)
-        userArea.style.display =
-            "none";
+    }
 
 }
-```
+
+
+function closeLoginModal() {
+
+    const modal =
+        document.getElementById(
+            "loginModal"
+        );
+
+
+    if (modal) {
+
+        modal.classList.remove("show");
+
+    }
 
 }
+
+
+function openRegisterModal() {
+
+    const modal =
+        document.getElementById(
+            "registerModal"
+        );
+
+
+    if (modal) {
+
+        modal.classList.add("show");
+
+    }
+
+}
+
+
+function closeRegisterModal() {
+
+    const modal =
+        document.getElementById(
+            "registerModal"
+        );
+
+
+    if (modal) {
+
+        modal.classList.remove("show");
+
+    }
+
+}
+
 
 /* =================================================
-HỒ SƠ
-================================================= */
-
-function updateProfile() {
-
-```
-const user =
-    getCurrentUser();
-
-
-if (!user) return;
-
-
-const profileName =
-    document.getElementById(
-        "profileName"
-    );
-
-
-const profileUsername =
-    document.getElementById(
-        "profileUsername"
-    );
-
-
-const profileScore =
-    document.getElementById(
-        "profileScore"
-    );
-
-
-const profileRank =
-    document.getElementById(
-        "profileRank"
-    );
-
-
-if (profileName)
-    profileName.textContent =
-        user.name;
-
-
-if (profileUsername)
-    profileUsername.textContent =
-        `@${user.username}`;
-
-
-if (profileScore)
-    profileScore.textContent =
-        user.score;
-
-
-const ranking =
-    getRankingData();
-
-
-const rank =
-    ranking.findIndex(
-        student =>
-            student.username ===
-            user.username
-    );
-
-
-if (profileRank) {
-
-    profileRank.textContent =
-        rank >= 0
-        ? `#${rank + 1}`
-        : "-";
-
-}
-```
-
-}
-
-/* =================================================
-MODAL
-================================================= */
-
-function openModal(id) {
-
-```
-const modal =
-    document.getElementById(id);
-
-
-if (!modal) return;
-
-
-modal.classList.add("show");
-```
-
-}
-
-function closeModal(id) {
-
-```
-const modal =
-    document.getElementById(id);
-
-
-if (!modal) return;
-
-
-modal.classList.remove("show");
-```
-
-}
-
-/* =================================================
-MESSAGE
+   MESSAGE
 ================================================= */
 
 function showMessage(
-element,
-text,
-type
+    element,
+    text,
+    type
 ) {
 
-```
-if (!element) return;
+    if (!element) {
+        return;
+    }
 
 
-element.textContent =
-    text;
+    element.textContent =
+        text;
 
 
-element.className =
-    `form-message ${type}`;
-```
-
-}
-
-function clearMessages() {
-
-```
-document
-    .querySelectorAll(".form-message")
-    .forEach(element => {
-
-        element.textContent = "";
-
-        element.className =
-            "form-message";
-
-    });
-```
+    element.className =
+        "form-message " + type;
 
 }
+
 
 /* =================================================
-ESCAPE HTML
+   CHỐNG HTML INJECTION
 ================================================= */
 
 function escapeHTML(value) {
 
-```
-return String(value)
+    return String(value)
 
-    .replace(
-        /&/g,
-        "&amp;"
-    )
+        .replace(/&/g, "&amp;")
 
-    .replace(
-        /</g,
-        "&lt;"
-    )
+        .replace(/</g, "&lt;")
 
-    .replace(
-        />/g,
-        "&gt;"
-    )
+        .replace(/>/g, "&gt;")
 
-    .replace(
-        /"/g,
-        "&quot;"
-    )
+        .replace(/"/g, "&quot;")
 
-    .replace(
-        /'/g,
-        "&#039;"
-    );
-```
+        .replace(/'/g, "&#039;");
 
 }
