@@ -44,28 +44,27 @@ let currentMemberRoleFilter = 'all';
 function membersPage() {
   return layout("Thành viên lớp", "Gặp gỡ 37 thành viên tuyệt vời của lớp 10 Toán 1", `
     <div class="members-filter-bar">
-      <!-- Ô tìm kiếm trực tiếp -->
+      <!-- Ô tìm kiếm gọi trực tiếp hàm searchMembers -->
       <div class="search-box">
         <input 
           type="text" 
           id="memberSearchInput" 
           placeholder="Tìm kiếm thành viên..." 
-          value="${memberSearchKeyword}"
-          oninput="handleSearchMembers(this.value)"
+          oninput="searchMembers(this.value)"
         >
       </div>
 
-      <!-- Các nút lọc vai trò -->
-      <div class="filter-pills">
-        <button class="pill-btn ${currentMemberRoleFilter === 'all' ? 'active' : ''}" onclick="filterMemberRole('all', this)">Tất cả</button>
-        <button class="pill-btn ${currentMemberRoleFilter === 'bcs' ? 'active' : ''}" onclick="filterMemberRole('bcs', this)">Ban cán sự</button>
-        <button class="pill-btn ${currentMemberRoleFilter === 'member' ? 'active' : ''}" onclick="filterMemberRole('member', this)">Thành viên</button>
+      <!-- Bộ lọc vai trò -->
+      <div class="filter-tabs">
+        <button class="tab-btn active" onclick="filterMembers('all', this)">Tất cả</button>
+        <button class="tab-btn" onclick="filterMembers('bcs', this)">Ban cán sự</button>
+        <button class="tab-btn" onclick="filterMembers('member', this)">Thành viên</button>
       </div>
     </div>
 
-    <!-- Khung chứa danh sách thành viên -->
-    <div id="membersListContainer">
-      ${renderMembersList()}
+    <!-- Khung chứa danh sách thẻ thành viên -->
+    <div id="membersContainer">
+      ${renderMembersList(members)}
     </div>
   `);
 }
