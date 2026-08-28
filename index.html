@@ -1,358 +1,628 @@
 <!DOCTYPE html>
+
 <html lang="vi">
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+```
+<title>10 TOÁN 1</title>
 
-    <title>10 TOÁN 1</title>
+<link rel="stylesheet" href="style.css">
+```
 
-    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <!-- ================= HEADER ================= -->
+```
+<!-- ================= HEADER ================= -->
 
-    <header>
+<header>
 
-        <nav class="navbar">
+    <nav class="navbar">
 
-            <div class="logo" id="className">
-                10 TOÁN 1
-            </div>
+        <div class="logo" id="className">
+            10 TOÁN 1
+        </div>
 
-            <ul class="menu">
+        <ul class="menu">
 
-                <li>
-                    <button
-                        class="nav-button active"
-                        data-page="home">
-                        Trang chủ
-                    </button>
-                </li>
+            <li>
+                <button class="nav-button active" data-page="home">
+                    Trang chủ
+                </button>
+            </li>
 
-                <li>
-                    <button
-                        class="nav-button"
-                        data-page="members">
-                        Thành viên
-                    </button>
-                </li>
+            <li>
+                <button class="nav-button" data-page="members">
+                    Thành viên
+                </button>
+            </li>
 
-                <li>
-                    <button
-                        class="nav-button"
-                        data-page="schedule">
-                        Thời khóa biểu
-                    </button>
-                </li>
+            <li>
+                <button class="nav-button" data-page="schedule">
+                    Thời khóa biểu
+                </button>
+            </li>
 
-                <li>
-                    <button
-                        class="nav-button"
-                        data-page="announcements">
-                        Thông báo
-                    </button>
-                </li>
+            <li>
+                <button class="nav-button" data-page="ranking">
+                    🏆 Xếp hạng
+                </button>
+            </li>
 
-                <li>
-                    <button
-                        class="nav-button"
-                        data-page="about">
-                        Về lớp
-                    </button>
-                </li>
+            <li>
+                <button class="nav-button" data-page="announcements">
+                    Thông báo
+                </button>
+            </li>
 
-            </ul>
+            <li>
+                <button class="nav-button" data-page="about">
+                    Về lớp
+                </button>
+            </li>
 
-        </nav>
+        </ul>
 
-    </header>
+        <!-- TÀI KHOẢN -->
 
+        <div class="account-area">
 
-    <!-- ================= CÁC TRANG ================= -->
-
-    <main class="slider">
-
-
-        <!-- ================= TRANG CHỦ ================= -->
-
-        <section
-            id="home"
-            class="page active">
-
-            <div class="home-content">
-
-                <div class="welcome">
-                    ✨ WEBSITE CHÍNH THỨC
-                </div>
-
-                <h1>
-                    Chào mừng đến với
-                    <span id="homeClassName">
-                        10 TOÁN 1
-                    </span>
-                </h1>
-
-                <p id="homeDescription">
-                    Nơi chúng ta cùng học tập,
-                    chia sẻ và lưu giữ những kỷ niệm.
-                </p>
+            <div id="guestArea">
 
                 <button
-                    class="start-button"
-                    data-go="members">
+                    id="loginButton"
+                    class="account-button">
+                    🔑 Đăng nhập
+                </button>
 
-                    Khám phá lớp →
+                <button
+                    id="registerButton"
+                    class="account-button register-button">
+                    📝 Đăng ký
+                </button>
+
+            </div>
+
+
+            <div
+                id="userArea"
+                class="user-area"
+                style="display: none;">
+
+                <button
+                    id="profileButton"
+                    class="user-button">
+
+                    👤
+                    <span id="userNameDisplay">
+                        Học sinh
+                    </span>
+
+                </button>
+
+                <button
+                    id="logoutButton"
+                    class="logout-button">
+
+                    Đăng xuất
 
                 </button>
 
             </div>
 
-        </section>
+        </div>
+
+    </nav>
+
+</header>
 
 
-        <!-- ================= THÀNH VIÊN ================= -->
+<!-- ================= MAIN ================= -->
 
-        <section
-            id="members"
-            class="page">
+<main class="slider">
 
-            <div class="content">
 
-                <div class="title">
+    <!-- ================= TRANG CHỦ ================= -->
 
-                    <h2>👥 Thành viên</h2>
+    <section id="home" class="page active">
+
+        <div class="home-content">
+
+            <div class="welcome">
+                ✨ WEBSITE CHÍNH THỨC
+            </div>
+
+            <h1>
+
+                Chào mừng đến với
+
+                <span id="homeClassName">
+                    10 TOÁN 1
+                </span>
+
+            </h1>
+
+            <p id="homeDescription">
+                Nơi chúng ta cùng học tập,
+                chia sẻ và lưu giữ những kỷ niệm.
+            </p>
+
+            <button
+                class="start-button"
+                data-go="members">
+
+                Khám phá lớp →
+
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= THÀNH VIÊN ================= -->
+
+    <section id="members" class="page">
+
+        <div class="content">
+
+            <div class="title">
+
+                <h2>👥 Thành viên</h2>
+
+                <p>
+                    Thành viên của lớp
+                </p>
+
+            </div>
+
+            <div
+                class="members"
+                id="membersList">
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= THỜI KHÓA BIỂU ================= -->
+
+    <section id="schedule" class="page">
+
+        <div class="content">
+
+            <div class="title">
+
+                <h2>📅 Thời khóa biểu</h2>
+
+                <p>
+                    Lịch học của lớp
+                </p>
+
+            </div>
+
+            <div class="schedule">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Thứ</th>
+                            <th>Tiết 1</th>
+                            <th>Tiết 2</th>
+                            <th>Tiết 3</th>
+                            <th>Tiết 4</th>
+                            <th>Tiết 5</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="scheduleBody">
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= XẾP HẠNG ================= -->
+
+    <section id="ranking" class="page">
+
+        <div class="content">
+
+            <div class="title">
+
+                <h2>🏆 Bảng xếp hạng</h2>
+
+                <p>
+                    Thành tích học tập của học sinh
+                </p>
+
+            </div>
+
+
+            <div class="ranking-box">
+
+                <div class="ranking-title">
+
+                    <h3>
+                        🏆 XẾP HẠNG 10 TOÁN 1
+                    </h3>
 
                     <p>
-                        Thành viên của lớp
+                        Xếp hạng dựa trên tổng điểm
                     </p>
 
                 </div>
 
 
-                <!--
-                    QUAN TRỌNG:
-                    Không viết các member ở đây.
-
-                    script.js sẽ lấy dữ liệu từ
-                    const members trong data.js
-                    rồi tự tạo danh sách.
-                -->
+                <!-- TOP 3 -->
 
                 <div
-                    class="members"
-                    id="membersList">
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- ================= THỜI KHÓA BIỂU ================= -->
-
-        <section
-            id="schedule"
-            class="page">
-
-            <div class="content">
-
-                <div class="title">
-
-                    <h2>📅 Thời khóa biểu</h2>
-
-                    <p>
-                        Lịch học của lớp
-                    </p>
-
+                    id="topThree"
+                    class="top-three">
                 </div>
 
 
-                <div class="schedule">
-
-                    <table>
-
-                        <thead>
-
-                            <tr>
-
-                                <th>
-                                    Thứ
-                                </th>
-
-                                <th>
-                                    Tiết 1
-                                </th>
-
-                                <th>
-                                    Tiết 2
-                                </th>
-
-                                <th>
-                                    Tiết 3
-                                </th>
-
-                                <th>
-                                    Tiết 4
-                                </th>
-
-                                <th>
-                                    Tiết 5
-                                </th>
-
-                            </tr>
-
-                        </thead>
-
-
-                        <tbody
-                            id="scheduleBody">
-
-                        </tbody>
-
-                    </table>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- ================= THÔNG BÁO ================= -->
-
-        <section
-            id="announcements"
-            class="page">
-
-            <div class="content">
-
-                <div class="title">
-
-                    <h2>📢 Thông báo</h2>
-
-                    <p>
-                        Những thông tin mới nhất
-                    </p>
-
-                </div>
-
+                <!-- DANH SÁCH -->
 
                 <div
-                    id="announcementList">
-
+                    id="rankingList"
+                    class="ranking-list">
                 </div>
 
             </div>
 
-        </section>
+        </div>
+
+    </section>
 
 
-        <!-- ================= VỀ LỚP ================= -->
+    <!-- ================= THÔNG BÁO ================= -->
 
-        <section
-            id="about"
-            class="page">
+    <section id="announcements" class="page">
 
-            <div class="content">
+        <div class="content">
 
-                <div class="title">
+            <div class="title">
 
-                    <h2>ℹ️ Về lớp</h2>
+                <h2>📢 Thông báo</h2>
 
-                    <p id="aboutClassName">
-                        10 TOÁN 1
+                <p>
+                    Những thông tin mới nhất
+                </p>
+
+            </div>
+
+            <div id="announcementList">
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= VỀ LỚP ================= -->
+
+    <section id="about" class="page">
+
+        <div class="content">
+
+            <div class="title">
+
+                <h2>ℹ️ Về lớp</h2>
+
+                <p id="aboutClassName">
+                    10 TOÁN 1
+                </p>
+
+            </div>
+
+
+            <div class="cards">
+
+                <div class="card">
+
+                    <div class="icon">
+                        🎯
+                    </div>
+
+                    <h3>
+                        Mục tiêu
+                    </h3>
+
+                    <p id="goal">
+                        Cùng nhau học tập và phát triển.
                     </p>
 
                 </div>
 
 
-                <div class="cards">
+                <div class="card">
 
-
-                    <!-- MỤC TIÊU -->
-
-                    <div class="card">
-
-                        <div class="icon">
-                            🎯
-                        </div>
-
-                        <h3>
-                            Mục tiêu
-                        </h3>
-
-                        <p id="goal">
-                            Cùng nhau học tập và phát triển.
-                        </p>
-
+                    <div class="icon">
+                        🤝
                     </div>
 
+                    <h3>
+                        Đoàn kết
+                    </h3>
 
-                    <!-- ĐOÀN KẾT -->
+                    <p id="unity">
+                        Cùng nhau xây dựng một tập thể
+                        vững mạnh.
+                    </p>
 
-                    <div class="card">
+                </div>
 
-                        <div class="icon">
-                            🤝
-                        </div>
 
-                        <h3>
-                            Đoàn kết
-                        </h3>
+                <div class="card">
 
-                        <p id="unity">
-                            Cùng nhau xây dựng một tập thể
-                            vững mạnh.
-                        </p>
-
+                    <div class="icon">
+                        ❤️
                     </div>
 
+                    <h3>
+                        Kỷ niệm
+                    </h3>
 
-                    <!-- KỶ NIỆM -->
-
-                    <div class="card">
-
-                        <div class="icon">
-                            ❤️
-                        </div>
-
-                        <h3>
-                            Kỷ niệm
-                        </h3>
-
-                        <p id="memory">
-                            Lưu giữ những khoảnh khắc
-                            đáng nhớ của tuổi học trò.
-                        </p>
-
-                    </div>
-
+                    <p id="memory">
+                        Lưu giữ những khoảnh khắc
+                        đáng nhớ của tuổi học trò.
+                    </p>
 
                 </div>
 
             </div>
 
-        </section>
+        </div>
+
+    </section>
 
 
-    </main>
+    <!-- ================= HỒ SƠ ================= -->
+
+    <section id="profile" class="page">
+
+        <div class="content">
+
+            <div class="title">
+
+                <h2>👤 Hồ sơ học sinh</h2>
+
+                <p>
+                    Thông tin tài khoản
+                </p>
+
+            </div>
 
 
-    <!-- ================= JAVASCRIPT ================= -->
+            <div class="profile-card">
 
-    <!--
-        PHẢI LOAD data.js TRƯỚC script.js
-    -->
+                <div class="profile-avatar">
+                    👤
+                </div>
 
-    <script src="data.js"></script>
+                <h2 id="profileName">
+                    Học sinh
+                </h2>
 
-    <script src="script.js"></script>
+                <p id="profileUsername">
+                    @username
+                </p>
 
+
+                <div class="profile-stats">
+
+                    <div class="profile-stat">
+
+                        <strong id="profileScore">
+                            0
+                        </strong>
+
+                        <span>
+                            Điểm
+                        </span>
+
+                    </div>
+
+
+                    <div class="profile-stat">
+
+                        <strong id="profileRank">
+                            -
+                        </strong>
+
+                        <span>
+                            Xếp hạng
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- ================= MODAL ĐĂNG NHẬP ================= -->
+
+<div id="loginModal" class="modal">
+
+    <div class="modal-content">
+
+        <button
+            class="close-modal"
+            data-close="loginModal">
+            ×
+        </button>
+
+        <h2>🔑 Đăng nhập</h2>
+
+        <p class="modal-description">
+            Đăng nhập vào tài khoản học sinh
+        </p>
+
+
+        <form id="loginForm">
+
+            <input
+                type="text"
+                id="loginUsername"
+                placeholder="Tên đăng nhập"
+                autocomplete="username"
+                required>
+
+            <input
+                type="password"
+                id="loginPassword"
+                placeholder="Mật khẩu"
+                autocomplete="current-password"
+                required>
+
+            <button
+                type="submit"
+                class="submit-button">
+
+                Đăng nhập
+
+            </button>
+
+        </form>
+
+
+        <p
+            id="loginMessage"
+            class="form-message">
+        </p>
+
+
+        <div class="switch-auth">
+
+            Chưa có tài khoản?
+
+            <button
+                type="button"
+                id="switchToRegister">
+
+                Đăng ký
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================= MODAL ĐĂNG KÝ ================= -->
+
+<div id="registerModal" class="modal">
+
+    <div class="modal-content">
+
+        <button
+            class="close-modal"
+            data-close="registerModal">
+            ×
+        </button>
+
+        <h2>📝 Đăng ký</h2>
+
+        <p class="modal-description">
+            Tạo tài khoản học sinh mới
+        </p>
+
+
+        <form id="registerForm">
+
+            <input
+                type="text"
+                id="registerName"
+                placeholder="Họ và tên"
+                required>
+
+            <input
+                type="text"
+                id="registerUsername"
+                placeholder="Tên đăng nhập"
+                autocomplete="username"
+                required>
+
+            <input
+                type="password"
+                id="registerPassword"
+                placeholder="Mật khẩu"
+                autocomplete="new-password"
+                required>
+
+            <input
+                type="password"
+                id="registerPasswordConfirm"
+                placeholder="Nhập lại mật khẩu"
+                autocomplete="new-password"
+                required>
+
+            <button
+                type="submit"
+                class="submit-button">
+
+                Tạo tài khoản
+
+            </button>
+
+        </form>
+
+
+        <p
+            id="registerMessage"
+            class="form-message">
+        </p>
+
+
+        <div class="switch-auth">
+
+            Đã có tài khoản?
+
+            <button
+                type="button"
+                id="switchToLogin">
+
+                Đăng nhập
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================= SCRIPT ================= -->
+
+<script src="data.js"></script>
+<script src="script.js"></script>
+```
 
 </body>
 
