@@ -954,3 +954,108 @@ footer div:last-child {
 @media (max-width: 768px) {
   .rules-container { grid-template-columns: 1fr; }
 }
+/* Banner header trang Thành viên */
+.member-header {
+  text-align: center;
+  padding: 40px 20px;
+  background: #f0ebff;
+  border-radius: 20px;
+  margin-bottom: 25px;
+}
+.member-icon-badge {
+  width: 48px;
+  height: 48px;
+  background: #e2d9ff;
+  color: #624cff;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  margin-bottom: 12px;
+}
+.member-header h1 { font-size: 36px; font-weight: 800; color: #17182d; }
+.member-header p { color: #624cff; font-weight: 600; font-size: 14px; margin-top: 6px; }
+
+/* Thanh điều hướng tìm kiếm & Filter */
+.member-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+.search-box input {
+  width: 280px;
+  padding: 10px 16px;
+  border: 1px solid #e2e2ec;
+  border-radius: 20px;
+  outline: none;
+  font-size: 13px;
+}
+.filter-tabs { display: flex; gap: 8px; }
+.tab-btn {
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: none;
+  background: #f0efff;
+  color: #624cff;
+  font-weight: 700;
+  font-size: 12px;
+  cursor: pointer;
+}
+.tab-btn.active { background: #624cff; color: #fff; }
+
+/* Tiêu đề nhóm */
+.group-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: #17182d;
+  margin: 25px 0 15px;
+  border-left: 4px solid #624cff;
+  padding-left: 10px;
+}
+
+/* Thẻ thành viên kiểu mới (Vertical Card) */
+.member-grid-v2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 16px;
+}
+.member-card-v2 {
+  background: #fff;
+  border: 1px solid #ebebf3;
+  border-radius: 16px;
+  padding: 20px 12px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+  transition: transform 0.2s;
+}
+.member-card-v2:hover { transform: translateY(-3px); }
+.member-avatar-v2 {
+  width: 55px;
+  height: 55px;
+  border-radius: 14px;
+  background: #2563eb;
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-weight: 900;
+  font-size: 16px;
+  margin-bottom: 12px;
+}
+.member-card-v2 h3 { font-size: 14px; font-weight: 800; color: #17182d; margin-bottom: 4px; }
+.member-badge {
+  font-size: 10px;
+  font-weight: 700;
+  background: #f0efff;
+  color: #624cff;
+  padding: 3px 8px;
+  border-radius: 10px;
+  margin-bottom: 8px;
+}
+.member-score-v2 { font-size: 11px; font-weight: 700; color: #624cff; }
