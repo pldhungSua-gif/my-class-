@@ -15,7 +15,7 @@ const members = [
   ["Vũ Lê Anh Đức", "10T1-14", 100, "Thành viên"],
   ["Trần Bảo Huy", "10T1-15", 100, "Thành viên"],
   ["Phan Huy Khánh", "10T1-16", 100, "Thành viên"],
-  ["Vũ Tuấn Minh", "10T1-17", 100, "Thành viên"],
+  ["Vũ Tuấn Minh", "10T1-17", 100, "Lớp phó lao động"],
   ["Nguyễn Lê Minh Nhật", "10T1-18", 100, "Thành viên"],
   ["Phạm Gia Phúc", "10T1-19", 100, "Thành viên"],
   ["Đoàn Minh Quân", "10T1-20", 100, "Thành viên"],
