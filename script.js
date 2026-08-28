@@ -200,6 +200,7 @@ function rankingPage() {
   );
 }
 // Dữ liệu mẫu thông báo chuẩn theo hình ảnh của bạn
+// Dữ liệu gộp chung cả Thông báo và Sự kiện
 const announcementsData = [
   {
     id: 1,
@@ -232,46 +233,48 @@ const announcementsData = [
     date: "28/08/2026",
     type: "Thông báo",
     typeClass: "thong-bao"
+  },
+  {
+    id: 5,
+    title: "Giải Bóng Đá Khối 10",
+    desc: "Trận chung kết giữa 10 Toán 1 và 10 Lý 1 diễn ra tại sân bóng trường.",
+    date: "15/09/2026",
+    location: "Sân bóng đá trường",
+    time: "15:30",
+    type: "Sự kiện",
+    typeClass: "su-kien"
   }
 ];
 
 let currentAnnFilter = 'Tất cả';
 
-// Trạng thái giả lập Admin (Sau này khi làm tính năng Đăng nhập sẽ đổi thành true/false dựa vào tài khoản)
-let isAdmin = true; 
-
 function announcementsPage() {
   return layout("", "", `
-    <!-- Thanh điều hướng và Filter -->
-    <div class="announcement-toolbar">
-      <div class="sub-tab-group">
-        <button class="sub-tab-btn active">🔔 Thông báo</button>
-        <button class="sub-tab-btn" onclick="location.hash='#events'">📅 Sự kiện</button>
-      </div>
-
+    <!-- Thanh Filter gộp chung (Đã bỏ thanh chọn tab kép) -->
+    <div class="announcement-toolbar" style="justify-content: space-between;">
       <div class="filter-pills">
         <button class="pill-btn ${currentAnnFilter === 'Tất cả' ? 'active' : ''}" onclick="filterAnnouncements('Tất cả', this)">Tất cả</button>
         <button class="pill-btn ${currentAnnFilter === 'Quan trọng' ? 'active' : ''}" onclick="filterAnnouncements('Quan trọng', this)">Quan trọng</button>
         <button class="pill-btn ${currentAnnFilter === 'Họp lớp' ? 'active' : ''}" onclick="filterAnnouncements('Họp lớp', this)">Họp lớp</button>
         <button class="pill-btn ${currentAnnFilter === 'Bài tập' ? 'active' : ''}" onclick="filterAnnouncements('Bài tập', this)">Bài tập</button>
         <button class="pill-btn ${currentAnnFilter === 'Thông báo' ? 'active' : ''}" onclick="filterAnnouncements('Thông báo', this)">Thông báo</button>
+        <button class="pill-btn ${currentAnnFilter === 'Sự kiện' ? 'active' : ''}" onclick="filterAnnouncements('Sự kiện', this)">📅 Sự kiện</button>
       </div>
 
-      <!-- Nút tạo thông báo dành cho Ban cán sự / Giáo viên -->
-      ${isAdmin ? `
-        <button class="sub-tab-btn active" style="background: #2ecc71; margin-left: auto;" onclick="openAnnouncementModal()">
-          ➕ Tạo thông báo mới
+      ${typeof isAdmin !== 'undefined' && isAdmin ? `
+        <button class="sub-tab-btn active" style="background: #2ecc71;" onclick="openAnnouncementModal()">
+          ➕ Tạo mới
         </button>
       ` : ''}
     </div>
 
-    <!-- Modal Form Đăng Thông Báo -->
+    <!-- Modal Tạo bài mới -->
     <div id="annModal" class="modal-overlay hidden">
       <div class="modal-content">
-        <h3>📢 Đăng Thông Báo Mới</h3>
+        <h3>📢 Tạo Bài Mới</h3>
         <form onsubmit="addNewAnnouncement(event)">
           <div class="form-group">
-            <label>Tiêu đề thông báo:</label>
+            <label>Tiêu đề:</label>
             <input type="text" id="annTitle" required placeholder="Nhập tiêu đề...">
           </div>
           <div class="form-group">
@@ -281,25 +284,120 @@ function announcementsPage() {
               <option value="Quan trọng">Quan trọng</option>
               <option value="Họp lớp">Họp lớp</option>
               <option value="Bài tập">Bài tập</option>
+              <option value="Sự kiện">Sự kiện</option>
             </select>
           </div>
           <div class="form-group">
             <label>Nội dung chi tiết:</label>
-            <textarea id="annDesc" rows="4" required placeholder="Nhập nội dung thông báo..."></textarea>
+            <textarea id="annDesc" rows="4" required placeholder="Nhập nội dung..."></textarea>
           </div>
           <div class="modal-actions">
             <button type="button" class="btn-cancel" onclick="closeAnnouncementModal()">Hủy</button>
-            <button type="submit" class="btn-submit">Đăng ngay</button>
+            <button type="submit" class="btn-submit">Đăng bài</button>
           </div>
         </form>
       </div>
     </div>
 
-    <!-- Danh sách Thông báo -->
+    <!-- Danh sách Thông báo & Sự kiện -->
     <div id="announcementList" class="announcement-list">
       ${renderAnnouncements(announcementsData)}
     </div>
   `);
+}
+
+// Render danh sách (Tự động chuyển định dạng giữa Thẻ Thông báo và Thẻ Sự kiện)
+function renderAnnouncements(list) {
+  const filtered = currentAnnFilter === 'Tất cả' 
+    ? list 
+    : list.filter(item => item.type === currentAnnFilter);
+
+  if (filtered.length === 0) {
+    return `<p style="text-align:center; color:#888; padding: 40px 0;">Không có nội dung nào thuộc mục này.</p>`;
+  }
+
+  return filtered.map(item => {
+    // Nếu loại là "Sự kiện", hiển thị theo dạng Thẻ Sự kiện có lịch
+    if (item.type === 'Sự kiện') {
+      const parts = item.date.split('/');
+      const day = parts[0] || '15';
+      const month = parts[1] ? `Thg ${parts[1]}` : 'THG 9';
+
+      return `
+        <div class="event-card">
+          <div class="event-date-box">
+            <div class="day">${day}</div>
+            <div class="month">${month}</div>
+          </div>
+          <div class="event-info">
+            <h4>${item.title}</h4>
+            <p>${item.desc}</p>
+            <div class="event-meta">
+              <span>⏰ ${item.time || '15:30'}</span>
+              <span>📍 ${item.location || 'Trường THPT'}</span>
+            </div>
+          </div>
+          <span class="ann-badge su-kien">Sự kiện</span>
+        </div>
+      `;
+    }
+
+    // Mặc định hiển thị dạng Thẻ Thông báo
+    return `
+      <div class="announcement-card">
+        <span class="ann-badge ${item.typeClass}">${item.type}</span>
+        <div class="announcement-title">${item.title}</div>
+        <div class="announcement-desc">${item.desc}</div>
+        <div class="announcement-date">🕒 ${item.date}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+function filterAnnouncements(category, btn) {
+  currentAnnFilter = category;
+  document.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('announcementList').innerHTML = renderAnnouncements(announcementsData);
+}
+
+function addNewAnnouncement(e) {
+  e.preventDefault();
+  const title = document.getElementById('annTitle').value;
+  const type = document.getElementById('annType').value;
+  const desc = document.getElementById('annDesc').value;
+
+  const typeClassMap = {
+    'Quan trọng': 'quan-trong',
+    'Họp lớp': 'hop-lop',
+    'Bài tập': 'bai-tap',
+    'Thông báo': 'thong-bao',
+    'Sự kiện': 'su-kien'
+  };
+
+  const today = new Date();
+  const dateStr = `${String(today.getDate()).padStart(2, '0')}/${String(today.getMonth() + 1).padStart(2, '0')}/${today.getFullYear()}`;
+
+  announcementsData.unshift({
+    id: Date.now(),
+    title,
+    desc,
+    date: dateStr,
+    type,
+    typeClass: typeClassMap[type] || 'thong-bao'
+  });
+
+  document.getElementById('announcementList').innerHTML = renderAnnouncements(announcementsData);
+  closeAnnouncementModal();
+  e.target.reset();
+}
+
+function openAnnouncementModal() {
+  document.getElementById('annModal').classList.remove('hidden');
+}
+
+function closeAnnouncementModal() {
+  document.getElementById('annModal').classList.add('hidden');
 }
 
 // Xử lý Thêm Thông Báo Mới
