@@ -420,16 +420,17 @@ body {
   border: 0;
 }
 
-.mini-news span,
-.tag {
-  display: inline-block;
-  font-size: 9px;
-  font-weight: 900;
-  color: #624cff;
-  background: #f0efff;
-  padding: 4px 7px;
-  border-radius: 6px;
-  margin-bottom: 5px;
+.mini-news span, .tag {
+    display: inline-block;
+    padding: 10px 15px; /* Tăng khoảng cách trong để thẻ nhìn rộng hơn */
+    border-radius: 12px; /* Bo tròn góc nhiều hơn */
+    font-size: 11px; /* Tăng kích thước chữ một chút */
+    font-weight: bold;
+    color: #ffffff; /* Chữ màu trắng */
+    text-transform: uppercase; /* Chuyển chữ thành chữ in hoa */
+    background: linear-gradient(180deg, #624cff 0%, #3dc1ff 100%); /* Nền gradient từ tím sang xanh dương */
+    box-shadow: 0 5px 15px rgba(98, 76, 255, 0.4); /* Bóng đổ màu tím */
+    margin-bottom: 5px; /* Giữ khoảng cách dưới */
 }
 
 .mini-news b,
