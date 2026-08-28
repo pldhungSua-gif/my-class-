@@ -420,17 +420,27 @@ body {
   border: 0;
 }
 
-.mini-news span, .tag {
-    display: inline-block;
-    padding: 10px 15px; /* Tăng khoảng cách trong để thẻ nhìn rộng hơn */
-    border-radius: 12px; /* Bo tròn góc nhiều hơn */
-    font-size: 11px; /* Tăng kích thước chữ một chút */
-    font-weight: bold;
-    color: #ffffff; /* Chữ màu trắng */
-    text-transform: uppercase; /* Chuyển chữ thành chữ in hoa */
-    background: linear-gradient(180deg, #624cff 0%, #3dc1ff 100%); /* Nền gradient từ tím sang xanh dương */
-    box-shadow: 0 5px 15px rgba(98, 76, 255, 0.4); /* Bóng đổ màu tím */
-    margin-bottom: 5px; /* Giữ khoảng cách dưới */
+/* Kiểu dáng nhãn (Tag) mới hiện đại */
+.mini-news span,
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 800;
+  color: #ffffff;
+  background: linear-gradient(135deg, #6c4cff, #20c8ff);
+  box-shadow: 0 4px 12px rgba(108, 76, 255, 0.25);
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+  transition: all 0.25s ease;
+}
+
+.mini-news span:hover,
+.tag:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(108, 76, 255, 0.35);
 }
 
 .mini-news b,
