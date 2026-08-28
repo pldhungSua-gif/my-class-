@@ -23,13 +23,104 @@ function home(){
     <div class="card"><div class="card-title"><h2>📢 Mới nhất</h2><a href="#announcements">Tất cả →</a></div>${announcements.slice(0,3).map(a=>`<article class="mini-news"><span>${a.tag}</span><b>${a.title}</b><small>${a.date}</small></article>`).join("")}</div>
   </section>`;
 }
-function rankRow(m,i){return `<div class="rank-row"><strong class="rank-no">${i}</strong><div class="avatar">${initials(m[0])}</div><div class="grow"><b>${m[0]}</b><small>${m[3]}</small></div><strong class="score">${m[2]}đ</strong></div>`}
-
-function membersPage(){
- return layout("Thành viên","Cùng nhau tạo nên một tập thể xịn sò.","<div class='toolbar'><input id='memberSearch' placeholder='🔎 Tìm tên thành viên...'></div><div id='memberGrid' class='member-grid'>"+members.map(memberCard).join("")+"</div>");
+function rankRow(m, i) {
+  return `
+    <div class="rank-row">
+      <strong class="rank-no">#${i}</strong>
+      <div class="avatar">${initials(m[0])}</div>
+      <div class="grow">
+        <b>${m[0]}</b>
+        <small>${m[3] || 'Thành viên'}</small>
+      </div>
+      <div class="score" style="font-weight: 800;">${m[2]} điểm</div>
+    </div>
+  `;
 }
-function memberCard(m){return `<div class="member card"><div class="avatar big">${initials(m[0])}</div><div><h3>${m[0]}</h3><small>${m[1]} · ${m[3]}</small></div><div class="member-score">${m[2]}<small> điểm</small></div></div>`}
+let currentFilter = 'all';
 
+function membersPage() {
+  return layout("", "", `
+    <!-- Header Banner -->
+    <div class="member-header">
+      <div class="member-icon-badge">👥</div>
+      <h1>Thành viên lớp</h1>
+      <p>Gặp gỡ ${members.length} thành viên tuyệt vời của lớp 10 Toán 1</p>
+    </div>
+
+    <!-- Toolbar: Tìm kiếm & Nút Filter -->
+    <div class="member-toolbar">
+      <div class="search-box">
+        <input id="memberSearch" placeholder="🔍 Tìm kiếm thành viên..." oninput="filterMembers()">
+      </div>
+      <div class="filter-tabs">
+        <button class="tab-btn active" onclick="setFilter('all', this)">Tất cả</button>
+        <button class="tab-btn" onclick="setFilter('bcs', this)">Ban cán sự</button>
+        <button class="tab-btn" onclick="setFilter('member', this)">Thành viên</button>
+      </div>
+    </div>
+
+    <!-- Khu vực danh sách thành viên -->
+    <div id="memberContent">
+      ${renderMemberGroups(members)}
+    </div>
+  `);
+}
+
+// Tạo thẻ thành viên dạng đứng
+function memberCard(m) {
+  // Tự động phân màu Avatar cho khác biệt
+  const colors = ['#2563eb', '#624cff', '#e74c3c', '#2ecc71', '#f39c12'];
+  const charCode = m[0].charCodeAt(0) % colors.length;
+  const bgColor = colors[charCode];
+
+  return `
+    <div class="member-card-v2">
+      <div class="member-avatar-v2" style="background: ${bgColor}">${initials(m[0])}</div>
+      <h3>${m[0]}</h3>
+      <span class="member-badge">${m[3]}</span>
+      <div class="member-score-v2">${m[2]} điểm</div>
+    </div>
+  `;
+}
+
+// Phân chia nhóm Ban cán sự và Thành viên
+function renderMemberGroups(list) {
+  const bcsList = list.filter(m => m[3] !== "Thành viên");
+  const memberList = list.filter(m => m[3] === "Thành viên");
+
+  let html = '';
+
+  if ((currentFilter === 'all' || currentFilter === 'bcs') && bcsList.length > 0) {
+    html += `
+      <div class="group-title">Ban cán sự</div>
+      <div class="member-grid-v2">${bcsList.map(memberCard).join('')}</div>
+    `;
+  }
+
+  if ((currentFilter === 'all' || currentFilter === 'member') && memberList.length > 0) {
+    html += `
+      <div class="group-title">Thành viên</div>
+      <div class="member-grid-v2">${memberList.map(memberCard).join('')}</div>
+    `;
+  }
+
+  return html || '<p style="text-align:center; color:#888; margin:40px 0;">Không tìm thấy thành viên phù hợp.</p>';
+}
+
+// Xử lý bộ lọc nút (All / Ban cán sự / Thành viên)
+function setFilter(type, btn) {
+  currentFilter = type;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  filterMembers();
+}
+
+// Xử lý tìm kiếm
+function filterMembers() {
+  const query = document.getElementById('memberSearch').value.toLowerCase();
+  const filtered = members.filter(m => m[0].toLowerCase().includes(query));
+  document.getElementById('memberContent').innerHTML = renderMemberGroups(filtered);
+}
 function rankingPage() {
   const sorted = [...members].sort((a, b) => b[2] - a[2]);
   
