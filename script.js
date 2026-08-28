@@ -199,8 +199,95 @@ function rankingPage() {
     tableHTML
   );
 }
-function announcementsPage(){
- return layout("Thông báo","Có chuyện gì mới? Vào đây là biết ngay.","<div class='news-list'>"+announcements.map(a=>`<article class='news card'><span class='tag'>${a.tag}</span><div><small>${a.date}</small><h2>${a.title}</h2><p>${a.text}</p></div></article>`).join("")+"</div>");
+// Dữ liệu mẫu thông báo chuẩn theo hình ảnh của bạn
+const announcementsData = [
+  {
+    id: 1,
+    title: "Lịch kiểm tra giữa kỳ tháng 9",
+    desc: "Kiểm tra giữa kỳ sẽ diễn ra vào ngày 15/09/2026. Các bạn cần ôn tập chương 1 và chương 2 môn Toán.",
+    date: "28/08/2026",
+    type: "Quan trọng",
+    typeClass: "quan-trong"
+  },
+  {
+    id: 2,
+    title: "Họp lớp thứ 6 tuần này lúc 17h",
+    desc: "Họp lớp tại phòng 201, thảo luận về kế hoạch dã ngoại tháng 10.",
+    date: "28/08/2026",
+    type: "Họp lớp",
+    typeClass: "hop-lop"
+  },
+  {
+    id: 3,
+    title: "Nộp bài tập toán chương 1 trước 30/8",
+    desc: "Các bạn nhớ nộp bài tập chương 1 trước ngày 30/08/2026 cho thầy Hùng.",
+    date: "28/08/2026",
+    type: "Bài tập",
+    typeClass: "bai-tap"
+  },
+  {
+    id: 4,
+    title: "Chào mừng năm học mới 2026-2027!",
+    desc: "Chúc mừng các bạn lớp 10 Toán 1 bước vào năm học mới. Hãy cùng nhau cố gắng!",
+    date: "28/08/2026",
+    type: "Thông báo",
+    typeClass: "thong-bao"
+  }
+];
+
+let currentAnnFilter = 'Tất cả';
+
+function announcementsPage() {
+  return layout("", "", `
+    <!-- Thanh điều hướng và Filter -->
+    <div class="announcement-toolbar">
+      <div class="sub-tab-group">
+        <button class="sub-tab-btn active">🔔 Thông báo</button>
+        <button class="sub-tab-btn" onclick="location.hash='#events'">📅 Sự kiện</button>
+      </div>
+
+      <div class="filter-pills">
+        <button class="pill-btn ${currentAnnFilter === 'Tất cả' ? 'active' : ''}" onclick="filterAnnouncements('Tất cả', this)">Tất cả</button>
+        <button class="pill-btn ${currentAnnFilter === 'Quan trọng' ? 'active' : ''}" onclick="filterAnnouncements('Quan trọng', this)">Quan trọng</button>
+        <button class="pill-btn ${currentAnnFilter === 'Họp lớp' ? 'active' : ''}" onclick="filterAnnouncements('Họp lớp', this)">Họp lớp</button>
+        <button class="pill-btn ${currentAnnFilter === 'Bài tập' ? 'active' : ''}" onclick="filterAnnouncements('Bài tập', this)">Bài tập</button>
+        <button class="pill-btn ${currentAnnFilter === 'Thông báo' ? 'active' : ''}" onclick="filterAnnouncements('Thông báo', this)">Thông báo</button>
+      </div>
+    </div>
+
+    <!-- Danh sách Thông báo -->
+    <div id="announcementList" class="announcement-list">
+      ${renderAnnouncements(announcementsData)}
+    </div>
+  `);
+}
+
+// Hàm render thẻ thông báo
+function renderAnnouncements(list) {
+  const filtered = currentAnnFilter === 'Tất cả' 
+    ? list 
+    : list.filter(item => item.type === currentAnnFilter);
+
+  if (filtered.length === 0) {
+    return `<p style="text-align:center; color:#888; padding: 40px 0;">Không có thông báo nào thuộc mục này.</p>`;
+  }
+
+  return filtered.map(item => `
+    <div class="announcement-card">
+      <span class="ann-badge ${item.typeClass}">${item.type}</span>
+      <div class="announcement-title">${item.title}</div>
+      <div class="announcement-desc">${item.desc}</div>
+      <div class="announcement-date">🕒 ${item.date}</div>
+    </div>
+  `).join('');
+}
+
+// Xử lý khi nhấn vào các nút lọc danh mục
+function filterAnnouncements(category, btn) {
+  currentAnnFilter = category;
+  document.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('announcementList').innerHTML = renderAnnouncements(announcementsData);
 }
 function eventsPage(){
  return layout("Sự kiện","Đừng để lịch lớp chạy nhanh hơn bạn 😎","<div class='event-grid'>"+events.map(e=>`<article class='event card'><div class='date-box'><b>${new Date(e.date+'T00:00:00').getDate()}</b><small>${new Date(e.date+'T00:00:00').toLocaleDateString('vi-VN',{month:'short'}).toUpperCase()}</small></div><div><span class='tag'>SẮP TỚI</span><h2>${e.title}</h2><p>🕐 ${e.time} · 📍 ${e.place}</p></div></article>`).join("")+"</div>");
