@@ -36,90 +36,117 @@ function rankRow(m, i) {
     </div>
   `;
 }
-let currentFilter = 'all';
+// Biến lưu từ khóa tìm kiếm và bộ lọc hiện tại
+let memberSearchKeyword = '';
+let currentMemberRoleFilter = 'all';
 
+// 1. Hàm hiển thị trang Thành viên
 function membersPage() {
-  return layout("", "", `
-    <!-- Header Banner -->
-    <div class="member-header">
-      <div class="member-icon-badge">👥</div>
-      <h1>Thành viên lớp</h1>
-      <p>Gặp gỡ ${members.length} thành viên tuyệt vời của lớp 10 Toán 1</p>
-    </div>
-
-    <!-- Toolbar: Tìm kiếm & Nút Filter -->
-    <div class="member-toolbar">
+  return layout("Thành viên lớp", "Gặp gỡ 37 thành viên tuyệt vời của lớp 10 Toán 1", `
+    <div class="members-filter-bar">
+      <!-- Ô tìm kiếm trực tiếp -->
       <div class="search-box">
-        <input id="memberSearch" placeholder="🔍 Tìm kiếm thành viên..." oninput="filterMembers()">
+        <input 
+          type="text" 
+          id="memberSearchInput" 
+          placeholder="Tìm kiếm thành viên..." 
+          value="${memberSearchKeyword}"
+          oninput="handleSearchMembers(this.value)"
+        >
       </div>
-      <div class="filter-tabs">
-        <button class="tab-btn active" onclick="setFilter('all', this)">Tất cả</button>
-        <button class="tab-btn" onclick="setFilter('bcs', this)">Ban cán sự</button>
-        <button class="tab-btn" onclick="setFilter('member', this)">Thành viên</button>
+
+      <!-- Các nút lọc vai trò -->
+      <div class="filter-pills">
+        <button class="pill-btn ${currentMemberRoleFilter === 'all' ? 'active' : ''}" onclick="filterMemberRole('all', this)">Tất cả</button>
+        <button class="pill-btn ${currentMemberRoleFilter === 'bcs' ? 'active' : ''}" onclick="filterMemberRole('bcs', this)">Ban cán sự</button>
+        <button class="pill-btn ${currentMemberRoleFilter === 'member' ? 'active' : ''}" onclick="filterMemberRole('member', this)">Thành viên</button>
       </div>
     </div>
 
-    <!-- Khu vực danh sách thành viên -->
-    <div id="memberContent">
-      ${renderMemberGroups(members)}
+    <!-- Khung chứa danh sách thành viên -->
+    <div id="membersListContainer">
+      ${renderMembersList()}
     </div>
   `);
 }
 
-// Tạo thẻ thành viên dạng đứng
-function memberCard(m) {
-  // Tự động phân màu Avatar cho khác biệt
-  const colors = ['#2563eb', '#624cff', '#e74c3c', '#2ecc71', '#f39c12'];
-  const charCode = m[0].charCodeAt(0) % colors.length;
-  const bgColor = colors[charCode];
-
-  return `
-    <div class="member-card-v2">
-      <div class="member-avatar-v2" style="background: ${bgColor}">${initials(m[0])}</div>
-      <h3>${m[0]}</h3>
-      <span class="member-badge">${m[3]}</span>
-      <div class="member-score-v2">${m[2]} điểm</div>
-    </div>
-  `;
+// 2. Xử lý khi gõ vào ô tìm kiếm
+function handleSearchMembers(keyword) {
+  memberSearchKeyword = keyword.trim().toLowerCase();
+  const container = document.getElementById('membersListContainer');
+  if (container) {
+    container.innerHTML = renderMembersList();
+  }
 }
 
-// Phân chia nhóm Ban cán sự và Thành viên
-function renderMemberGroups(list) {
-  const bcsList = list.filter(m => m[3] !== "Thành viên");
-  const memberList = list.filter(m => m[3] === "Thành viên");
+// 3. Xử lý khi bấm nút Lọc Ban cán sự / Thành viên
+function filterMemberRole(role, btn) {
+  currentMemberRoleFilter = role;
+  document.querySelectorAll('.members-filter-bar .pill-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  
+  const container = document.getElementById('membersListContainer');
+  if (container) {
+    container.innerHTML = renderMembersList();
+  }
+}
+
+// 4. Hàm lọc và xuất HTML danh sách thành viên
+function renderMembersList() {
+  // Lọc theo từ khóa tìm kiếm và vai trò
+  const filtered = membersData.filter(m => {
+    const matchesSearch = m.name.toLowerCase().includes(memberSearchKeyword);
+    const isBCS = m.role && m.role !== 'Thành viên';
+    
+    if (currentMemberRoleFilter === 'bcs') return matchesSearch && isBCS;
+    if (currentMemberRoleFilter === 'member') return matchesSearch && !isBCS;
+    return matchesSearch;
+  });
+
+  if (filtered.length === 0) {
+    return `<p style="text-align:center; color:#888; padding: 40px 0;">Không tìm thấy thành viên nào phù hợp.</p>`;
+  }
+
+  // Tách danh sách thành Ban cán sự và Thành viên thường
+  const bcsList = filtered.filter(m => m.role && m.role !== 'Thành viên');
+  const memberList = filtered.filter(m => !m.role || m.role === 'Thành viên');
 
   let html = '';
 
-  if ((currentFilter === 'all' || currentFilter === 'bcs') && bcsList.length > 0) {
+  // Nhóm Ban cán sự
+  if (bcsList.length > 0 && currentMemberRoleFilter !== 'member') {
     html += `
-      <div class="group-title">Ban cán sự</div>
-      <div class="member-grid-v2">${bcsList.map(memberCard).join('')}</div>
+      <h3 style="margin: 20px 0 12px; font-weight: 800; color: #17182d;">| Ban cán sự</h3>
+      <div class="members-grid">
+        ${bcsList.map(m => renderMemberCard(m)).join('')}
+      </div>
     `;
   }
 
-  if ((currentFilter === 'all' || currentFilter === 'member') && memberList.length > 0) {
+  // Nhóm Thành viên
+  if (memberList.length > 0 && currentMemberRoleFilter !== 'bcs') {
     html += `
-      <div class="group-title">Thành viên</div>
-      <div class="member-grid-v2">${memberList.map(memberCard).join('')}</div>
+      <h3 style="margin: 24px 0 12px; font-weight: 800; color: #17182d;">| Thành viên</h3>
+      <div class="members-grid">
+        ${memberList.map(m => renderMemberCard(m)).join('')}
+      </div>
     `;
   }
 
-  return html || '<p style="text-align:center; color:#888; margin:40px 0;">Không tìm thấy thành viên phù hợp.</p>';
+  return html;
 }
 
-// Xử lý bộ lọc nút (All / Ban cán sự / Thành viên)
-function setFilter(type, btn) {
-  currentFilter = type;
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  filterMembers();
-}
-
-// Xử lý tìm kiếm
-function filterMembers() {
-  const query = document.getElementById('memberSearch').value.toLowerCase();
-  const filtered = members.filter(m => m[0].toLowerCase().includes(query));
-  document.getElementById('memberContent').innerHTML = renderMemberGroups(filtered);
+// 5. Thẻ hiển thị từng thành viên
+function renderMemberCard(m) {
+  const avatarText = m.name.split(' ').slice(-2).map(n => n[0]).join('').toUpperCase();
+  return `
+    <div class="member-card" onclick="location.hash='#member-${m.id}'">
+      <div class="member-avatar" style="background: ${m.color || '#624cff'}">${avatarText}</div>
+      <div class="member-name">${m.name}</div>
+      <div class="member-role">${m.role || 'Thành viên'}</div>
+      <div class="member-points">${m.points || 100} điểm</div>
+    </div>
+  `;
 }
 function rankingPage() {
   const sorted = [...members].sort((a, b) => b[2] - a[2]);
