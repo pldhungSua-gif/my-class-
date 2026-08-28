@@ -201,81 +201,70 @@ function rankingPage() {
 }
 // Dữ liệu mẫu thông báo chuẩn theo hình ảnh của bạn
 // Dữ liệu gộp chung cả Thông báo và Sự kiện
-const announcementsData = [
-  {
-    id: 1,
-    title: "Lịch kiểm tra giữa kỳ tháng 9",
-    desc: "Kiểm tra giữa kỳ sẽ diễn ra vào ngày 15/09/2026. Các bạn cần ôn tập chương 1 và chương 2 môn Toán.",
-    date: "28/08/2026",
-    type: "Quan trọng",
-    typeClass: "quan-trong"
-  },
-  {
-    id: 2,
-    title: "Họp lớp thứ 6 tuần này lúc 17h",
-    desc: "Họp lớp tại phòng 201, thảo luận về kế hoạch dã ngoại tháng 10.",
-    date: "28/08/2026",
-    type: "Họp lớp",
-    typeClass: "hop-lop"
-  },
-  {
-    id: 3,
-    title: "Nộp bài tập toán chương 1 trước 30/8",
-    desc: "Các bạn nhớ nộp bài tập chương 1 trước ngày 30/08/2026 cho thầy Hùng.",
-    date: "28/08/2026",
-    type: "Bài tập",
-    typeClass: "bai-tap"
-  },
-  {
-    id: 4,
-    title: "Chào mừng năm học mới 2026-2027!",
-    desc: "Chúc mừng các bạn lớp 10 Toán 1 bước vào năm học mới. Hãy cùng nhau cố gắng!",
-    date: "28/08/2026",
-    type: "Thông báo",
-    typeClass: "thong-bao"
-  },
-  {
-    id: 5,
-    title: "Giải Bóng Đá Khối 10",
-    desc: "Trận chung kết giữa 10 Toán 1 và 10 Lý 1 diễn ra tại sân bóng trường.",
-    date: "15/09/2026",
-    location: "Sân bóng đá trường",
-    time: "15:30",
-    type: "Sự kiện",
-    typeClass: "su-kien"
-  }
+// Biến lưu trạng thái Tab hiện tại ('thong-bao' hoặc 'su-kien')
+let currentMainTab = 'thong-bao';
+let currentCategoryFilter = 'Tất cả';
+
+// Dữ liệu Thông báo
+const listAnnouncements = [
+  { id: 1, title: "Lịch kiểm tra giữa kỳ tháng 9", desc: "Kiểm tra giữa kỳ sẽ diễn ra vào ngày 15/09/2026. Các bạn cần ôn tập chương 1 và chương 2 môn Toán.", date: "28/08/2026", type: "Quan trọng", typeClass: "quan-trong" },
+  { id: 2, title: "Họp lớp thứ 6 tuần này lúc 17h", desc: "Họp lớp tại phòng 201, thảo luận về kế hoạch dã ngoại tháng 10.", date: "28/08/2026", type: "Họp lớp", typeClass: "hop-lop" },
+  { id: 3, title: "Nộp bài tập toán chương 1 trước 30/8", desc: "Các bạn nhớ nộp bài tập chương 1 trước ngày 30/08/2026 cho thầy Hùng.", date: "28/08/2026", type: "Bài tập", typeClass: "bai-tap" },
+  { id: 4, title: "Chào mừng năm học mới 2026-2027!", desc: "Chúc mừng các bạn lớp 10 Toán 1 bước vào năm học mới. Hãy cùng nhau cố gắng!", date: "28/08/2026", type: "Thông báo", typeClass: "thong-bao" }
 ];
 
-let currentAnnFilter = 'Tất cả';
+// Dữ liệu Sự kiện riêng biệt
+const listEvents = [
+  { id: 101, title: "Giải Bóng Đá Khối 10", desc: "Trận chung kết giữa 10 Toán 1 và 10 Lý 1 tại sân bóng trường.", date: "15/09/2026", time: "15:30", location: "Sân bóng đá trường" },
+  { id: 102, title: "Cắm Trại 26/3", desc: "Hoạt động cắm trại chào mừng ngày thành lập Đoàn.", date: "26/03/2027", time: "07:30", location: "Khuôn viên trường" }
+];
 
 function announcementsPage() {
   return layout("", "", `
-    <!-- Thanh Filter gộp chung (Đã bỏ thanh chọn tab kép) -->
-    <div class="announcement-toolbar" style="justify-content: space-between;">
-      <div class="filter-pills">
-        <button class="pill-btn ${currentAnnFilter === 'Tất cả' ? 'active' : ''}" onclick="filterAnnouncements('Tất cả', this)">Tất cả</button>
-        <button class="pill-btn ${currentAnnFilter === 'Quan trọng' ? 'active' : ''}" onclick="filterAnnouncements('Quan trọng', this)">Quan trọng</button>
-        <button class="pill-btn ${currentAnnFilter === 'Họp lớp' ? 'active' : ''}" onclick="filterAnnouncements('Họp lớp', this)">Họp lớp</button>
-        <button class="pill-btn ${currentAnnFilter === 'Bài tập' ? 'active' : ''}" onclick="filterAnnouncements('Bài tập', this)">Bài tập</button>
-        <button class="pill-btn ${currentAnnFilter === 'Thông báo' ? 'active' : ''}" onclick="filterAnnouncements('Thông báo', this)">Thông báo</button>
-        <button class="pill-btn ${currentAnnFilter === 'Sự kiện' ? 'active' : ''}" onclick="filterAnnouncements('Sự kiện', this)">📅 Sự kiện</button>
+    <div style="color: #624cff; font-size: 12px; font-weight: 800; margin-bottom: 12px;">10 TOÁN 1</div>
+
+    <!-- Thanh Điều Hướng (Chuẩn 100% Giao diện Hình 1) -->
+    <div class="page-toolbar">
+      <div class="left-toolbar-group">
+        <!-- 2 Nút viên thuốc Chuyển Tab -->
+        <div class="main-toggle-group">
+          <button id="btnTabAnn" class="main-toggle-btn ${currentMainTab === 'thong-bao' ? 'active' : ''}" onclick="switchMainTab('thong-bao')">
+            🔔 Thông báo
+          </button>
+          <button id="btnTabEvt" class="main-toggle-btn ${currentMainTab === 'su-kien' ? 'active' : ''}" onclick="switchMainTab('su-kien')">
+            🗓️ Sự kiện
+          </button>
+        </div>
+
+        <!-- Các nút Filter danh mục (Chỉ hiện khi ở tab Thông báo) -->
+        <div id="filterPillsGroup" class="filter-pills ${currentMainTab === 'su-kien' ? 'hidden' : ''}">
+          <button class="pill-btn ${currentCategoryFilter === 'Tất cả' ? 'active' : ''}" onclick="filterCategory('Tất cả', this)">Tất cả</button>
+          <button class="pill-btn ${currentCategoryFilter === 'Quan trọng' ? 'active' : ''}" onclick="filterCategory('Quan trọng', this)">Quan trọng</button>
+          <button class="pill-btn ${currentCategoryFilter === 'Họp lớp' ? 'active' : ''}" onclick="filterCategory('Họp lớp', this)">Họp lớp</button>
+          <button class="pill-btn ${currentCategoryFilter === 'Bài tập' ? 'active' : ''}" onclick="filterCategory('Bài tập', this)">Bài tập</button>
+          <button class="pill-btn ${currentCategoryFilter === 'Thông báo' ? 'active' : ''}" onclick="filterCategory('Thông báo', this)">Thông báo</button>
+        </div>
       </div>
 
-      ${typeof isAdmin !== 'undefined' && isAdmin ? `
-        <button class="sub-tab-btn active" style="background: #2ecc71;" onclick="openAnnouncementModal()">
-          ➕ Tạo mới
-        </button>
-      ` : ''}
+      <!-- Nút tạo mới tự thay đổi tương ứng -->
+      <div id="createBtnArea">
+        ${renderCreateButton()}
+      </div>
     </div>
 
-    <!-- Modal Tạo bài mới -->
-    <div id="annModal" class="modal-overlay hidden">
+    <!-- Khu vực chứa Danh sách Thẻ -->
+    <div id="contentListArea" class="announcement-list">
+      ${renderMainContent()}
+    </div>
+
+    <!-- Modal Form Tạo Thông Báo -->
+    <div id="modalAnn" class="modal-overlay hidden">
       <div class="modal-content">
-        <h3>📢 Tạo Bài Mới</h3>
-        <form onsubmit="addNewAnnouncement(event)">
+        <h3>📢 Tạo Thông Báo Mới</h3>
+        <form onsubmit="submitNewAnn(event)">
           <div class="form-group">
             <label>Tiêu đề:</label>
-            <input type="text" id="annTitle" required placeholder="Nhập tiêu đề...">
+            <input type="text" id="annTitle" required placeholder="Nhập tiêu đề thông báo...">
           </div>
           <div class="form-group">
             <label>Phân loại:</label>
@@ -284,7 +273,6 @@ function announcementsPage() {
               <option value="Quan trọng">Quan trọng</option>
               <option value="Họp lớp">Họp lớp</option>
               <option value="Bài tập">Bài tập</option>
-              <option value="Sự kiện">Sự kiện</option>
             </select>
           </div>
           <div class="form-group">
@@ -292,20 +280,163 @@ function announcementsPage() {
             <textarea id="annDesc" rows="4" required placeholder="Nhập nội dung..."></textarea>
           </div>
           <div class="modal-actions">
-            <button type="button" class="btn-cancel" onclick="closeAnnouncementModal()">Hủy</button>
-            <button type="submit" class="btn-submit">Đăng bài</button>
+            <button type="button" class="btn-cancel" onclick="closeModal('modalAnn')">Hủy</button>
+            <button type="submit" class="btn-submit">Đăng thông báo</button>
           </div>
         </form>
       </div>
     </div>
 
-    <!-- Danh sách Thông báo & Sự kiện -->
-    <div id="announcementList" class="announcement-list">
-      ${renderAnnouncements(announcementsData)}
+    <!-- Modal Form Tạo Sự Kiện -->
+    <div id="modalEvt" class="modal-overlay hidden">
+      <div class="modal-content">
+        <h3>📅 Tạo Sự Kiện Mới</h3>
+        <form onsubmit="submitNewEvt(event)">
+          <div class="form-group">
+            <label>Tên sự kiện:</label>
+            <input type="text" id="evtTitle" required placeholder="Nhập tên sự kiện...">
+          </div>
+          <div class="form-group">
+            <label>Ngày diễn ra (ngày/tháng/năm):</label>
+            <input type="text" id="evtDate" required placeholder="VD: 15/09/2026">
+          </div>
+          <div class="form-group">
+            <label>Thời gian & Địa điểm:</label>
+            <div style="display:flex; gap:10px;">
+              <input type="text" id="evtTime" placeholder="VD: 15:30" style="flex:1;">
+              <input type="text" id="evtLoc" placeholder="VD: Sân bóng" style="flex:1;">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Mô tả sự kiện:</label>
+            <textarea id="evtDesc" rows="3" required placeholder="Nhập chi tiết sự kiện..."></textarea>
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="btn-cancel" onclick="closeModal('modalEvt')">Hủy</button>
+            <button type="submit" class="btn-submit" style="background:#3b82f6;">Tạo sự kiện</button>
+          </div>
+        </form>
+      </div>
     </div>
   `);
 }
 
+// Chuyển đổi giữa 2 Tab lớn khi click vào hình tròn/viên thuốc
+function switchMainTab(tabName) {
+  currentMainTab = tabName;
+  
+  // Cập nhật giao diện 2 nút Tab
+  document.getElementById('btnTabAnn').classList.toggle('active', tabName === 'thong-bao');
+  document.getElementById('btnTabEvt').classList.toggle('active', tabName === 'su-kien');
+  
+  // Ẩn/hiện bộ lọc danh mục
+  document.getElementById('filterPillsGroup').classList.toggle('hidden', tabName === 'su-kien');
+
+  // Đổi nút Tạo Mới
+  document.getElementById('createBtnArea').innerHTML = renderCreateButton();
+
+  // Load lại danh sách
+  document.getElementById('contentListArea').innerHTML = renderMainContent();
+}
+
+// Tạo HTML cho nút Đăng bài
+function renderCreateButton() {
+  if (currentMainTab === 'thong-bao') {
+    return `<button class="btn-create-ann" onclick="openModal('modalAnn')">➕ Tạo thông báo mới</button>`;
+  } else {
+    return `<button class="btn-create-event" onclick="openModal('modalEvt')">📅 Tạo sự kiện mới</button>`;
+  }
+}
+
+// Lọc theo loại Thông báo
+function filterCategory(cat, btn) {
+  currentCategoryFilter = cat;
+  document.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('contentListArea').innerHTML = renderMainContent();
+}
+
+// Render nội dung tùy thuộc Tab đang đứng
+function renderMainContent() {
+  if (currentMainTab === 'thong-bao') {
+    const filtered = currentCategoryFilter === 'Tất cả' 
+      ? listAnnouncements 
+      : listAnnouncements.filter(item => item.type === currentCategoryFilter);
+
+    if (filtered.length === 0) return `<p style="text-align:center; color:#888; padding: 40px 0;">Không có thông báo nào.</p>`;
+
+    return filtered.map(item => `
+      <div class="announcement-card">
+        <span class="ann-badge ${item.typeClass}">${item.type}</span>
+        <div class="announcement-title">${item.title}</div>
+        <div class="announcement-desc">${item.desc}</div>
+        <div class="announcement-date">🕒 ${item.date}</div>
+      </div>
+    `).join('');
+  } else {
+    // Hiển thị danh sách Sự kiện
+    if (listEvents.length === 0) return `<p style="text-align:center; color:#888; padding: 40px 0;">Chưa có sự kiện nào sắp tới.</p>`;
+
+    return listEvents.map(item => {
+      const parts = item.date.split('/');
+      const day = parts[0] || '15';
+      const month = parts[1] ? `Thg ${parts[1]}` : 'THG 9';
+
+      return `
+        <div class="event-card">
+          <div class="event-date-box">
+            <div class="day">${day}</div>
+            <div class="month">${month}</div>
+          </div>
+          <div style="flex:1;">
+            <h4 style="font-size:16px; font-weight:800; color:#17182d; margin-bottom:6px;">${item.title}</h4>
+            <p style="font-size:13px; color:#6b7280; margin-bottom:8px;">${item.desc}</p>
+            <div style="font-size:12px; font-weight:600; color:#624cff; display:flex; gap:15px;">
+              <span>⏰ ${item.time || 'Cả ngày'}</span>
+              <span>📍 ${item.location || 'Trường học'}</span>
+            </div>
+          </div>
+          <span class="ann-badge su-kien">Sự kiện</span>
+        </div>
+      `;
+    }).join('');
+  }
+}
+
+// Xử lý Form
+function submitNewAnn(e) {
+  e.preventDefault();
+  const title = document.getElementById('annTitle').value;
+  const type = document.getElementById('annType').value;
+  const desc = document.getElementById('annDesc').value;
+  const mapClass = { 'Quan trọng': 'quan-trong', 'Họp lớp': 'hop-lop', 'Bài tập': 'bai-tap', 'Thông báo': 'thong-bao' };
+
+  listAnnouncements.unshift({
+    id: Date.now(), title, desc, date: "28/08/2026", type, typeClass: mapClass[type] || 'thong-bao'
+  });
+
+  closeModal('modalAnn');
+  document.getElementById('contentListArea').innerHTML = renderMainContent();
+  e.target.reset();
+}
+
+function submitNewEvt(e) {
+  e.preventDefault();
+  const title = document.getElementById('evtTitle').value;
+  const date = document.getElementById('evtDate').value;
+  const time = document.getElementById('evtTime').value;
+  const location = document.getElementById('evtLoc').value;
+  const desc = document.getElementById('evtDesc').value;
+
+  listEvents.unshift({ id: Date.now(), title, date, time, location, desc });
+
+  closeModal('modalEvt');
+  document.getElementById('contentListArea').innerHTML = renderMainContent();
+  e.target.reset();
+}
+
+function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
+function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
 // Render danh sách (Tự động chuyển định dạng giữa Thẻ Thông báo và Thẻ Sự kiện)
 function renderAnnouncements(list) {
   const filtered = currentAnnFilter === 'Tất cả' 
