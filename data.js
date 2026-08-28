@@ -32,25 +32,223 @@ const classInfo = {
 const members = [
 
     {
-        name: "Nguyễn Văn A",
-        role: "Học sinh",
-        avatar: "👨‍🎓"
-    },
-
-    {
-        name: "Nguyễn Thị B",
+        name: "Lê Ngọc Xuân Ngà",
         role: "Học sinh",
         avatar: "👩‍🎓"
     },
 
     {
-        name: "Trần Văn C",
+        name: "Nguyễn Duy Khoa",
         role: "Học sinh",
         avatar: "👨‍🎓"
     },
 
     {
-        name: "Phạm Thị D",
+        name: "Nguyễn Minh Duy",
+        role: "Học sinh",
+        avatar: "👨‍🎓"
+    },
+
+    {
+        name: "Hồ Ngọc Hải",
+        role: "Học sinh",
+        avatar: "👨‍🎓"
+    },
+
+    {
+        name: "Chương Thiết Minh",
+        role: "Học sinh",
+        avatar: "👨‍🎓"
+    },
+
+    {
+        name: "Trần Hoàng Bảo Duy",
+        role: "Học sinh",
+        avatar: "👨‍🎓"
+    },
+
+    {
+        name: "Phạm Lê Duy Hưng",
+        role: "Học sinh",
+        avatar: "👨‍🎓"
+    },
+
+    {
+        name: "Nguyễn Văn Đức Huy",
+        role: "Học sinh",
+        avatar: "👨‍🎓"
+    },
+
+    {
+        name: "Nguyễn Hữu Phúc",
+        role: "Học sinh",
+        avatar: "👨‍🎓"
+    },
+
+    {
+        name: "Trần Minh Huy",
+        role: "Học sinh",
+        avatar: "👨‍🎓"
+    },
+
+    {
+        name: "Nguyễn Quốc Bảo Nam",
+        role: "Học sinh",
+        avatar: "👨‍🎓"
+    },
+
+    {
+        name: "Nguyễn Nam Anh",
+        role: "Học sinh",
+        avatar: "👨‍🎓"
+    },
+
+    {
+        name: "Phạm Lê Hải Bằng",
+        role: "Học sinh",
+        avatar: "👨‍🎓"
+    },
+
+    {
+        name: "Vũ Lê Anh Đức",
+        role: "Học sinh",
+        avatar: "👨‍🎓"
+    },
+
+    {
+        name: "Trần Bảo Huy",
+        role: "Học sinh",
+        avatar: "👨‍🎓"
+    },
+
+    {
+        name: "Phan Huy Khánh",
+        role: "Học sinh",
+        avatar: "👨‍🎓"
+    },
+
+    {
+        name: "Vũ Tuấn Minh",
+        role: "Học sinh",
+        avatar: "👨‍🎓"
+    },
+
+    {
+        name: "Nguyễn Lê Minh Nhật",
+        role: "Học sinh",
+        avatar: "👨‍🎓"
+    },
+
+    {
+        name: "Phạm Gia Phúc",
+        role: "Học sinh",
+        avatar: "👨‍🎓"
+    },
+
+    {
+        name: "Đoàn Minh Quân",
+        role: "Học sinh",
+        avatar: "👨‍🎓"
+    },
+
+    {
+        name: "Lê Trần Khánh Hưng",
+        role: "Học sinh",
+        avatar: "👨‍🎓"
+    },
+
+    {
+        name: "Phạm Nhật Huy",
+        role: "Học sinh",
+        avatar: "👨‍🎓"
+    },
+
+    {
+        name: "Bùi Minh Phú",
+        role: "Học sinh",
+        avatar: "👨‍🎓"
+    },
+
+    {
+        name: "Nguyễn Phi Bình",
+        role: "Học sinh",
+        avatar: "👨‍🎓"
+    },
+
+    {
+        name: "Nguyễn Tấn Minh",
+        role: "Học sinh",
+        avatar: "👨‍🎓"
+    },
+
+    {
+        name: "Võ Gia Bảo",
+        role: "Học sinh",
+        avatar: "👨‍🎓"
+    },
+
+    {
+        name: "Phan Thị Minh Hằng",
+        role: "Học sinh",
+        avatar: "👩‍🎓"
+    },
+
+    {
+        name: "Phạm Bá Nhật Khánh",
+        role: "Học sinh",
+        avatar: "👨‍🎓"
+    },
+
+    {
+        name: "Nguyễn Hoàng Lan",
+        role: "Học sinh",
+        avatar: "👩‍🎓"
+    },
+
+    {
+        name: "Nguyễn Huy Minh Quân",
+        role: "Học sinh",
+        avatar: "👨‍🎓"
+    },
+
+    {
+        name: "Trần Thục Linh",
+        role: "Học sinh",
+        avatar: "👩‍🎓"
+    },
+
+    {
+        name: "Đỗ Đăng Khoa",
+        role: "Học sinh",
+        avatar: "👨‍🎓"
+    },
+
+    {
+        name: "Nguyễn Minh Tuấn",
+        role: "Học sinh",
+        avatar: "👨‍🎓"
+    },
+
+    {
+        name: "Nguyễn Mạnh Tùng",
+        role: "Học sinh",
+        avatar: "👨‍🎓"
+    },
+
+    {
+        name: "Bạch Ngọc Bảo Duy",
+        role: "Học sinh",
+        avatar: "👨‍🎓"
+    },
+
+    {
+        name: "Bùi Quang Dũng",
+        role: "Học sinh",
+        avatar: "👨‍🎓"
+    },
+
+    {
+        name: "Nguyễn Trà Giang",
         role: "Học sinh",
         avatar: "👩‍🎓"
     }
