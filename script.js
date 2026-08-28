@@ -237,6 +237,9 @@ const announcementsData = [
 
 let currentAnnFilter = 'Tất cả';
 
+// Trạng thái giả lập Admin (Sau này khi làm tính năng Đăng nhập sẽ đổi thành true/false dựa vào tài khoản)
+let isAdmin = true; 
+
 function announcementsPage() {
   return layout("", "", `
     <!-- Thanh điều hướng và Filter -->
@@ -253,6 +256,43 @@ function announcementsPage() {
         <button class="pill-btn ${currentAnnFilter === 'Bài tập' ? 'active' : ''}" onclick="filterAnnouncements('Bài tập', this)">Bài tập</button>
         <button class="pill-btn ${currentAnnFilter === 'Thông báo' ? 'active' : ''}" onclick="filterAnnouncements('Thông báo', this)">Thông báo</button>
       </div>
+
+      <!-- Nút tạo thông báo dành cho Ban cán sự / Giáo viên -->
+      ${isAdmin ? `
+        <button class="sub-tab-btn active" style="background: #2ecc71; margin-left: auto;" onclick="openAnnouncementModal()">
+          ➕ Tạo thông báo mới
+        </button>
+      ` : ''}
+    </div>
+
+    <!-- Modal Form Đăng Thông Báo -->
+    <div id="annModal" class="modal-overlay hidden">
+      <div class="modal-content">
+        <h3>📢 Đăng Thông Báo Mới</h3>
+        <form onsubmit="addNewAnnouncement(event)">
+          <div class="form-group">
+            <label>Tiêu đề thông báo:</label>
+            <input type="text" id="annTitle" required placeholder="Nhập tiêu đề...">
+          </div>
+          <div class="form-group">
+            <label>Phân loại:</label>
+            <select id="annType">
+              <option value="Thông báo">Thông báo</option>
+              <option value="Quan trọng">Quan trọng</option>
+              <option value="Họp lớp">Họp lớp</option>
+              <option value="Bài tập">Bài tập</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Nội dung chi tiết:</label>
+            <textarea id="annDesc" rows="4" required placeholder="Nhập nội dung thông báo..."></textarea>
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="btn-cancel" onclick="closeAnnouncementModal()">Hủy</button>
+            <button type="submit" class="btn-submit">Đăng ngay</button>
+          </div>
+        </form>
+      </div>
     </div>
 
     <!-- Danh sách Thông báo -->
@@ -260,6 +300,51 @@ function announcementsPage() {
       ${renderAnnouncements(announcementsData)}
     </div>
   `);
+}
+
+// Xử lý Thêm Thông Báo Mới
+function addNewAnnouncement(e) {
+  e.preventDefault();
+  
+  const title = document.getElementById('annTitle').value;
+  const type = document.getElementById('annType').value;
+  const desc = document.getElementById('annDesc').value;
+
+  // Tự động chuyển đổi class màu sắc theo danh mục
+  const typeClassMap = {
+    'Quan trọng': 'quan-trong',
+    'Họp lớp': 'hop-lop',
+    'Bài tập': 'bai-tap',
+    'Thông báo': 'thong-bao'
+  };
+
+  const today = new Date();
+  const dateStr = `${String(today.getDate()).padStart(2, '0')}/${String(today.getMonth() + 1).padStart(2, '0')}/${today.getFullYear()}`;
+
+  const newAnn = {
+    id: Date.now(),
+    title: title,
+    desc: desc,
+    date: dateStr,
+    type: type,
+    typeClass: typeClassMap[type] || 'thong-bao'
+  };
+
+  // Thêm vào đầu danh sách
+  announcementsData.unshift(newAnn);
+
+  // Render lại danh sách & đóng Modal
+  document.getElementById('announcementList').innerHTML = renderAnnouncements(announcementsData);
+  closeAnnouncementModal();
+  e.target.reset();
+}
+
+function openAnnouncementModal() {
+  document.getElementById('annModal').classList.remove('hidden');
+}
+
+function closeAnnouncementModal() {
+  document.getElementById('annModal').classList.add('hidden');
 }
 
 // Hàm render thẻ thông báo
