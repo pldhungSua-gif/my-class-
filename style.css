@@ -15,7 +15,7 @@ body {
 }
 
 body {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: Times New Roman, Helvetica, sans-serif;
     background: #f5f7fb;
     color: #1f2937;
     overflow: hidden;
@@ -61,7 +61,7 @@ header {
 }
 
 .logo {
-    font-size: 24px;
+    font-size: 20px;
 
     font-weight: 900;
 
