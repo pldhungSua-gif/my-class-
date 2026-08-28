@@ -1,1522 +1,1124 @@
 /* =================================================
-CÀI ĐẶT CHUNG
+   CÀI ĐẶT CHUNG
 ================================================= */
 
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  }
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
 html,
 body {
-width: 100%;
-height: 100%;
-overflow: hidden;
+    width: 100%;
+    height: 100%;
 }
 
 body {
-font-family: Arial, Helvetica, sans-serif;
-background: #f5f7fb;
-color: #1f2937;
-}
-
-/* =================================================
-HEADER
-================================================= */
-
-header {
-position: fixed;
-top: 0;
-left: 0;
-
-```
-width: 100%;
-height: 72px;
-
-z-index: 1000;
-
-background: rgba(255, 255, 255, 0.92);
-
-backdrop-filter: blur(15px);
-
-border-bottom: 1px solid #e5e7eb;
-```
-
-}
-
-.navbar {
-max-width: 1400px;
-
-```
-height: 100%;
-
-margin: auto;
-
-padding: 0 20px;
-
-display: flex;
-
-align-items: center;
-
-gap: 20px;
-```
-
-}
-
-.logo {
-font-size: 24px;
-
-```
-font-weight: 900;
-
-color: #2563eb;
-
-white-space: nowrap;
-```
-
-}
-
-/* =================================================
-MENU
-================================================= */
-
-.menu {
-display: flex;
-
-```
-gap: 5px;
-
-list-style: none;
-
-margin-left: auto;
-```
-
-}
-
-.nav-button {
-border: none;
-
-```
-background: transparent;
-
-padding: 10px 13px;
-
-border-radius: 10px;
-
-font-size: 14px;
-
-font-weight: 700;
-
-color: #4b5563;
-
-cursor: pointer;
-
-transition: 0.25s;
-```
-
-}
-
-.nav-button:hover {
-background: #eff6ff;
-
-```
-color: #2563eb;
-```
-
-}
-
-.nav-button.active {
-background: #2563eb;
-
-```
-color: white;
-```
-
-}
-
-/* =================================================
-TÀI KHOẢN
-================================================= */
-
-.account-area {
-display: flex;
-
-```
-align-items: center;
-
-margin-left: 10px;
-```
-
-}
-
-#guestArea {
-display: flex;
-
-```
-align-items: center;
-
-gap: 7px;
-```
-
-}
-
-.user-area {
-display: flex;
-
-```
-align-items: center;
-
-gap: 7px;
-```
-
-}
-
-.account-button,
-.user-button,
-.logout-button {
-border: none;
-
-```
-border-radius: 10px;
-
-padding: 9px 13px;
-
-font-size: 13px;
-
-font-weight: 700;
-
-cursor: pointer;
-
-transition: 0.25s;
-```
-
-}
-
-.account-button {
-background: #eff6ff;
-
-```
-color: #2563eb;
-```
-
-}
-
-.account-button:hover {
-background: #dbeafe;
-
-```
-transform: translateY(-1px);
-```
-
-}
-
-.register-button {
-background: #2563eb;
-
-```
-color: white;
-```
-
-}
-
-.register-button:hover {
-background: #1d4ed8;
-}
-
-.user-button {
-background: #eff6ff;
-
-```
-color: #2563eb;
-```
-
-}
-
-.user-button:hover {
-background: #dbeafe;
-}
-
-.logout-button {
-background: #fef2f2;
-
-```
-color: #dc2626;
-```
-
-}
-
-.logout-button:hover {
-background: #fee2e2;
-}
-
-/* =================================================
-HỆ THỐNG TRANG
-================================================= */
-
-.slider {
-width: 100%;
-
-```
-height: 100vh;
-
-position: relative;
-```
-
-}
-
-.page {
-position: absolute;
-
-```
-width: 100%;
-
-height: calc(100vh - 72px);
-
-top: 72px;
-
-left: 0;
-
-display: flex;
-
-align-items: center;
-
-justify-content: center;
-
-padding: 40px 20px;
-
-opacity: 0;
-
-visibility: hidden;
-
-transform: translateX(100%);
-
-transition:
-    transform 0.55s ease,
-    opacity 0.45s ease,
-    visibility 0.55s;
-```
-
-}
-
-.page.active {
-opacity: 1;
-
-```
-visibility: visible;
-
-transform: translateX(0);
-```
-
-}
-
-/* =================================================
-TRANG CHỦ
-================================================= */
-
-#home {
-text-align: center;
-
-```
-background:
-    radial-gradient(
-        circle at top left,
-        #dbeafe,
-        transparent 35%
-    ),
-
-    radial-gradient(
-        circle at bottom right,
-        #e0e7ff,
-        transparent 35%
-    ),
-
-    #f8fafc;
-```
-
-}
-
-.home-content {
-max-width: 850px;
-}
-
-.welcome {
-display: inline-block;
-
-```
-padding: 8px 18px;
-
-margin-bottom: 25px;
-
-border-radius: 50px;
-
-background: #dbeafe;
-
-color: #2563eb;
-
-font-weight: 700;
-```
-
-}
-
-.home-content h1 {
-font-size: clamp(45px, 7vw, 80px);
-
-```
-line-height: 1.05;
-
-margin-bottom: 25px;
-
-color: #111827;
-```
-
-}
-
-.home-content h1 span {
-display: block;
-
-```
-color: #2563eb;
-```
-
-}
-
-.home-content p {
-max-width: 650px;
-
-```
-margin: auto;
-
-color: #6b7280;
-
-font-size: 19px;
-
-line-height: 1.7;
-```
-
-}
-
-.start-button {
-margin-top: 35px;
-
-```
-padding: 15px 28px;
-
-border: none;
-
-border-radius: 12px;
-
-background: #2563eb;
-
-color: white;
-
-font-size: 16px;
-
-font-weight: 700;
-
-cursor: pointer;
-
-transition: 0.25s;
-```
-
-}
-
-.start-button:hover {
-transform: translateY(-3px);
-
-```
-background: #1d4ed8;
-```
-
-}
-
-/* =================================================
-CONTENT
-================================================= */
-
-.content {
-width: min(1050px, 100%);
-
-```
-max-height: calc(100vh - 150px);
-
-overflow-y: auto;
-
-padding: 10px;
-```
-
-}
-
-.title {
-text-align: center;
-
-```
-margin-bottom: 40px;
-```
-
-}
-
-.title h2 {
-font-size: 42px;
-
-```
-margin-bottom: 10px;
-
-color: #111827;
-```
-
-}
-
-.title p {
-color: #6b7280;
-}
-
-/* =================================================
-THÀNH VIÊN
-================================================= */
-
-.members {
-display: grid;
-
-```
-grid-template-columns:
-    repeat(auto-fit, minmax(180px, 1fr));
-
-gap: 18px;
-```
-
-}
-
-.member {
-background: white;
-
-```
-padding: 25px;
-
-text-align: center;
-
-border-radius: 16px;
-
-border: 1px solid #e5e7eb;
-
-transition: 0.25s;
-```
-
-}
-
-.member:hover {
-transform: translateY(-5px);
-
-```
-box-shadow:
-    0 15px 30px rgba(0, 0, 0, 0.08);
-```
-
-}
-
-.avatar {
-width: 65px;
-
-```
-height: 65px;
-
-margin: auto;
-
-margin-bottom: 12px;
-
-display: flex;
-
-align-items: center;
-
-justify-content: center;
-
-border-radius: 50%;
-
-background: #dbeafe;
-
-font-size: 25px;
-```
-
-}
-
-.member p {
-color: #6b7280;
-
-```
-margin-top: 5px;
-
-font-size: 14px;
-```
-
-}
-
-/* =================================================
-THỜI KHÓA BIỂU
-================================================= */
-
-.schedule {
-background: white;
-
-```
-border-radius: 18px;
-
-overflow: auto;
-
-border: 1px solid #e5e7eb;
-```
-
-}
-
-table {
-width: 100%;
-
-```
-border-collapse: collapse;
-
-min-width: 700px;
-```
-
-}
-
-th,
-td {
-padding: 16px;
-
-```
-text-align: center;
-
-border-bottom: 1px solid #e5e7eb;
-```
-
-}
-
-th {
-background: #eff6ff;
-
-```
-color: #1d4ed8;
-```
-
-}
-
-/* =================================================
-THÔNG BÁO
-================================================= */
-
-.announcement {
-background: white;
-
-```
-padding: 25px 30px;
-
-border-radius: 18px;
-
-border-left: 5px solid #2563eb;
-
-margin-bottom: 15px;
-
-box-shadow:
-    0 8px 25px rgba(0, 0, 0, 0.05);
-```
-
-}
-
-.announcement small {
-display: block;
-
-```
-color: #2563eb;
-
-margin-bottom: 8px;
-
-font-weight: 700;
-```
-
-}
-
-.announcement h3 {
-margin-bottom: 8px;
-}
-
-.announcement p {
-color: #6b7280;
-
-```
-line-height: 1.6;
-```
-
-}
-
-/* =================================================
-CARD
-================================================= */
-
-.cards {
-display: grid;
-
-```
-grid-template-columns:
-    repeat(3, 1fr);
-
-gap: 22px;
-```
-
-}
-
-.card {
-background: white;
-
-```
-padding: 30px;
-
-border-radius: 18px;
-
-border: 1px solid #e5e7eb;
-
-transition: 0.25s;
-```
-
-}
-
-.card:hover {
-transform: translateY(-5px);
-
-```
-box-shadow:
-    0 15px 35px rgba(0, 0, 0, 0.08);
-```
-
-}
-
-.icon {
-width: 55px;
-
-```
-height: 55px;
-
-display: flex;
-
-align-items: center;
-
-justify-content: center;
-
-border-radius: 14px;
-
-background: #eff6ff;
-
-font-size: 27px;
-
-margin-bottom: 18px;
-```
-
-}
-
-.card h3 {
-margin-bottom: 10px;
-}
-
-.card p {
-color: #6b7280;
-
-```
-line-height: 1.6;
-```
-
-}
-
-/* =================================================
-MODAL
-================================================= */
-
-.modal {
-position: fixed;
-
-```
-inset: 0;
-
-z-index: 5000;
-
-display: flex;
-
-align-items: center;
-
-justify-content: center;
-
-padding: 20px;
-
-background: rgba(15, 23, 42, 0.45);
-
-backdrop-filter: blur(5px);
-
-opacity: 0;
-
-visibility: hidden;
-
-transition: 0.25s;
-```
-
-}
-
-.modal.show {
-opacity: 1;
-
-```
-visibility: visible;
-```
-
-}
-
-.modal-content {
-position: relative;
-
-```
-width: min(420px, 100%);
-
-background: white;
-
-padding: 35px;
-
-border-radius: 22px;
-
-box-shadow:
-    0 25px 70px rgba(0, 0, 0, 0.2);
-
-transform: translateY(20px) scale(0.97);
-
-transition: 0.25s;
-```
-
-}
-
-.modal.show .modal-content {
-transform: translateY(0) scale(1);
-}
-
-.modal-content h2 {
-margin-bottom: 8px;
-
-```
-color: #111827;
-```
-
-}
-
-.modal-description {
-color: #6b7280;
-
-```
-margin-bottom: 25px;
-```
-
-}
-
-.close-modal {
-position: absolute;
-
-```
-top: 15px;
-
-right: 18px;
-
-width: 35px;
-
-height: 35px;
-
-border: none;
-
-border-radius: 50%;
-
-background: #f3f4f6;
-
-color: #4b5563;
-
-font-size: 24px;
-
-cursor: pointer;
-```
-
-}
-
-.close-modal:hover {
-background: #e5e7eb;
-}
-
-/* =================================================
-FORM
-================================================= */
-
-.modal-content form {
-display: flex;
-
-```
-flex-direction: column;
-
-gap: 13px;
-```
-
-}
-
-.modal-content input {
-width: 100%;
-
-```
-padding: 13px 15px;
-
-border: 1px solid #d1d5db;
-
-border-radius: 11px;
-
-outline: none;
-
-font-size: 15px;
-
-transition: 0.2s;
-```
-
-}
-
-.modal-content input:focus {
-border-color: #2563eb;
-
-```
-box-shadow:
-    0 0 0 3px #dbeafe;
-```
-
-}
-
-.submit-button {
-margin-top: 5px;
-
-```
-padding: 13px;
-
-border: none;
-
-border-radius: 11px;
-
-background: #2563eb;
-
-color: white;
-
-font-size: 15px;
-
-font-weight: 700;
-
-cursor: pointer;
-
-transition: 0.2s;
-```
-
-}
-
-.submit-button:hover {
-background: #1d4ed8;
-
-```
-transform: translateY(-1px);
-```
-
-}
-
-.form-message {
-min-height: 22px;
-
-```
-margin-top: 12px;
-
-font-size: 14px;
-
-font-weight: 700;
-
-text-align: center;
-```
-
-}
-
-.form-message.error {
-color: #dc2626;
-}
-
-.form-message.success {
-color: #16a34a;
-}
-
-.switch-auth {
-margin-top: 15px;
-
-```
-text-align: center;
-
-color: #6b7280;
-
-font-size: 14px;
-```
-
-}
-
-.switch-auth button {
-border: none;
-
-```
-background: transparent;
-
-color: #2563eb;
-
-font-weight: 700;
-
-cursor: pointer;
-```
-
-}
-
-/* =================================================
-BẢNG XẾP HẠNG
-================================================= */
-
-.ranking-box {
-background: white;
-
-```
-border: 1px solid #e5e7eb;
-
-border-radius: 20px;
-
-padding: 25px;
-
-box-shadow:
-    0 10px 30px rgba(0, 0, 0, 0.05);
-```
-
-}
-
-.ranking-title {
-text-align: center;
-
-```
-margin-bottom: 25px;
-```
-
-}
-
-.ranking-title h3 {
-font-size: 24px;
-
-```
-color: #111827;
-
-margin-bottom: 6px;
-```
-
-}
-
-.ranking-title p {
-color: #6b7280;
-}
-
-/* =================================================
-TOP 3
-================================================= */
-
-.top-three {
-display: grid;
-
-```
-grid-template-columns:
-    repeat(3, 1fr);
-
-gap: 15px;
-
-margin-bottom: 25px;
-```
-
-}
-
-.top-student {
-text-align: center;
-
-```
-padding: 25px 15px;
-
-border-radius: 18px;
-
-background: #f8fafc;
-
-border: 1px solid #e5e7eb;
-
-transition: 0.25s;
-```
-
-}
-
-.top-student:hover {
-transform: translateY(-5px);
-
-```
-box-shadow:
-    0 12px 25px rgba(0, 0, 0, 0.08);
-```
-
-}
-
-.top-1 {
-background: #fffbeb;
-
-```
-border-color: #fde68a;
-```
-
-}
-
-.top-2 {
-background: #f8fafc;
-
-```
-border-color: #d1d5db;
-```
-
-}
-
-.top-3 {
-background: #fff7ed;
-
-```
-border-color: #fed7aa;
-```
-
-}
-
-.rank-medal {
-font-size: 34px;
-
-```
-margin-bottom: 8px;
-```
-
-}
-
-.rank-avatar {
-width: 60px;
-
-```
-height: 60px;
-
-margin: auto;
-
-margin-bottom: 10px;
-
-display: flex;
-
-align-items: center;
-
-justify-content: center;
-
-border-radius: 50%;
-
-background: #dbeafe;
-
-font-size: 25px;
-```
-
-}
-
-.top-student h3 {
-margin-bottom: 7px;
-
-```
-font-size: 16px;
-```
-
-}
-
-.top-student strong {
-color: #2563eb;
-}
-
-/* =================================================
-RANKING LIST
-================================================= */
-
-.ranking-list {
-display: flex;
-
-```
-flex-direction: column;
-
-gap: 10px;
-```
-
-}
-
-.ranking-row {
-display: grid;
-
-```
-grid-template-columns:
-    45px 50px 1fr 80px;
-
-align-items: center;
-
-gap: 12px;
-
-padding: 12px 15px;
-
-border: 1px solid #e5e7eb;
-
-border-radius: 13px;
-
-background: #fff;
-
-transition: 0.2s;
-```
-
-}
-
-.ranking-row:hover {
-background: #f8fafc;
-
-```
-transform: translateX(3px);
-```
-
-}
-
-.ranking-number {
-text-align: center;
-
-```
-font-size: 17px;
-
-font-weight: 900;
-
-color: #6b7280;
-```
-
-}
-
-.ranking-avatar {
-width: 42px;
-
-```
-height: 42px;
-
-display: flex;
-
-align-items: center;
-
-justify-content: center;
-
-border-radius: 50%;
-
-background: #eff6ff;
-
-font-size: 19px;
-```
-
-}
-
-.ranking-name {
-display: flex;
-
-```
-flex-direction: column;
-
-gap: 3px;
-```
-
-}
-
-.ranking-name strong {
-color: #111827;
-}
-
-.ranking-name small {
-color: #9ca3af;
-
-```
-font-size: 12px;
-```
-
-}
-
-.ranking-score {
-text-align: right;
-
-```
-font-weight: 900;
-
-color: #2563eb;
-```
-
-}
-
-.empty-ranking {
-padding: 30px;
-
-```
-text-align: center;
-
-color: #6b7280;
-```
-
-}
-
-/* =================================================
-HỒ SƠ
-================================================= */
-
-.profile-card {
-width: min(500px, 100%);
-
-```
-margin: auto;
-
-padding: 35px;
-
-text-align: center;
-
-background: white;
-
-border-radius: 22px;
-
-border: 1px solid #e5e7eb;
-
-box-shadow:
-    0 15px 40px rgba(0, 0, 0, 0.07);
-```
-
-}
-
-.profile-avatar {
-width: 90px;
-
-```
-height: 90px;
-
-margin: auto;
-
-margin-bottom: 15px;
-
-display: flex;
-
-align-items: center;
-
-justify-content: center;
-
-border-radius: 50%;
-
-background: #dbeafe;
-
-font-size: 40px;
-```
-
-}
-
-.profile-card h2 {
-margin-bottom: 6px;
-}
-
-.profile-card > p {
-color: #6b7280;
-
-```
-margin-bottom: 25px;
-```
-
-}
-
-.profile-stats {
-display: grid;
-
-```
-grid-template-columns: 1fr 1fr;
-
-gap: 15px;
-```
-
-}
-
-.profile-stat {
-padding: 18px;
-
-```
-border-radius: 15px;
-
-background: #f8fafc;
-```
-
-}
-
-.profile-stat strong {
-display: block;
-
-```
-color: #2563eb;
-
-font-size: 25px;
-
-margin-bottom: 5px;
-```
-
-}
-
-.profile-stat span {
-color: #6b7280;
-
-```
-font-size: 13px;
-```
-
-}
-
-/* =================================================
-MOBILE
-================================================= */
-
-@media (max-width: 1100px) {
-
-```
-.navbar {
-    padding: 0 12px;
-
-    gap: 8px;
-}
-
-.menu {
-    gap: 2px;
-}
-
-.nav-button {
-    padding: 8px;
-
-    font-size: 11px;
-}
-
-.account-button,
-.user-button,
-.logout-button {
-    padding: 8px;
-
-    font-size: 11px;
-}
-```
-
-}
-
-@media (max-width: 800px) {
-
-```
-html,
-body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f5f7fb;
+    color: #1f2937;
     overflow: hidden;
 }
 
-.navbar {
-    padding: 0 8px;
 
-    gap: 5px;
+/* =================================================
+   HEADER
+================================================= */
+
+header {
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 72px;
+
+    z-index: 1000;
+
+    background: rgba(255, 255, 255, 0.94);
+
+    backdrop-filter: blur(15px);
+
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.navbar {
+    width: min(1400px, 100%);
+
+    height: 100%;
+
+    margin: auto;
+
+    padding: 0 25px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 20px;
 }
 
 .logo {
-    font-size: 18px;
-}
+    font-size: 24px;
 
-.menu {
-    gap: 2px;
+    font-weight: 900;
 
-    overflow-x: auto;
-
-    scrollbar-width: none;
-}
-
-.menu::-webkit-scrollbar {
-    display: none;
-}
-
-.nav-button {
-    padding: 8px 6px;
-
-    font-size: 10px;
+    color: #2563eb;
 
     white-space: nowrap;
 }
 
+
+/* =================================================
+   MENU
+================================================= */
+
+.menu {
+    display: flex;
+
+    gap: 5px;
+
+    list-style: none;
+
+    margin-left: auto;
+}
+
+.nav-button {
+    border: none;
+
+    background: transparent;
+
+    padding: 10px 13px;
+
+    border-radius: 10px;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    color: #4b5563;
+
+    cursor: pointer;
+
+    transition: 0.25s;
+}
+
+.nav-button:hover {
+    background: #eff6ff;
+
+    color: #2563eb;
+}
+
+.nav-button.active {
+    background: #2563eb;
+
+    color: white;
+}
+
+
+/* =================================================
+   ACCOUNT
+================================================= */
+
 .account-area {
-    display: none;
+    display: flex;
+
+    align-items: center;
+
+    margin-left: 5px;
 }
 
-.home-content h1 {
-    font-size: 50px;
+.login-header-button {
+    border: none;
+
+    background: #111827;
+
+    color: white;
+
+    padding: 10px 16px;
+
+    border-radius: 10px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: 0.25s;
 }
 
-.title h2 {
-    font-size: 32px;
+.login-header-button:hover {
+    background: #2563eb;
+
+    transform: translateY(-2px);
 }
 
-.cards {
-    grid-template-columns: 1fr;
+.user-header {
+    align-items: center;
+
+    gap: 10px;
 }
 
-.top-three {
-    grid-template-columns: 1fr;
+#headerUsername {
+    font-size: 14px;
+
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+#logoutButton {
+    border: none;
+
+    background: #fee2e2;
+
+    color: #dc2626;
+
+    padding: 9px 12px;
+
+    border-radius: 9px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+#logoutButton:hover {
+    background: #fecaca;
+}
+
+
+/* =================================================
+   HỆ THỐNG TRANG
+================================================= */
+
+.slider {
+    width: 100%;
+
+    height: 100vh;
+
+    position: relative;
 }
 
 .page {
-    padding: 25px 15px;
+    position: absolute;
+
+    width: 100%;
+
+    height: calc(100vh - 72px);
+
+    top: 72px;
+
+    left: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 40px 20px;
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    transform: translateX(100%);
+
+    transition:
+        transform 0.55s ease,
+        opacity 0.45s ease,
+        visibility 0.55s;
 }
+
+.page.active {
+    opacity: 1;
+
+    visibility: visible;
+
+    transform: translateX(0);
+}
+
+
+/* =================================================
+   TRANG CHỦ
+================================================= */
+
+#home {
+    text-align: center;
+
+    background:
+        radial-gradient(
+            circle at top left,
+            #dbeafe,
+            transparent 35%
+        ),
+
+        radial-gradient(
+            circle at bottom right,
+            #e0e7ff,
+            transparent 35%
+        ),
+
+        #f8fafc;
+}
+
+.home-content {
+    max-width: 850px;
+}
+
+.welcome {
+    display: inline-block;
+
+    padding: 8px 18px;
+
+    margin-bottom: 25px;
+
+    border-radius: 50px;
+
+    background: #dbeafe;
+
+    color: #2563eb;
+
+    font-weight: 700;
+}
+
+.home-content h1 {
+    font-size: clamp(45px, 7vw, 80px);
+
+    line-height: 1.05;
+
+    margin-bottom: 25px;
+
+    color: #111827;
+}
+
+.home-content h1 span {
+    display: block;
+
+    color: #2563eb;
+}
+
+.home-content p {
+    max-width: 650px;
+
+    margin: auto;
+
+    color: #6b7280;
+
+    font-size: 19px;
+
+    line-height: 1.7;
+}
+
+.home-buttons {
+    display: flex;
+
+    justify-content: center;
+
+    gap: 12px;
+
+    margin-top: 35px;
+
+    flex-wrap: wrap;
+}
+
+.start-button,
+.secondary-button {
+    padding: 15px 25px;
+
+    border-radius: 12px;
+
+    font-size: 16px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: 0.25s;
+}
+
+.start-button {
+    border: none;
+
+    background: #2563eb;
+
+    color: white;
+}
+
+.start-button:hover {
+    transform: translateY(-3px);
+
+    background: #1d4ed8;
+}
+
+.secondary-button {
+    border: 1px solid #d1d5db;
+
+    background: white;
+
+    color: #1f2937;
+}
+
+.secondary-button:hover {
+    border-color: #2563eb;
+
+    color: #2563eb;
+
+    transform: translateY(-3px);
+}
+
+
+/* =================================================
+   CONTENT
+================================================= */
 
 .content {
-    max-height: calc(100vh - 120px);
-}
+    width: min(1050px, 100%);
 
-.ranking-row {
-    grid-template-columns:
-        35px 42px 1fr 55px;
+    max-height: calc(100vh - 150px);
 
-    gap: 7px;
+    overflow-y: auto;
 
     padding: 10px;
 }
 
-.profile-card {
-    padding: 25px 18px;
-}
-```
-
+.content::-webkit-scrollbar {
+    width: 7px;
 }
 
-@media (max-width: 500px) {
+.content::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
 
-```
-.logo {
-    font-size: 15px;
-}
-
-.nav-button {
-    font-size: 9px;
-
-    padding: 7px 5px;
-}
-
-.home-content h1 {
-    font-size: 40px;
-}
-
-.home-content p {
-    font-size: 16px;
+    border-radius: 10px;
 }
 
 .title {
-    margin-bottom: 25px;
+    text-align: center;
+
+    margin-bottom: 40px;
 }
 
 .title h2 {
-    font-size: 27px;
+    font-size: 42px;
+
+    margin-bottom: 10px;
+
+    color: #111827;
 }
 
-.modal-content {
-    padding: 28px 20px;
+.title p {
+    color: #6b7280;
 }
-```
+
+
+/* =================================================
+   THÀNH VIÊN
+================================================= */
+
+.members {
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fit, minmax(180px, 1fr));
+
+    gap: 18px;
+}
+
+.member {
+    background: white;
+
+    padding: 25px;
+
+    text-align: center;
+
+    border-radius: 16px;
+
+    border: 1px solid #e5e7eb;
+
+    transition: 0.25s;
+}
+
+.member:hover {
+    transform: translateY(-5px);
+
+    box-shadow:
+        0 15px 30px rgba(0, 0, 0, 0.08);
+}
+
+.avatar {
+    width: 65px;
+
+    height: 65px;
+
+    margin: auto;
+
+    margin-bottom: 12px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #dbeafe;
+
+    color: #2563eb;
+
+    font-size: 25px;
+
+    font-weight: 800;
+}
+
+.member p {
+    color: #6b7280;
+
+    margin-top: 5px;
+
+    font-size: 14px;
+}
+
+.member-score {
+    margin-top: 12px;
+
+    display: inline-block;
+
+    padding: 6px 10px;
+
+    background: #fef3c7;
+
+    color: #92400e;
+
+    border-radius: 8px;
+
+    font-size: 13px;
+
+    font-weight: 700;
+}
+
+
+/* =================================================
+   XẾP HẠNG
+================================================= */
+
+.ranking-info {
+    display: flex;
+
+    justify-content: center;
+
+    gap: 15px;
+
+    margin-bottom: 25px;
+
+    flex-wrap: wrap;
+}
+
+.ranking-info span {
+    padding: 9px 14px;
+
+    border-radius: 10px;
+
+    background: white;
+
+    border: 1px solid #e5e7eb;
+
+    font-size: 14px;
+
+    font-weight: 600;
+}
+
+.ranking-list {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 12px;
+}
+
+.ranking-item {
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    background: white;
+
+    padding: 15px 20px;
+
+    border-radius: 15px;
+
+    border: 1px solid #e5e7eb;
+
+    transition: 0.25s;
+}
+
+.ranking-item:hover {
+    transform: translateX(5px);
+
+    box-shadow:
+        0 10px 25px rgba(0, 0, 0, 0.07);
+}
+
+.rank-number {
+    width: 45px;
+
+    text-align: center;
+
+    font-size: 23px;
+
+    font-weight: 900;
+}
+
+.rank-avatar {
+    width: 45px;
+
+    height: 45px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #dbeafe;
+
+    color: #2563eb;
+
+    font-weight: 800;
+}
+
+.rank-name {
+    flex: 1;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 3px;
+}
+
+.rank-name strong {
+    font-size: 16px;
+}
+
+.rank-name span {
+    color: #9ca3af;
+
+    font-size: 13px;
+}
+
+.rank-score {
+    padding: 8px 13px;
+
+    border-radius: 9px;
+
+    background: #eff6ff;
+
+    color: #2563eb;
+
+    font-weight: 800;
+}
+
+
+/* =================================================
+   THỜI KHÓA BIỂU
+================================================= */
+
+.schedule {
+    background: white;
+
+    border-radius: 18px;
+
+    overflow: auto;
+
+    border: 1px solid #e5e7eb;
+}
+
+table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    min-width: 700px;
+}
+
+th,
+td {
+    padding: 16px;
+
+    text-align: center;
+
+    border-bottom: 1px solid #e5e7eb;
+}
+
+th {
+    background: #eff6ff;
+
+    color: #1d4ed8;
+}
+
+td {
+    background: white;
+}
+
+
+/* =================================================
+   THÔNG BÁO
+================================================= */
+
+.announcement {
+    background: white;
+
+    padding: 25px 30px;
+
+    border-radius: 18px;
+
+    border-left: 5px solid #2563eb;
+
+    margin-bottom: 15px;
+
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.05);
+}
+
+.announcement-date {
+    color: #2563eb;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    margin-bottom: 8px;
+}
+
+.announcement h3 {
+    margin-bottom: 8px;
+}
+
+.announcement p {
+    color: #6b7280;
+
+    line-height: 1.6;
+}
+
+
+/* =================================================
+   CARD
+================================================= */
+
+.cards {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 22px;
+}
+
+.card {
+    background: white;
+
+    padding: 30px;
+
+    border-radius: 18px;
+
+    border: 1px solid #e5e7eb;
+
+    transition: 0.25s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+
+    box-shadow:
+        0 15px 35px rgba(0, 0, 0, 0.08);
+}
+
+.icon {
+    width: 55px;
+
+    height: 55px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 14px;
+
+    background: #eff6ff;
+
+    font-size: 27px;
+
+    margin-bottom: 18px;
+}
+
+.card h3 {
+    margin-bottom: 10px;
+}
+
+.card p {
+    color: #6b7280;
+
+    line-height: 1.6;
+}
+
+
+/* =================================================
+   MODAL
+================================================= */
+
+.modal {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 2000;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 20px;
+
+    background: rgba(15, 23, 42, 0.55);
+
+    backdrop-filter: blur(6px);
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    transition: 0.25s;
+}
+
+.modal.show {
+    opacity: 1;
+
+    visibility: visible;
+}
+
+.modal-box {
+    position: relative;
+
+    width: min(430px, 100%);
+
+    max-height: 90vh;
+
+    overflow-y: auto;
+
+    padding: 35px;
+
+    background: white;
+
+    border-radius: 22px;
+
+    box-shadow:
+        0 25px 70px rgba(0, 0, 0, 0.2);
+
+    transform: translateY(20px) scale(0.97);
+
+    transition: 0.25s;
+}
+
+.modal.show .modal-box {
+    transform: translateY(0) scale(1);
+}
+
+.close-modal {
+    position: absolute;
+
+    top: 15px;
+
+    right: 17px;
+
+    width: 35px;
+
+    height: 35px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: #f3f4f6;
+
+    font-size: 24px;
+
+    cursor: pointer;
+
+    color: #6b7280;
+}
+
+.close-modal:hover {
+    background: #fee2e2;
+
+    color: #dc2626;
+}
+
+.modal-title {
+    text-align: center;
+
+    margin-bottom: 25px;
+}
+
+.modal-title h2 {
+    margin-top: 8px;
+
+    color: #111827;
+}
+
+.modal-title p {
+    margin-top: 6px;
+
+    color: #6b7280;
+
+    font-size: 14px;
+}
+
+
+/* =================================================
+   FORM
+================================================= */
+
+#loginForm,
+#registerForm {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 8px;
+}
+
+#loginForm label,
+#registerForm label {
+    margin-top: 8px;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    color: #374151;
+}
+
+#loginForm input,
+#registerForm input {
+    width: 100%;
+
+    padding: 13px 14px;
+
+    border: 1px solid #d1d5db;
+
+    border-radius: 10px;
+
+    outline: none;
+
+    font-size: 15px;
+
+    transition: 0.2s;
+}
+
+#loginForm input:focus,
+#registerForm input:focus {
+    border-color: #2563eb;
+
+    box-shadow:
+        0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.form-button {
+    border: none;
+
+    padding: 13px;
+
+    margin-top: 18px;
+
+    border-radius: 10px;
+
+    background: #2563eb;
+
+    color: white;
+
+    font-size: 15px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.form-button:hover {
+    background: #1d4ed8;
+
+    transform: translateY(-2px);
+}
+
+.form-message {
+    min-height: 20px;
+
+    margin-top: 12px;
+
+    text-align: center;
+
+    font-size: 14px;
+
+    font-weight: 600;
+}
+
+.form-message.error {
+    color: #dc2626;
+}
+
+.form-message.success {
+    color: #16a34a;
+}
+
+.switch-form {
+    margin-top: 20px;
+
+    text-align: center;
+
+    color: #6b7280;
+
+    font-size: 14px;
+}
+
+.switch-form button {
+    border: none;
+
+    background: transparent;
+
+    color: #2563eb;
+
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+
+/* =================================================
+   MOBILE
+================================================= */
+
+@media (max-width: 1000px) {
+
+    .navbar {
+        padding: 0 12px;
+    }
+
+    .logo {
+        font-size: 18px;
+    }
+
+    .menu {
+        gap: 2px;
+    }
+
+    .nav-button {
+        padding: 8px;
+
+        font-size: 11px;
+    }
+
+    .account-area {
+        display: none;
+    }
+
+}
+
+
+@media (max-width: 800px) {
+
+    body {
+        overflow: hidden;
+    }
+
+    .home-content h1 {
+        font-size: 50px;
+    }
+
+    .title h2 {
+        font-size: 32px;
+    }
+
+    .cards {
+        grid-template-columns: 1fr;
+    }
+
+    .page {
+        padding: 25px 15px;
+    }
+
+    .content {
+        max-height: calc(100vh - 120px);
+    }
+
+    .ranking-item {
+        padding: 12px;
+    }
+
+    .rank-number {
+        width: 32px;
+
+        font-size: 18px;
+    }
+
+    .rank-avatar {
+        width: 40px;
+
+        height: 40px;
+    }
+
+    .rank-score {
+        font-size: 12px;
+
+        padding: 7px 9px;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .navbar {
+        justify-content: center;
+    }
+
+    .logo {
+        display: none;
+    }
+
+    .menu {
+        width: 100%;
+
+        justify-content: center;
+
+        overflow-x: auto;
+    }
+
+    .nav-button {
+        white-space: nowrap;
+    }
+
+    .home-content h1 {
+        font-size: 42px;
+    }
+
+    .home-content p {
+        font-size: 16px;
+    }
+
+    .modal-box {
+        padding: 28px 22px;
+    }
 
 }
