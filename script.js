@@ -221,9 +221,7 @@ const listEvents = [
 
 function announcementsPage() {
   return layout("", "", `
-    <div style="color: #624cff; font-size: 12px; font-weight: 800; margin-bottom: 12px;">10 TOÁN 1</div>
-
-    <!-- Thanh Điều Hướng (Chuẩn 100% Giao diện Hình 1) -->
+    <!-- Thanh Điều Hướng chuẩn theo Ảnh mẫu -->
     <div class="page-toolbar">
       <div class="left-toolbar-group">
         <!-- 2 Nút viên thuốc Chuyển Tab -->
@@ -236,7 +234,7 @@ function announcementsPage() {
           </button>
         </div>
 
-        <!-- Các nút Filter danh mục (Chỉ hiện khi ở tab Thông báo) -->
+        <!-- Các nút Filter danh mục -->
         <div id="filterPillsGroup" class="filter-pills ${currentMainTab === 'su-kien' ? 'hidden' : ''}">
           <button class="pill-btn ${currentCategoryFilter === 'Tất cả' ? 'active' : ''}" onclick="filterCategory('Tất cả', this)">Tất cả</button>
           <button class="pill-btn ${currentCategoryFilter === 'Quan trọng' ? 'active' : ''}" onclick="filterCategory('Quan trọng', this)">Quan trọng</button>
