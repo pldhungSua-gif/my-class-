@@ -1,14 +1,5 @@
 <!DOCTYPE html>
 <html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>10 Toán 1</title>
-
-    <style>
-        * {<!DOCTYPE html>
-<html lang="vi">
 
 <head>
     <meta charset="UTF-8">
@@ -87,7 +78,7 @@
     <main class="slider">
 
 
-        <!-- TRANG CHỦ -->
+        <!-- ================= TRANG CHỦ ================= -->
 
         <section
             id="home"
@@ -116,6 +107,7 @@
                     data-go="members">
 
                     Khám phá lớp →
+
                 </button>
 
             </div>
@@ -123,7 +115,7 @@
         </section>
 
 
-        <!-- THÀNH VIÊN -->
+        <!-- ================= THÀNH VIÊN ================= -->
 
         <section
             id="members"
@@ -141,6 +133,16 @@
 
                 </div>
 
+
+                <!--
+                    QUAN TRỌNG:
+                    Không viết các member ở đây.
+
+                    script.js sẽ lấy dữ liệu từ
+                    const members trong data.js
+                    rồi tự tạo danh sách.
+                -->
+
                 <div
                     class="members"
                     id="membersList">
@@ -151,7 +153,7 @@
         </section>
 
 
-        <!-- THỜI KHÓA BIỂU -->
+        <!-- ================= THỜI KHÓA BIỂU ================= -->
 
         <section
             id="schedule"
@@ -169,6 +171,7 @@
 
                 </div>
 
+
                 <div class="schedule">
 
                     <table>
@@ -176,18 +179,39 @@
                         <thead>
 
                             <tr>
-                                <th>Thứ</th>
-                                <th>Tiết 1</th>
-                                <th>Tiết 2</th>
-                                <th>Tiết 3</th>
-                                <th>Tiết 4</th>
-                                <th>Tiết 5</th>
+
+                                <th>
+                                    Thứ
+                                </th>
+
+                                <th>
+                                    Tiết 1
+                                </th>
+
+                                <th>
+                                    Tiết 2
+                                </th>
+
+                                <th>
+                                    Tiết 3
+                                </th>
+
+                                <th>
+                                    Tiết 4
+                                </th>
+
+                                <th>
+                                    Tiết 5
+                                </th>
+
                             </tr>
 
                         </thead>
 
+
                         <tbody
                             id="scheduleBody">
+
                         </tbody>
 
                     </table>
@@ -199,7 +223,7 @@
         </section>
 
 
-        <!-- THÔNG BÁO -->
+        <!-- ================= THÔNG BÁO ================= -->
 
         <section
             id="announcements"
@@ -217,8 +241,10 @@
 
                 </div>
 
+
                 <div
                     id="announcementList">
+
                 </div>
 
             </div>
@@ -226,7 +252,7 @@
         </section>
 
 
-        <!-- VỀ LỚP -->
+        <!-- ================= VỀ LỚP ================= -->
 
         <section
             id="about"
@@ -244,7 +270,11 @@
 
                 </div>
 
+
                 <div class="cards">
+
+
+                    <!-- MỤC TIÊU -->
 
                     <div class="card">
 
@@ -252,7 +282,9 @@
                             🎯
                         </div>
 
-                        <h3>Mục tiêu</h3>
+                        <h3>
+                            Mục tiêu
+                        </h3>
 
                         <p id="goal">
                             Cùng nhau học tập và phát triển.
@@ -261,13 +293,17 @@
                     </div>
 
 
+                    <!-- ĐOÀN KẾT -->
+
                     <div class="card">
 
                         <div class="icon">
                             🤝
                         </div>
 
-                        <h3>Đoàn kết</h3>
+                        <h3>
+                            Đoàn kết
+                        </h3>
 
                         <p id="unity">
                             Cùng nhau xây dựng một tập thể
@@ -277,847 +313,47 @@
                     </div>
 
 
+                    <!-- KỶ NIỆM -->
+
                     <div class="card">
 
                         <div class="icon">
                             ❤️
                         </div>
 
-                        <h3>Kỷ niệm</h3>
+                        <h3>
+                            Kỷ niệm
+                        </h3>
 
                         <p id="memory">
-                            Lưu giữ những khoảnh khắc
-                            đáng nhớ.
-                        </p>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </section>
-
-    </main>
-
-
-    <!-- ================= JAVASCRIPT ================= -->
-
-    <script src="data.js"></script>
-    <script src="script.js"></script>
-
-</body>
-
-</html>
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html,
-        body {
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            font-family: Arial, Helvetica, sans-serif;
-        }
-
-        body {
-            background: #f5f7fb;
-            color: #1f2937;
-        }
-
-        /* ================= NAVBAR ================= */
-
-        header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 72px;
-            z-index: 1000;
-
-            background: rgba(255, 255, 255, 0.92);
-            backdrop-filter: blur(15px);
-
-            border-bottom: 1px solid #e5e7eb;
-        }
-
-        .navbar {
-            height: 100%;
-            max-width: 1200px;
-            margin: auto;
-
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-
-            padding: 0 25px;
-        }
-
-        .logo {
-            font-size: 24px;
-            font-weight: 900;
-            color: #2563eb;
-            white-space: nowrap;
-        }
-
-        .menu {
-            display: flex;
-            gap: 8px;
-            list-style: none;
-        }
-
-        .menu button {
-            border: none;
-            background: transparent;
-
-            padding: 10px 15px;
-            border-radius: 10px;
-
-            font-size: 15px;
-            font-weight: 700;
-
-            color: #4b5563;
-            cursor: pointer;
-
-            transition: 0.25s;
-        }
-
-        .menu button:hover {
-            background: #eff6ff;
-            color: #2563eb;
-        }
-
-        .menu button.active {
-            background: #2563eb;
-            color: white;
-        }
-
-
-        /* ================= SLIDE CONTAINER ================= */
-
-        .slider {
-            width: 100%;
-            height: 100vh;
-
-            position: relative;
-        }
-
-        .page {
-            position: absolute;
-
-            width: 100%;
-            height: calc(100vh - 72px);
-
-            top: 72px;
-            left: 0;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            padding: 40px 20px;
-
-            opacity: 0;
-            visibility: hidden;
-
-            transform: translateX(100%);
-
-            transition:
-                transform 0.55s ease,
-                opacity 0.45s ease,
-                visibility 0.55s;
-        }
-
-        .page.active {
-            opacity: 1;
-            visibility: visible;
-            transform: translateX(0);
-        }
-
-
-        /* ================= HOME ================= */
-
-        .home {
-            text-align: center;
-        }
-
-        .home-content {
-            max-width: 850px;
-        }
-
-        .welcome {
-            display: inline-block;
-
-            padding: 8px 18px;
-            margin-bottom: 25px;
-
-            border-radius: 50px;
-
-            background: #dbeafe;
-            color: #2563eb;
-
-            font-weight: 700;
-        }
-
-        .home h1 {
-            font-size: clamp(50px, 8vw, 90px);
-            line-height: 1;
-
-            margin-bottom: 25px;
-
-            color: #111827;
-        }
-
-        .home h1 span {
-            color: #2563eb;
-        }
-
-        .home p {
-            max-width: 650px;
-            margin: auto;
-
-            color: #6b7280;
-            font-size: 19px;
-            line-height: 1.7;
-        }
-
-        .start-button {
-            margin-top: 35px;
-
-            padding: 15px 28px;
-
-            border: none;
-            border-radius: 12px;
-
-            background: #2563eb;
-            color: white;
-
-            font-size: 16px;
-            font-weight: 700;
-
-            cursor: pointer;
-
-            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.25);
-
-            transition: 0.25s;
-        }
-
-        .start-button:hover {
-            transform: translateY(-3px);
-            background: #1d4ed8;
-        }
-
-
-        /* ================= GENERAL CONTENT ================= */
-
-        .content {
-            width: min(1050px, 100%);
-            max-height: calc(100vh - 150px);
-
-            overflow-y: auto;
-            padding: 10px;
-        }
-
-        .title {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .title h2 {
-            font-size: 42px;
-            margin-bottom: 10px;
-            color: #111827;
-        }
-
-        .title p {
-            color: #6b7280;
-        }
-
-
-        /* ================= CARDS ================= */
-
-        .cards {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 22px;
-        }
-
-        .card {
-            background: white;
-
-            padding: 30px;
-
-            border-radius: 18px;
-
-            border: 1px solid #e5e7eb;
-
-            transition: 0.25s;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-
-            box-shadow:
-                0 15px 35px rgba(0, 0, 0, 0.08);
-        }
-
-        .icon {
-            width: 55px;
-            height: 55px;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            border-radius: 14px;
-
-            background: #eff6ff;
-
-            font-size: 27px;
-
-            margin-bottom: 18px;
-        }
-
-        .card h3 {
-            margin-bottom: 10px;
-        }
-
-        .card p {
-            color: #6b7280;
-            line-height: 1.6;
-        }
-
-
-        /* ================= MEMBERS ================= */
-
-        .members {
-            display: grid;
-
-            grid-template-columns:
-                repeat(auto-fit, minmax(180px, 1fr));
-
-            gap: 18px;
-        }
-
-        .member {
-            background: white;
-
-            padding: 25px;
-
-            text-align: center;
-
-            border-radius: 16px;
-
-            border: 1px solid #e5e7eb;
-        }
-
-        .avatar {
-            width: 65px;
-            height: 65px;
-
-            margin: auto;
-            margin-bottom: 12px;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            border-radius: 50%;
-
-            background: #dbeafe;
-
-            font-size: 25px;
-        }
-
-        .member p {
-            color: #6b7280;
-            margin-top: 5px;
-            font-size: 14px;
-        }
-
-
-        /* ================= SCHEDULE ================= */
-
-        .schedule {
-            background: white;
-
-            border-radius: 18px;
-
-            overflow: hidden;
-
-            border: 1px solid #e5e7eb;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th,
-        td {
-            padding: 16px;
-            text-align: center;
-
-            border-bottom: 1px solid #e5e7eb;
-        }
-
-        th {
-            background: #eff6ff;
-            color: #1d4ed8;
-        }
-
-
-        /* ================= ANNOUNCEMENT ================= */
-
-        .announcement {
-            background: white;
-
-            padding: 30px;
-
-            border-radius: 18px;
-
-            border-left: 5px solid #2563eb;
-
-            margin-bottom: 15px;
-
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
-        }
-
-        .announcement h3 {
-            margin-bottom: 8px;
-        }
-
-        .announcement p {
-            color: #6b7280;
-            line-height: 1.6;
-        }
-
-
-        /* ================= MOBILE ================= */
-
-        @media (max-width: 800px) {
-
-            .navbar {
-                padding: 0 12px;
-            }
-
-            .logo {
-                font-size: 18px;
-            }
-
-            .menu {
-                gap: 2px;
-            }
-
-            .menu button {
-                padding: 8px;
-                font-size: 12px;
-            }
-
-            .cards {
-                grid-template-columns: 1fr;
-            }
-
-            .home h1 {
-                font-size: 55px;
-            }
-
-            .title h2 {
-                font-size: 32px;
-            }
-
-            .page {
-                padding: 25px 15px;
-            }
-        }
-    </style>
-</head>
-
-
-<body>
-
-    <!-- ================= HEADER ================= -->
-
-    <header>
-
-        <nav class="navbar">
-
-            <div class="logo">
-                10 TOÁN 1
-            </div>
-
-            <ul class="menu">
-
-                <li>
-                    <button
-                        class="active"
-                        onclick="showPage('home', this)">
-                        Trang chủ
-                    </button>
-                </li>
-
-                <li>
-                    <button
-                        onclick="showPage('members', this)">
-                        Thành viên
-                    </button>
-                </li>
-
-                <li>
-                    <button
-                        onclick="showPage('schedule', this)">
-                        Thời khóa biểu
-                    </button>
-                </li>
-
-                <li>
-                    <button
-                        onclick="showPage('announcements', this)">
-                        Thông báo
-                    </button>
-                </li>
-
-                <li>
-                    <button
-                        onclick="showPage('about', this)">
-                        Về lớp
-                    </button>
-                </li>
-
-            </ul>
-
-        </nav>
-
-    </header>
-
-
-    <!-- ================= PAGES ================= -->
-
-    <main class="slider">
-
-
-        <!-- ===== HOME ===== -->
-
-        <section
-            id="home"
-            class="page active">
-
-            <div class="home-content">
-
-                <div class="welcome">
-                    ✨ WEBSITE CHÍNH THỨC
-                </div>
-
-                <h1>
-                    10 <span>TOÁN 1</span>
-                </h1>
-
-                <p>
-                    Chào mừng bạn đến với không gian của
-                    lớp 10 Toán 1 — nơi chúng ta cùng học tập,
-                    chia sẻ và lưu giữ những kỷ niệm.
-                </p>
-
-                <button
-                    class="start-button"
-                    onclick="showPageById('members')">
-
-                    Khám phá lớp →
-
-                </button>
-
-            </div>
-
-        </section>
-
-
-        <!-- ===== MEMBERS ===== -->
-
-        <section
-            id="members"
-            class="page">
-
-            <div class="content">
-
-                <div class="title">
-
-                    <h2>👥 Thành viên</h2>
-
-                    <p>
-                        Những thành viên của 10 Toán 1
-                    </p>
-
-                </div>
-
-<div class="members" id="membersList">
-</div>
-               
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- ===== SCHEDULE ===== -->
-
-        <section
-            id="schedule"
-            class="page">
-
-            <div class="content">
-
-                <div class="title">
-
-                    <h2>📅 Thời khóa biểu</h2>
-
-                    <p>
-                        Lịch học của lớp
-                    </p>
-
-                </div>
-
-
-                <div class="schedule">
-
-                    <table>
-
-                        <tr>
-                            <th>Thứ</th>
-                            <th>Tiết 1</th>
-                            <th>Tiết 2</th>
-                            <th>Tiết 3</th>
-                            <th>Tiết 4</th>
-                            <th>Tiết 5</th>
-                        </tr>
-
-                        <tr>
-                            <td>Thứ 2</td>
-                            <td>Toán</td>
-                            <td>Văn</td>
-                            <td>Anh</td>
-                            <td>Lý</td>
-                            <td>Hóa</td>
-                        </tr>
-
-                        <tr>
-                            <td>Thứ 3</td>
-                            <td>Anh</td>
-                            <td>Toán</td>
-                            <td>Hóa</td>
-                            <td>Văn</td>
-                            <td>Sinh</td>
-                        </tr>
-
-                        <tr>
-                            <td>Thứ 4</td>
-                            <td>Lý</td>
-                            <td>Toán</td>
-                            <td>Anh</td>
-                            <td>Văn</td>
-                            <td>GDCD</td>
-                        </tr>
-
-                        <tr>
-                            <td>Thứ 5</td>
-                            <td>Toán</td>
-                            <td>Hóa</td>
-                            <td>Văn</td>
-                            <td>Anh</td>
-                            <td>Tin</td>
-                        </tr>
-
-                    </table>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- ===== ANNOUNCEMENTS ===== -->
-
-        <section
-            id="announcements"
-            class="page">
-
-            <div class="content">
-
-                <div class="title">
-
-                    <h2>📢 Thông báo</h2>
-
-                    <p>
-                        Những thông tin mới nhất của lớp
-                    </p>
-
-                </div>
-
-
-                <div class="announcement">
-
-                    <h3>🎉 Chào mừng đến với website lớp</h3>
-
-                    <p>
-                        Website chính thức của 10 Toán 1
-                        đã được xây dựng.
-                    </p>
-
-                </div>
-
-
-                <div class="announcement">
-
-                    <h3>📚 Thông báo học tập</h3>
-
-                    <p>
-                        Nội dung thông báo mới sẽ được
-                        cập nhật tại đây.
-                    </p>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- ===== ABOUT ===== -->
-
-        <section
-            id="about"
-            class="page">
-
-            <div class="content">
-
-                <div class="title">
-
-                    <h2>ℹ️ Về lớp</h2>
-
-                    <p>
-                        10 Toán 1
-                    </p>
-
-                </div>
-
-
-                <div class="cards">
-
-                    <div class="card">
-
-                        <div class="icon">
-                            🎯
-                        </div>
-
-                        <h3>Mục tiêu</h3>
-
-                        <p>
-                            Cùng nhau học tập và phát triển,
-                            hướng tới những kết quả tốt nhất.
-                        </p>
-
-                    </div>
-
-
-                    <div class="card">
-
-                        <div class="icon">
-                            🤝
-                        </div>
-
-                        <h3>Đoàn kết</h3>
-
-                        <p>
-                            Mỗi thành viên đều góp phần
-                            tạo nên một tập thể vững mạnh.
-                        </p>
-
-                    </div>
-
-
-                    <div class="card">
-
-                        <div class="icon">
-                            ❤️
-                        </div>
-
-                        <h3>Kỷ niệm</h3>
-
-                        <p>
                             Lưu giữ những khoảnh khắc
                             đáng nhớ của tuổi học trò.
                         </p>
 
                     </div>
 
+
                 </div>
 
             </div>
 
         </section>
 
+
     </main>
 
 
     <!-- ================= JAVASCRIPT ================= -->
 
-    <script>
+    <!--
+        PHẢI LOAD data.js TRƯỚC script.js
+    -->
 
-        function showPage(pageId, button) {
+    <script src="data.js"></script>
 
-            // Ẩn tất cả các trang
-            const pages = document.querySelectorAll(".page");
+    <script src="script.js"></script>
 
-            pages.forEach(page => {
-                page.classList.remove("active");
-            });
-
-
-            // Hiện trang được chọn
-            const selectedPage =
-                document.getElementById(pageId);
-
-            selectedPage.classList.add("active");
-
-
-            // Xóa trạng thái active của menu
-            const buttons =
-                document.querySelectorAll(".menu button");
-
-            buttons.forEach(btn => {
-                btn.classList.remove("active");
-            });
-
-
-            // Đánh dấu menu hiện tại
-            if (button) {
-                button.classList.add("active");
-            }
-        }
-
-
-        function showPageById(pageId) {
-
-            const buttons =
-                document.querySelectorAll(".menu button");
-
-            const pageNames =
-                ["home", "members", "schedule", "announcements", "about"];
-
-            const index =
-                pageNames.indexOf(pageId);
-
-            showPage(
-                pageId,
-                buttons[index]
-            );
-        }
-
-    </script>
 
 </body>
+
 </html>
