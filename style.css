@@ -977,7 +977,7 @@ footer div:last-child {
 .member-header h1 { font-size: 36px; font-weight: 800; color: #17182d; }
 .member-header p { color: #624cff; font-weight: 600; font-size: 14px; margin-top: 6px; }
 
-/* Sửa lại thanh lọc và ô tìm kiếm thành viên */
+/* --- Sửa lại thanh lọc và ô tìm kiếm thành viên --- */
 .members-filter-bar {
   display: flex;
   justify-content: space-between;
@@ -1003,6 +1003,7 @@ footer div:last-child {
   width: 260px !important;
   height: 40px !important;
   box-sizing: border-box !important;
+  color: #17182d !important;
 }
 
 .search-box input:focus {
