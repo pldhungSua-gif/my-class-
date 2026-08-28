@@ -7,7 +7,308 @@
     <title>10 Toán 1</title>
 
     <style>
-        * {
+        * {<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>10 TOÁN 1</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- ================= HEADER ================= -->
+
+    <header>
+
+        <nav class="navbar">
+
+            <div class="logo" id="className">
+                10 TOÁN 1
+            </div>
+
+            <ul class="menu">
+
+                <li>
+                    <button
+                        class="nav-button active"
+                        data-page="home">
+                        Trang chủ
+                    </button>
+                </li>
+
+                <li>
+                    <button
+                        class="nav-button"
+                        data-page="members">
+                        Thành viên
+                    </button>
+                </li>
+
+                <li>
+                    <button
+                        class="nav-button"
+                        data-page="schedule">
+                        Thời khóa biểu
+                    </button>
+                </li>
+
+                <li>
+                    <button
+                        class="nav-button"
+                        data-page="announcements">
+                        Thông báo
+                    </button>
+                </li>
+
+                <li>
+                    <button
+                        class="nav-button"
+                        data-page="about">
+                        Về lớp
+                    </button>
+                </li>
+
+            </ul>
+
+        </nav>
+
+    </header>
+
+
+    <!-- ================= CÁC TRANG ================= -->
+
+    <main class="slider">
+
+
+        <!-- TRANG CHỦ -->
+
+        <section
+            id="home"
+            class="page active">
+
+            <div class="home-content">
+
+                <div class="welcome">
+                    ✨ WEBSITE CHÍNH THỨC
+                </div>
+
+                <h1>
+                    Chào mừng đến với
+                    <span id="homeClassName">
+                        10 TOÁN 1
+                    </span>
+                </h1>
+
+                <p id="homeDescription">
+                    Nơi chúng ta cùng học tập,
+                    chia sẻ và lưu giữ những kỷ niệm.
+                </p>
+
+                <button
+                    class="start-button"
+                    data-go="members">
+
+                    Khám phá lớp →
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- THÀNH VIÊN -->
+
+        <section
+            id="members"
+            class="page">
+
+            <div class="content">
+
+                <div class="title">
+
+                    <h2>👥 Thành viên</h2>
+
+                    <p>
+                        Thành viên của lớp
+                    </p>
+
+                </div>
+
+                <div
+                    class="members"
+                    id="membersList">
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- THỜI KHÓA BIỂU -->
+
+        <section
+            id="schedule"
+            class="page">
+
+            <div class="content">
+
+                <div class="title">
+
+                    <h2>📅 Thời khóa biểu</h2>
+
+                    <p>
+                        Lịch học của lớp
+                    </p>
+
+                </div>
+
+                <div class="schedule">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+                                <th>Thứ</th>
+                                <th>Tiết 1</th>
+                                <th>Tiết 2</th>
+                                <th>Tiết 3</th>
+                                <th>Tiết 4</th>
+                                <th>Tiết 5</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody
+                            id="scheduleBody">
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- THÔNG BÁO -->
+
+        <section
+            id="announcements"
+            class="page">
+
+            <div class="content">
+
+                <div class="title">
+
+                    <h2>📢 Thông báo</h2>
+
+                    <p>
+                        Những thông tin mới nhất
+                    </p>
+
+                </div>
+
+                <div
+                    id="announcementList">
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- VỀ LỚP -->
+
+        <section
+            id="about"
+            class="page">
+
+            <div class="content">
+
+                <div class="title">
+
+                    <h2>ℹ️ Về lớp</h2>
+
+                    <p id="aboutClassName">
+                        10 TOÁN 1
+                    </p>
+
+                </div>
+
+                <div class="cards">
+
+                    <div class="card">
+
+                        <div class="icon">
+                            🎯
+                        </div>
+
+                        <h3>Mục tiêu</h3>
+
+                        <p id="goal">
+                            Cùng nhau học tập và phát triển.
+                        </p>
+
+                    </div>
+
+
+                    <div class="card">
+
+                        <div class="icon">
+                            🤝
+                        </div>
+
+                        <h3>Đoàn kết</h3>
+
+                        <p id="unity">
+                            Cùng nhau xây dựng một tập thể
+                            vững mạnh.
+                        </p>
+
+                    </div>
+
+
+                    <div class="card">
+
+                        <div class="icon">
+                            ❤️
+                        </div>
+
+                        <h3>Kỷ niệm</h3>
+
+                        <p id="memory">
+                            Lưu giữ những khoảnh khắc
+                            đáng nhớ.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ================= JAVASCRIPT ================= -->
+
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+
+</body>
+
+</html>
             margin: 0;
             padding: 0;
             box-sizing: border-box;
