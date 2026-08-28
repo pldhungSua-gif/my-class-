@@ -1,165 +1,169 @@
 /* =================================================
-THÔNG TIN LỚP
+   DỮ LIỆU WEBSITE 10 TOÁN 1
 ================================================= */
+
+
+/* ================= THÔNG TIN LỚP ================= */
 
 const classInfo = {
 
-```
-name: "10 TOÁN 1",
+    name: "10 TOÁN 1",
 
-description:
-    "Nơi chúng ta cùng học tập, chia sẻ và lưu giữ những kỷ niệm.",
+    description:
+        "Nơi chúng ta cùng học tập, chia sẻ và lưu giữ những kỷ niệm.",
 
-goal:
-    "Cùng nhau học tập, tiến bộ và đạt được những mục tiêu đã đề ra.",
+    goal:
+        "Cùng nhau học tập, tiến bộ và đạt được những mục tiêu đã đề ra.",
 
-unity:
-    "Cùng nhau xây dựng một tập thể đoàn kết, vui vẻ và vững mạnh.",
+    unity:
+        "Cùng nhau xây dựng một tập thể đoàn kết, vui vẻ và vững mạnh.",
 
-memory:
-    "Lưu giữ những khoảnh khắc đáng nhớ của tuổi học trò."
-```
+    memory:
+        "Lưu giữ những khoảnh khắc đáng nhớ của tuổi học trò."
 
 };
 
-/* =================================================
-DANH SÁCH THÀNH VIÊN
-================================================= */
+
+/* ================= THÀNH VIÊN ================= */
 
 const members = [
 
-```
-{
-    name: "Nguyễn Văn A",
-    role: "Học sinh",
-    score: 95
-},
+    {
+        id: 1,
+        name: "Nguyễn Văn A",
+        username: "nguyenvana",
+        role: "Học sinh",
+        score: 95
+    },
 
-{
-    name: "Trần Văn B",
-    role: "Học sinh",
-    score: 92
-},
+    {
+        id: 2,
+        name: "Trần Thị B",
+        username: "tranthib",
+        role: "Học sinh",
+        score: 92
+    },
 
-{
-    name: "Lê Văn C",
-    role: "Học sinh",
-    score: 90
-},
+    {
+        id: 3,
+        name: "Lê Văn C",
+        username: "levanc",
+        role: "Học sinh",
+        score: 89
+    },
 
-{
-    name: "Phạm Văn D",
-    role: "Học sinh",
-    score: 88
-},
+    {
+        id: 4,
+        name: "Phạm Thị D",
+        username: "phamthid",
+        role: "Học sinh",
+        score: 87
+    },
 
-{
-    name: "Hoàng Văn E",
-    role: "Học sinh",
-    score: 85
-},
+    {
+        id: 5,
+        name: "Hoàng Văn E",
+        username: "hoangvane",
+        role: "Học sinh",
+        score: 84
+    },
 
-{
-    name: "Đỗ Văn F",
-    role: "Học sinh",
-    score: 82
-}
-```
+    {
+        id: 6,
+        name: "Võ Thị F",
+        username: "vothif",
+        role: "Học sinh",
+        score: 81
+    }
 
 ];
 
-/* =================================================
-THỜI KHÓA BIỂU
-================================================= */
+
+/* ================= THỜI KHÓA BIỂU ================= */
 
 const schedule = [
 
-```
-{
-    day: "Thứ 2",
-    lessons: [
-        "Toán",
-        "Ngữ văn",
-        "Tiếng Anh",
-        "Vật lý",
-        "Sinh học"
-    ]
-},
+    {
+        day: "Thứ 2",
+        lessons: [
+            "Toán",
+            "Ngữ văn",
+            "Tiếng Anh",
+            "Vật lý",
+            "Sinh học"
+        ]
+    },
 
-{
-    day: "Thứ 3",
-    lessons: [
-        "Ngữ văn",
-        "Toán",
-        "Hóa học",
-        "Tiếng Anh",
-        "Thể dục"
-    ]
-},
+    {
+        day: "Thứ 3",
+        lessons: [
+            "Ngữ văn",
+            "Toán",
+            "Hóa học",
+            "Tiếng Anh",
+            "Tin học"
+        ]
+    },
 
-{
-    day: "Thứ 4",
-    lessons: [
-        "Toán",
-        "Vật lý",
-        "Ngữ văn",
-        "Tin học",
-        "Tiếng Anh"
-    ]
-},
+    {
+        day: "Thứ 4",
+        lessons: [
+            "Toán",
+            "Vật lý",
+            "Ngữ văn",
+            "Lịch sử",
+            "Địa lý"
+        ]
+    },
 
-{
-    day: "Thứ 5",
-    lessons: [
-        "Tiếng Anh",
-        "Toán",
-        "Hóa học",
-        "Ngữ văn",
-        "GDCD"
-    ]
-},
+    {
+        day: "Thứ 5",
+        lessons: [
+            "Tiếng Anh",
+            "Toán",
+            "Tin học",
+            "Hóa học",
+            "GDCD"
+        ]
+    },
 
-{
-    day: "Thứ 6",
-    lessons: [
-        "Toán",
-        "Sinh học",
-        "Tiếng Anh",
-        "Vật lý",
-        "Tin học"
-    ]
-}
-```
+    {
+        day: "Thứ 6",
+        lessons: [
+            "Toán",
+            "Ngữ văn",
+            "Tiếng Anh",
+            "Thể dục",
+            "Sinh hoạt"
+        ]
+    }
 
 ];
 
-/* =================================================
-THÔNG BÁO
-================================================= */
+
+/* ================= THÔNG BÁO ================= */
 
 const announcements = [
 
-```
-{
-    title: "Chào mừng đến với website lớp",
-    date: "28/08/2026",
-    content:
-        "Chào mừng tất cả thành viên đến với website chính thức của lớp 10 TOÁN 1."
-},
+    {
+        title: "Chào mừng đến với website lớp",
+        content:
+            "Website lớp 10 TOÁN 1 đã được xây dựng để hỗ trợ việc học tập và lưu giữ những hoạt động của lớp.",
+        date: "28/08/2026"
+    },
 
-{
-    title: "Đăng ký tài khoản học sinh",
-    date: "28/08/2026",
-    content:
-        "Các bạn có thể tạo tài khoản để đăng nhập và theo dõi thành tích của mình."
-},
+    {
+        title: "Đăng ký tài khoản học sinh",
+        content:
+            "Các thành viên có thể đăng ký tài khoản để sử dụng các tính năng dành cho học sinh.",
+        date: "28/08/2026"
+    },
 
-{
-    title: "Bảng xếp hạng",
-    date: "28/08/2026",
-    content:
-        "Bảng xếp hạng được sắp xếp dựa trên tổng điểm thành tích của học sinh."
-}
-```
+    {
+        title: "Bảng xếp hạng",
+        content:
+            "Thành tích của các thành viên sẽ được hiển thị trên bảng xếp hạng.",
+        date: "28/08/2026"
+    }
 
 ];
