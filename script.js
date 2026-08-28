@@ -93,7 +93,7 @@ function rankingPage() {
 
   return layout(
     "Bảng xếp hạng",
-    "Điểm thi đua = học tốt + hành xử đẹp + tích cực.",
+    "",
     rulesHTML +
     "<div class='podium'>" +
       sorted.slice(0, 3).map((m, i) => `
