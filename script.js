@@ -63,14 +63,7 @@ function membersPage() {
       </div>
     </div>
 
-    <!-- Khung chứa danh sách thành viên -->
-    <div id="membersListContainer">
-      ${renderMembersList()}
-    </div>
-  `);
-}
-
-// 2. Xử lý khi gõ vào ô tìm kiếm
+  // 2. Xử lý khi gõ vào ô tìm kiếm
 function handleSearchMembers(keyword) {
   memberSearchKeyword = keyword.trim().toLowerCase();
   const container = document.getElementById('membersListContainer');
@@ -93,10 +86,9 @@ function filterMemberRole(role, btn) {
 
 // 4. Hàm lọc và xuất HTML danh sách thành viên
 function renderMembersList() {
-  // Lọc theo từ khóa tìm kiếm và vai trò
-  const filtered = membersData.filter(m => {
-    const matchesSearch = m.name.toLowerCase().includes(memberSearchKeyword);
-    const isBCS = m.role && m.role !== 'Thành viên';
+  const filtered = members.filter(m => {
+    const matchesSearch = m[0].toLowerCase().includes(memberSearchKeyword);
+    const isBCS = m[3] && m[3] !== 'Thành viên';
     
     if (currentMemberRoleFilter === 'bcs') return matchesSearch && isBCS;
     if (currentMemberRoleFilter === 'member') return matchesSearch && !isBCS;
@@ -104,24 +96,51 @@ function renderMembersList() {
   });
 
   if (filtered.length === 0) {
-    return `<p style="text-align:center; color:#888; padding: 40px 0;">Không tìm thấy thành viên nào phù hợp.</p>`;
+    return `<p style="text-align:center; color:#888; padding: 40px 0; width:100%;">Không tìm thấy thành viên nào phù hợp.</p>`;
   }
 
-  // Tách danh sách thành Ban cán sự và Thành viên thường
-  const bcsList = filtered.filter(m => m.role && m.role !== 'Thành viên');
-  const memberList = filtered.filter(m => !m.role || m.role === 'Thành viên');
+  const bcsList = filtered.filter(m => m[3] && m[3] !== 'Thành viên');
+  const memberList = filtered.filter(m => !m[3] || m[3] === 'Thành viên');
 
   let html = '';
 
-  // Nhóm Ban cán sự
   if (bcsList.length > 0 && currentMemberRoleFilter !== 'member') {
     html += `
-      <h3 style="margin: 20px 0 12px; font-weight: 800; color: #17182d;">| Ban cán sự</h3>
-      <div class="members-grid">
+      <h3 style="margin: 20px 0 12px; font-weight: 800; color: #17182d; width: 100%;">| Ban cán sự</h3>
+      <div class="grid-3">
         ${bcsList.map(m => renderMemberCard(m)).join('')}
       </div>
     `;
   }
+
+  if (memberList.length > 0 && currentMemberRoleFilter !== 'bcs') {
+    html += `
+      <h3 style="margin: 24px 0 12px; font-weight: 800; color: #17182d; width: 100%;">| Thành viên</h3>
+      <div class="grid-3">
+        ${memberList.map(m => renderMemberCard(m)).join('')}
+      </div>
+    `;
+  }
+
+  return html;
+}
+
+// 5. Thẻ hiển thị từng thành viên
+function renderMemberCard(m) {
+  const index = members.indexOf(m);
+  return `
+    <div class="card member-card" onclick="location.hash='member-${index}'">
+      <div style="display:flex; align-items:center; gap:12px;">
+        <div class="avatar">${initials(m[0])}</div>
+        <div class="grow">
+          <b>${m[0]}</b>
+          <small>${m[3] || 'Thành viên'}</small>
+        </div>
+        <div class="score" style="font-weight: 800;">${m[2]} điểm</div>
+      </div>
+    </div>
+  `;
+}
 
   // Nhóm Thành viên
   if (memberList.length > 0 && currentMemberRoleFilter !== 'bcs') {
