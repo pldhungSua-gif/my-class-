@@ -30,9 +30,83 @@ function membersPage(){
 }
 function memberCard(m){return `<div class="member card"><div class="avatar big">${initials(m[0])}</div><div><h3>${m[0]}</h3><small>${m[1]} · ${m[3]}</small></div><div class="member-score">${m[2]}<small> điểm</small></div></div>`}
 
-function rankingPage(){
- const sorted=[...members].sort((a,b)=>b[2]-a[2]);
- return layout("Bảng xếp hạng","Điểm thi đua = học tốt + hành xử đẹp + tích cực.","<div class='podium'>"+sorted.slice(0,3).map((m,i)=>`<div class="podium-item p${i}"><div class="avatar xl">${initials(m[0])}</div><b>#${i+1}</b><h3>${m[0]}</h3><strong>${m[2]} điểm</strong></div>`).join("")+"</div><div class='card table-card'>"+sorted.map((m,i)=>rankRow(m,i+1)).join("")+"</div>");
+function rankingPage() {
+  const sorted = [...members].sort((a, b) => b[2] - a[2]);
+  
+  // Nút bấm/dòng chữ "Cách tính điểm" & Khung ẩn/hiện Quy định cộng trừ điểm
+  const rulesHTML = `
+    <div style="text-align: right; margin-bottom: 15px;">
+      <button class="text-btn" onclick="document.getElementById('rulesBox').classList.toggle('hidden')" style="cursor: pointer; font-size: 13px; display: inline-flex; align-items: center; gap: 4px;">
+        📘 Cách tính điểm
+      </button>
+    </div>
+
+    <!-- Khung Quy định Cộng & Trừ điểm (Mặc định Ẩn) -->
+    <div id="rulesBox" class="rules-container hidden">
+      <div class="rules-card plus">
+        <h3>➕ Danh Mục Cộng Điểm</h3>
+        <ul>
+          <li><strong>• Tham gia HSGQG:</strong> Đạt giải / Tham gia đội tuyển thi Học sinh giỏi Quốc gia.</li>
+          <li><strong>• HSGKV:</strong> Đạt giải các kỳ thi Học sinh giỏi Khu vực (Duyên hải, 30/4,...).</li>
+          <li><strong>• HD CLB:</strong> Ban chủ nhiệm, thành viên đóng góp tích cực cho CLB.</li>
+          <li><strong>• Các cuộc thi khác:</strong> Cuộc thi KHKT, Tin học trẻ, Thể thao, Văn nghệ...</li>
+        </ul>
+      </div>
+
+      <div class="rules-card minus">
+        <h3>➖ Danh Mục Trừ Điểm</h3>
+        <ul>
+          <li><strong>• Vi phạm tác phong:</strong> Đồng phục không đúng, thiếu thẻ học sinh, tóc tai vi phạm quy định.</li>
+          <li><strong>• Luật:</strong> Đi trễ, mất trật tự, dùng điện thoại trong giờ học, vi phạm quy định nhà trường.</li>
+        </ul>
+      </div>
+    </div>
+  `;
+
+  // Bảng Xếp Hạng hiển thị chi tiết Điểm Cộng - Điểm Trừ - Tổng Điểm theo Hình 2
+  const tableHTML = `
+    <div class="card table-card" style="padding: 0; overflow: hidden; border-radius: 16px;">
+      <table style="width: 100%; border-collapse: collapse; text-align: left;">
+        <thead>
+          <tr style="background: #0d624d; color: #fff;">
+            <th style="padding: 14px 16px; font-weight: 700;">Hạng</th>
+            <th style="padding: 14px 16px; font-weight: 700;">Họ và Tên <small style="font-weight: 400; opacity: 0.8;">(Nhấp vào tên để xem lý do)</small></th>
+            <th style="padding: 14px 16px; font-weight: 700; text-align: center;">Điểm Cộng</th>
+            <th style="padding: 14px 16px; font-weight: 700; text-align: center;">Điểm Trừ</th>
+            <th style="padding: 14px 16px; font-weight: 700; text-align: right;">Tổng Điểm</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${sorted.map((m, i) => `
+            <tr style="border-bottom: 1px solid #f0f0f5; background: ${i % 2 === 0 ? '#ffffff' : '#fcfcfd'};">
+              <td style="padding: 14px 16px; font-weight: 700; color: #555;">${i + 1}</td>
+              <td style="padding: 14px 16px; font-weight: 800; color: #2563eb;">${m[0]}</td>
+              <td style="padding: 14px 16px; text-align: center; color: #2ecc71; font-weight: 700;">+${m[4] || 0}</td>
+              <td style="padding: 14px 16px; text-align: center; color: #e74c3c; font-weight: 700;">${m[5] || 0}</td>
+              <td style="padding: 14px 16px; text-align: right; font-weight: 900; color: #17182d; font-size: 15px;">${m[2]}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+
+  return layout(
+    "Bảng xếp hạng",
+    "Điểm thi đua = học tốt + hành xử đẹp + tích cực.",
+    rulesHTML +
+    "<div class='podium'>" +
+      sorted.slice(0, 3).map((m, i) => `
+        <div class="podium-item p${i}">
+          <div class="avatar xl">${initials(m[0])}</div>
+          <b>#${i + 1}</b>
+          <h3>${m[0]}</h3>
+          <strong>${m[2]} điểm</strong>
+        </div>
+      `).join("") +
+    "</div>" + 
+    tableHTML
+  );
 }
 function announcementsPage(){
  return layout("Thông báo","Có chuyện gì mới? Vào đây là biết ngay.","<div class='news-list'>"+announcements.map(a=>`<article class='news card'><span class='tag'>${a.tag}</span><div><small>${a.date}</small><h2>${a.title}</h2><p>${a.text}</p></div></article>`).join("")+"</div>");
