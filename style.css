@@ -1059,3 +1059,120 @@ footer div:last-child {
   margin-bottom: 8px;
 }
 .member-score-v2 { font-size: 11px; font-weight: 700; color: #624cff; }
+/* Toolbar cho trang Thông báo */
+.announcement-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.sub-tab-group {
+  display: flex;
+  gap: 10px;
+}
+
+.sub-tab-btn {
+  padding: 10px 20px;
+  border-radius: 20px;
+  border: none;
+  background: #f0efff;
+  color: #624cff;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sub-tab-btn.active {
+  background: #624cff;
+  color: #ffffff;
+}
+
+/* Các thẻ filter bên phải */
+.filter-pills {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.pill-btn {
+  padding: 6px 14px;
+  border-radius: 16px;
+  border: none;
+  background: #f0efff;
+  color: #624cff;
+  font-weight: 700;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.pill-btn.active {
+  background: #624cff;
+  color: #ffffff;
+}
+
+/* Khung hiển thị thẻ thông báo */
+.announcement-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.announcement-card {
+  background: #fbfbfe;
+  border: 1px solid #e2d9ff;
+  border-radius: 16px;
+  padding: 20px 24px;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.announcement-card:hover {
+  border-color: #624cff;
+  box-shadow: 0 4px 16px rgba(98, 76, 255, 0.08);
+}
+
+.announcement-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: #17182d;
+  margin-bottom: 8px;
+  padding-right: 100px;
+}
+
+.announcement-desc {
+  font-size: 13.5px;
+  color: #4b5563;
+  line-height: 1.5;
+  margin-bottom: 14px;
+}
+
+.announcement-date {
+  font-size: 12px;
+  color: #624cff;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Badge loại thông báo ở góc trên bên phải */
+.ann-badge {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.ann-badge.quan-trong { background: #ffe8e8; color: #ff4d4d; }
+.ann-badge.hop-lop { background: #e6f0ff; color: #2563eb; }
+.ann-badge.bai-tap { background: #fff8e6; color: #d97706; }
+.ann-badge.thong-bao { background: #f0efff; color: #624cff; }
