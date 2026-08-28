@@ -1,0 +1,539 @@
+/* =================================================
+   CÀI ĐẶT CHUNG
+================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f5f7fb;
+    color: #1f2937;
+}
+
+
+/* =================================================
+   HEADER
+================================================= */
+
+header {
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 72px;
+
+    z-index: 1000;
+
+    background: rgba(255, 255, 255, 0.92);
+
+    backdrop-filter: blur(15px);
+
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.navbar {
+    max-width: 1200px;
+
+    height: 100%;
+
+    margin: auto;
+
+    padding: 0 25px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+}
+
+.logo {
+    font-size: 24px;
+
+    font-weight: 900;
+
+    color: #2563eb;
+
+    white-space: nowrap;
+}
+
+
+/* =================================================
+   MENU
+================================================= */
+
+.menu {
+    display: flex;
+
+    gap: 8px;
+
+    list-style: none;
+}
+
+.nav-button {
+    border: none;
+
+    background: transparent;
+
+    padding: 10px 15px;
+
+    border-radius: 10px;
+
+    font-size: 15px;
+
+    font-weight: 700;
+
+    color: #4b5563;
+
+    cursor: pointer;
+
+    transition: 0.25s;
+}
+
+.nav-button:hover {
+    background: #eff6ff;
+
+    color: #2563eb;
+}
+
+.nav-button.active {
+    background: #2563eb;
+
+    color: white;
+}
+
+
+/* =================================================
+   HỆ THỐNG TRANG
+================================================= */
+
+.slider {
+    width: 100%;
+
+    height: 100vh;
+
+    position: relative;
+}
+
+.page {
+    position: absolute;
+
+    width: 100%;
+
+    height: calc(100vh - 72px);
+
+    top: 72px;
+
+    left: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 40px 20px;
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    transform: translateX(100%);
+
+    transition:
+        transform 0.55s ease,
+        opacity 0.45s ease,
+        visibility 0.55s;
+}
+
+.page.active {
+    opacity: 1;
+
+    visibility: visible;
+
+    transform: translateX(0);
+}
+
+
+/* =================================================
+   TRANG CHỦ
+================================================= */
+
+#home {
+    text-align: center;
+
+    background:
+        radial-gradient(
+            circle at top left,
+            #dbeafe,
+            transparent 35%
+        ),
+
+        radial-gradient(
+            circle at bottom right,
+            #e0e7ff,
+            transparent 35%
+        ),
+
+        #f8fafc;
+}
+
+.home-content {
+    max-width: 850px;
+}
+
+.welcome {
+    display: inline-block;
+
+    padding: 8px 18px;
+
+    margin-bottom: 25px;
+
+    border-radius: 50px;
+
+    background: #dbeafe;
+
+    color: #2563eb;
+
+    font-weight: 700;
+}
+
+.home-content h1 {
+    font-size: clamp(45px, 7vw, 80px);
+
+    line-height: 1.05;
+
+    margin-bottom: 25px;
+
+    color: #111827;
+}
+
+.home-content h1 span {
+    display: block;
+
+    color: #2563eb;
+}
+
+.home-content p {
+    max-width: 650px;
+
+    margin: auto;
+
+    color: #6b7280;
+
+    font-size: 19px;
+
+    line-height: 1.7;
+}
+
+.start-button {
+    margin-top: 35px;
+
+    padding: 15px 28px;
+
+    border: none;
+
+    border-radius: 12px;
+
+    background: #2563eb;
+
+    color: white;
+
+    font-size: 16px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: 0.25s;
+}
+
+.start-button:hover {
+    transform: translateY(-3px);
+
+    background: #1d4ed8;
+}
+
+
+/* =================================================
+   CONTENT
+================================================= */
+
+.content {
+    width: min(1050px, 100%);
+
+    max-height: calc(100vh - 150px);
+
+    overflow-y: auto;
+
+    padding: 10px;
+}
+
+.title {
+    text-align: center;
+
+    margin-bottom: 40px;
+}
+
+.title h2 {
+    font-size: 42px;
+
+    margin-bottom: 10px;
+
+    color: #111827;
+}
+
+.title p {
+    color: #6b7280;
+}
+
+
+/* =================================================
+   THÀNH VIÊN
+================================================= */
+
+.members {
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fit, minmax(180px, 1fr));
+
+    gap: 18px;
+}
+
+.member {
+    background: white;
+
+    padding: 25px;
+
+    text-align: center;
+
+    border-radius: 16px;
+
+    border: 1px solid #e5e7eb;
+
+    transition: 0.25s;
+}
+
+.member:hover {
+    transform: translateY(-5px);
+
+    box-shadow:
+        0 15px 30px rgba(0, 0, 0, 0.08);
+}
+
+.avatar {
+    width: 65px;
+
+    height: 65px;
+
+    margin: auto;
+
+    margin-bottom: 12px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #dbeafe;
+
+    font-size: 25px;
+}
+
+.member p {
+    color: #6b7280;
+
+    margin-top: 5px;
+
+    font-size: 14px;
+}
+
+
+/* =================================================
+   THỜI KHÓA BIỂU
+================================================= */
+
+.schedule {
+    background: white;
+
+    border-radius: 18px;
+
+    overflow: auto;
+
+    border: 1px solid #e5e7eb;
+}
+
+table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    min-width: 700px;
+}
+
+th,
+td {
+    padding: 16px;
+
+    text-align: center;
+
+    border-bottom: 1px solid #e5e7eb;
+}
+
+th {
+    background: #eff6ff;
+
+    color: #1d4ed8;
+}
+
+
+/* =================================================
+   THÔNG BÁO
+================================================= */
+
+.announcement {
+    background: white;
+
+    padding: 25px 30px;
+
+    border-radius: 18px;
+
+    border-left: 5px solid #2563eb;
+
+    margin-bottom: 15px;
+
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.05);
+}
+
+.announcement h3 {
+    margin-bottom: 8px;
+}
+
+.announcement p {
+    color: #6b7280;
+
+    line-height: 1.6;
+}
+
+
+/* =================================================
+   CARD
+================================================= */
+
+.cards {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 22px;
+}
+
+.card {
+    background: white;
+
+    padding: 30px;
+
+    border-radius: 18px;
+
+    border: 1px solid #e5e7eb;
+
+    transition: 0.25s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+
+    box-shadow:
+        0 15px 35px rgba(0, 0, 0, 0.08);
+}
+
+.icon {
+    width: 55px;
+
+    height: 55px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 14px;
+
+    background: #eff6ff;
+
+    font-size: 27px;
+
+    margin-bottom: 18px;
+}
+
+.card h3 {
+    margin-bottom: 10px;
+}
+
+.card p {
+    color: #6b7280;
+
+    line-height: 1.6;
+}
+
+
+/* =================================================
+   MOBILE
+================================================= */
+
+@media (max-width: 800px) {
+
+    .navbar {
+        padding: 0 10px;
+    }
+
+    .logo {
+        font-size: 18px;
+    }
+
+    .menu {
+        gap: 2px;
+    }
+
+    .nav-button {
+        padding: 8px;
+
+        font-size: 11px;
+    }
+
+    .home-content h1 {
+        font-size: 50px;
+    }
+
+    .title h2 {
+        font-size: 32px;
+    }
+
+    .cards {
+        grid-template-columns: 1fr;
+    }
+
+    .page {
+        padding: 25px 15px;
+    }
+}
