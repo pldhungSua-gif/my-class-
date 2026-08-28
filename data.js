@@ -1,5 +1,5 @@
 const members = [
-  ["Lê Ngọc Xuân Ngà", "10T1-01", 100, "Thành viên"],
+  ["Lê Ngọc Xuân Ngà", "10T1-01", 100, "Lớp phó học tập"],
   ["Nguyễn Duy Khoa", "10T1-02", 100, "Thành viên"],
   ["Nguyễn Minh Duy", "10T1-03", 100, "Thành viên"],
   ["Hồ Ngọc Hải", "10T1-04", 100, "Thành viên"],
@@ -22,7 +22,7 @@ const members = [
   ["Lê Trần Khánh Hưng", "10T1-21", 100, "Thành viên"],
   ["Phạm Nhật Huy", "10T1-22", 100, "Thành viên"],
   ["Bùi Minh Phú", "10T1-23", 100, "Thành viên"],
-  ["Nguyễn Phú Bình", "10T1-24", 100, "Thành viên"],
+  ["Nguyễn Phú Bình", "10T1-24", 100, "Lớp trưởng"],
   ["Nguyễn Tấn Minh", "10T1-25", 100, "Thành viên"],
   ["Võ Gia Bảo", "10T1-26", 100, "Thành viên"],
   ["Phan Thị Minh Hằng", "10T1-27", 100, "Thành viên"],
