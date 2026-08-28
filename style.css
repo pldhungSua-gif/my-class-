@@ -78,7 +78,7 @@ header {
 .menu {
     display: flex;
 
-    gap: 5px;
+    gap: 6px;
 
     list-style: none;
 
