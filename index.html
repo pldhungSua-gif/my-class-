@@ -1,13 +1,604 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Class</title>
+
+    <title>Lớp chúng mình</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f7fb;
+            color: #1f2937;
+        }
+
+        /* ================= HEADER ================= */
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .navbar {
+            max-width: 1150px;
+            margin: auto;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 800;
+            color: #2563eb;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #374151;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: #2563eb;
+        }
+
+        /* ================= HERO ================= */
+
+        .hero {
+            min-height: 570px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 80px 20px;
+
+            background:
+                radial-gradient(circle at top left, #dbeafe, transparent 35%),
+                radial-gradient(circle at bottom right, #e0e7ff, transparent 35%),
+                #f8fafc;
+        }
+
+        .hero-content {
+            max-width: 800px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 50px;
+            background: #dbeafe;
+            color: #2563eb;
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            font-size: clamp(42px, 7vw, 76px);
+            line-height: 1.05;
+            margin-bottom: 25px;
+            color: #111827;
+        }
+
+        .hero h1 span {
+            color: #2563eb;
+        }
+
+        .hero p {
+            font-size: 19px;
+            line-height: 1.7;
+            color: #6b7280;
+            max-width: 650px;
+            margin: auto;
+        }
+
+        .hero-buttons {
+            margin-top: 35px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 14px 24px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: 0.25s;
+        }
+
+        .btn-primary {
+            background: #2563eb;
+            color: white;
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            background: #1d4ed8;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #374151;
+            border: 1px solid #d1d5db;
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            border-color: #2563eb;
+            color: #2563eb;
+        }
+
+        /* ================= GENERAL ================= */
+
+        section {
+            padding: 90px 20px;
+        }
+
+        .container {
+            max-width: 1150px;
+            margin: auto;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title h2 {
+            font-size: 36px;
+            margin-bottom: 12px;
+            color: #111827;
+        }
+
+        .section-title p {
+            color: #6b7280;
+        }
+
+        /* ================= CARDS ================= */
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 30px;
+            border: 1px solid #e5e7eb;
+            transition: 0.25s;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+        }
+
+        .card-icon {
+            width: 55px;
+            height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            background: #eff6ff;
+            font-size: 26px;
+            margin-bottom: 20px;
+        }
+
+        .card h3 {
+            margin-bottom: 12px;
+            font-size: 21px;
+        }
+
+        .card p {
+            color: #6b7280;
+            line-height: 1.6;
+        }
+
+        /* ================= ABOUT ================= */
+
+        .about {
+            background: white;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .about-text h2 {
+            font-size: 40px;
+            margin-bottom: 20px;
+        }
+
+        .about-text p {
+            color: #6b7280;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .stat {
+            padding: 30px;
+            border-radius: 18px;
+            background: #f8fafc;
+            text-align: center;
+            border: 1px solid #e5e7eb;
+        }
+
+        .stat strong {
+            display: block;
+            font-size: 38px;
+            color: #2563eb;
+            margin-bottom: 5px;
+        }
+
+        .stat span {
+            color: #6b7280;
+        }
+
+        /* ================= ANNOUNCEMENT ================= */
+
+        .announcement {
+            background: #eff6ff;
+        }
+
+        .announcement-box {
+            background: white;
+            padding: 30px;
+            border-radius: 18px;
+            border-left: 5px solid #2563eb;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        .announcement-box h3 {
+            margin-bottom: 10px;
+        }
+
+        .announcement-box p {
+            color: #6b7280;
+            line-height: 1.7;
+        }
+
+        /* ================= FOOTER ================= */
+
+        footer {
+            background: #111827;
+            color: white;
+            padding: 45px 20px;
+        }
+
+        .footer-content {
+            max-width: 1150px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        footer p {
+            color: #9ca3af;
+        }
+
+        /* ================= MOBILE ================= */
+
+        @media (max-width: 800px) {
+
+            .nav-links {
+                display: none;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+
+            .hero {
+                min-height: 500px;
+            }
+
+            .hero p {
+                font-size: 17px;
+            }
+
+            .section-title h2 {
+                font-size: 30px;
+            }
+
+            .about-text h2 {
+                font-size: 32px;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <h1>Welcome to My Class!</h1>
-    <p>This is our class website.</p>
+
+    <!-- ================= HEADER ================= -->
+
+    <header>
+        <nav class="navbar">
+
+            <!-- ĐỔI TÊN LỚP Ở ĐÂY -->
+            <div class="logo">LỚP 9A1</div>
+
+            <ul class="nav-links">
+                <li><a href="#home">Trang chủ</a></li>
+                <li><a href="#about">Về lớp</a></li>
+                <li><a href="#features">Thông tin</a></li>
+                <li><a href="#announcement">Thông báo</a></li>
+            </ul>
+
+        </nav>
+    </header>
+
+
+    <!-- ================= HERO ================= -->
+
+    <main>
+
+        <section class="hero" id="home">
+
+            <div class="hero-content">
+
+                <div class="badge">
+                    ✨ Chào mừng đến với website lớp
+                </div>
+
+                <!-- ĐỔI TÊN LỚP Ở ĐÂY -->
+                <h1>
+                    Welcome to<br>
+                    <span>Class 9A1</span>
+                </h1>
+
+                <p>
+                    Nơi lưu giữ những khoảnh khắc, kỷ niệm
+                    và những câu chuyện đáng nhớ của lớp chúng mình.
+                </p>
+
+                <div class="hero-buttons">
+                    <a href="#about" class="btn btn-primary">
+                        Khám phá lớp →
+                    </a>
+
+                    <a href="#announcement" class="btn btn-secondary">
+                        Xem thông báo
+                    </a>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= ABOUT ================= -->
+
+        <section class="about" id="about">
+
+            <div class="container">
+
+                <div class="about-content">
+
+                    <div class="about-text">
+
+                        <h2>
+                            Chúng ta là một tập thể.
+                        </h2>
+
+                        <p>
+                            Mỗi thành viên đều là một phần quan trọng
+                            tạo nên tập thể lớp. Website này được tạo ra
+                            để mọi người có thể dễ dàng cập nhật thông tin
+                            và cùng lưu giữ những kỷ niệm của chúng ta.
+                        </p>
+
+                        <p>
+                            Cùng nhau học tập, cùng nhau vui chơi
+                            và cùng nhau tạo nên một năm học đáng nhớ!
+                        </p>
+
+                    </div>
+
+                    <div class="stats">
+
+                        <!-- SAU NÀY ĐỔI SỐ -->
+
+                        <div class="stat">
+                            <strong>40</strong>
+                            <span>Thành viên</span>
+                        </div>
+
+                        <div class="stat">
+                            <strong>1</strong>
+                            <span>Tập thể</span>
+                        </div>
+
+                        <div class="stat">
+                            <strong>∞</strong>
+                            <span>Kỷ niệm</span>
+                        </div>
+
+                        <div class="stat">
+                            <strong>❤️</strong>
+                            <span>Đoàn kết</span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= FEATURES ================= -->
+
+        <section id="features">
+
+            <div class="container">
+
+                <div class="section-title">
+
+                    <h2>Thông tin lớp</h2>
+
+                    <p>
+                        Những nội dung quan trọng dành cho các thành viên.
+                    </p>
+
+                </div>
+
+
+                <div class="cards">
+
+                    <div class="card">
+
+                        <div class="card-icon">👥</div>
+
+                        <h3>Thành viên</h3>
+
+                        <p>
+                            Xem danh sách các thành viên
+                            và thông tin của lớp.
+                        </p>
+
+                    </div>
+
+
+                    <div class="card">
+
+                        <div class="card-icon">📅</div>
+
+                        <h3>Thời khóa biểu</h3>
+
+                        <p>
+                            Theo dõi lịch học và những
+                            hoạt động sắp tới của lớp.
+                        </p>
+
+                    </div>
+
+
+                    <div class="card">
+
+                        <div class="card-icon">📚</div>
+
+                        <h3>Tài liệu</h3>
+
+                        <p>
+                            Tổng hợp tài liệu học tập,
+                            bài tập và những tài nguyên hữu ích.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= ANNOUNCEMENT ================= -->
+
+        <section class="announcement" id="announcement">
+
+            <div class="container">
+
+                <div class="section-title">
+
+                    <h2>📢 Thông báo</h2>
+
+                    <p>
+                        Những thông tin mới nhất của lớp.
+                    </p>
+
+                </div>
+
+
+                <div class="announcement-box">
+
+                    <h3>🎉 Chào mừng đến với website lớp!</h3>
+
+                    <p>
+                        Website lớp đã chính thức được xây dựng.
+                        Những thông báo mới sẽ được cập nhật tại đây.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        <div class="footer-content">
+
+            <div>
+                <strong>LỚP 9A1</strong>
+                <p>Học tập • Đoàn kết • Trưởng thành</p>
+            </div>
+
+            <p>
+                © 2026 Class Website
+            </p>
+
+        </div>
+
+    </footer>
+
 </body>
 </html>
