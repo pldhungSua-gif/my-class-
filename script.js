@@ -682,7 +682,7 @@ submit.onclick=()=>{
  if(register){localStorage.setItem("demoUser",JSON.stringify({user,pass,name:document.getElementById("registerName").value.trim()}));showToast("Đăng ký thành công 🎉");}
  else {const saved=JSON.parse(localStorage.getItem("demoUser")||"null"); if(!saved||saved.user!==user||saved.pass!==pass)return showToast("Sai tài khoản hoặc mật khẩu!"); showToast("Đăng nhập thành công 👋");}
  modal.classList.remove("show");
-};
+}
 // Hàm xóa thông báo theo chỉ số (index)
 function deleteAnnouncement(index) {
   if (confirm("Bạn có chắc chắn muốn xóa thông báo này không?")) {
@@ -699,4 +699,4 @@ function deleteEvent(index) {
     const container = document.getElementById('mainTabContentContainer');
     if (container) container.innerHTML = renderMainTabContent();
   }
-}
+};
