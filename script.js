@@ -25,11 +25,118 @@ function home(){
 }
 function rankRow(m,i){return `<div class="rank-row"><strong class="rank-no">${i}</strong><div class="avatar">${initials(m[0])}</div><div class="grow"><b>${m[0]}</b><small>${m[3]}</small></div><strong class="score">${m[2]}đ</strong></div>`}
 
-function membersPage(){
- return layout("Thành viên","Cùng nhau tạo nên một tập thể xịn sò.","<div class='toolbar'><input id='memberSearch' placeholder='🔎 Tìm tên thành viên...'></div><div id='memberGrid' class='member-grid'>"+members.map(memberCard).join("")+"</div>");
-}
-function memberCard(m){return `<div class="member card"><div class="avatar big">${initials(m[0])}</div><div><h3>${m[0]}</h3><small>${m[1]} · ${m[3]}</small></div><div class="member-score">${m[2]}<small> điểm</small></div></div>`}
+// Variable toàn cục lưu từ khóa tìm kiếm và bộ lọc hiện tại
+let memberSearchKeyword = '';
+let currentMemberRoleFilter = 'all';
 
+// 1. Hàm khởi tạo giao diện trang Thành viên
+function membersPage() {
+  return layout("Thành viên lớp", "Gặp gỡ 37 thành viên tuyệt vời của lớp 10 Toán 1", `
+    <div class="members-filter-bar">
+      <!-- Ô tìm kiếm gọi trực tiếp hàm xử lý -->
+      <div class="search-box">
+        <input 
+          type="text" 
+          id="memberSearchInput" 
+          placeholder="Tìm kiếm thành viên..." 
+          value="${memberSearchKeyword}"
+          oninput="handleSearchMembers(this.value)"
+        >
+      </div>
+
+      <!-- Nút lọc vai trò -->
+      <div class="filter-pills">
+        <button class="pill-btn ${currentMemberRoleFilter === 'all' ? 'active' : ''}" onclick="filterMemberRole('all', this)">Tất cả</button>
+        <button class="pill-btn ${currentMemberRoleFilter === 'bcs' ? 'active' : ''}" onclick="filterMemberRole('bcs', this)">Ban cán sự</button>
+        <button class="pill-btn ${currentMemberRoleFilter === 'member' ? 'active' : ''}" onclick="filterMemberRole('member', this)">Thành viên</button>
+      </div>
+    </div>
+
+    <!-- Khung chứa danh sách thẻ thành viên (Cần thiết để JS render) -->
+    <div id="membersListContainer">
+      ${renderMembersList()}
+    </div>
+  `);
+}
+
+// 2. Xử lý sự kiện gõ ô tìm kiếm
+function handleSearchMembers(keyword) {
+  memberSearchKeyword = keyword.trim().toLowerCase();
+  const container = document.getElementById('membersListContainer');
+  if (container) {
+    container.innerHTML = renderMembersList();
+  }
+}
+
+// 3. Xử lý bấm các nút lọc
+function filterMemberRole(role, btn) {
+  currentMemberRoleFilter = role;
+  document.querySelectorAll('.members-filter-bar .pill-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  
+  const container = document.getElementById('membersListContainer');
+  if (container) {
+    container.innerHTML = renderMembersList();
+  }
+}
+
+// 4. Lọc dữ liệu từ mảng members gốc và trả về HTML
+function renderMembersList() {
+  const filtered = members.filter(m => {
+    const matchesSearch = m[0].toLowerCase().includes(memberSearchKeyword);
+    const isBCS = m[3] && m[3] !== 'Thành viên';
+    
+    if (currentMemberRoleFilter === 'bcs') return matchesSearch && isBCS;
+    if (currentMemberRoleFilter === 'member') return matchesSearch && !isBCS;
+    return matchesSearch;
+  });
+
+  if (filtered.length === 0) {
+    return `<p style="text-align:center; color:#888; padding: 40px 0; width:100%;">Không tìm thấy thành viên nào phù hợp.</p>`;
+  }
+
+  const bcsList = filtered.filter(m => m[3] && m[3] !== 'Thành viên');
+  const memberList = filtered.filter(m => !m[3] || m[3] === 'Thành viên');
+
+  let html = '';
+
+  if (bcsList.length > 0 && currentMemberRoleFilter !== 'member') {
+    html += `
+      <h3 style="margin: 20px 0 12px; font-weight: 800; color: #17182d; width: 100%;">| Ban cán sự</h3>
+      <div class="grid-3">
+        ${bcsList.map(m => renderMemberCard(m)).join('')}
+      </div>
+    `;
+  }
+
+  if (memberList.length > 0 && currentMemberRoleFilter !== 'bcs') {
+    html += `
+      <h3 style="margin: 24px 0 12px; font-weight: 800; color: #17182d; width: 100%;">| Thành viên</h3>
+      <div class="grid-3">
+        ${memberList.map(m => renderMemberCard(m)).join('')}
+      </div>
+    `;
+  }
+
+  return html;
+}
+
+// 5. Render từng thẻ thành viên
+function renderMemberCard(m) {
+  const index = members.indexOf(m);
+  return `
+    <div class="card member-card" onclick="location.hash='member-${index}'">
+      <div style="display:flex; align-items:center; gap:12px;">
+        <div class="avatar">${initials(m[0])}</div>
+        <div class="grow">
+          <b>${m[0]}</b>
+          <small>${m[3] || 'Thành viên'}</small>
+        </div>
+        <div class="score" style="font-weight: 800;">${m[2]} điểm</div>
+      </div>
+    </div>
+  `;
+}
 function rankingPage(){
  const sorted=[...members].sort((a,b)=>b[2]-a[2]);
  return layout("Bảng xếp hạng","Điểm thi đua = học tốt + hành xử đẹp + tích cực.","<div class='podium'>"+sorted.slice(0,3).map((m,i)=>`<div class="podium-item p${i}"><div class="avatar xl">${initials(m[0])}</div><b>#${i+1}</b><h3>${m[0]}</h3><strong>${m[2]} điểm</strong></div>`).join("")+"</div><div class='card table-card'>"+sorted.map((m,i)=>rankRow(m,i+1)).join("")+"</div>");
