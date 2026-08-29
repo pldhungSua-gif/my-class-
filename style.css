@@ -172,3 +172,8 @@
   font-weight: 800;
   color: #624cff;
 }
+@media (max-width: 768px) {
+  #pointRulesSection {
+    grid-template-columns: 1fr !important;
+  }
+}
