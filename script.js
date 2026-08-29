@@ -1,5 +1,43 @@
-// Đường dẫn Backend Server trên Render
-const API_URL = "https://my-class-backend.onrender.com";
+// Đường dẫn API Backend Render
+const API_URL = "https://my-class-backend.onrender.com/api/announcements";
+
+// Hàm lấy dữ liệu thông báo từ Database
+async function fetchAnnouncements() {
+  try {
+    const response = await fetch(API_URL);
+    const data = await response.json();
+    renderAnnouncements(data);
+  } catch (error) {
+    console.error("Lỗi tải thông báo:", error);
+  }
+}
+
+// Hàm hiển thị dữ liệu ra HTML
+function renderAnnouncements(items) {
+  const container = document.getElementById("announcement-list"); // Đảm bảo ID khớp với HTML
+  if (!container) return;
+
+  if (items.length === 0) {
+    container.innerHTML = `<p class="empty-msg">Chưa có thông báo nào trong CSDL.</p>`;
+    return;
+  }
+
+  container.innerHTML = items
+    .map(
+      (item) => `
+    <div class="announcement-card">
+      <span class="tag">${item.tag || "Chung"}</span>
+      <h3>${item.title}</h3>
+      <p>${item.content}</p>
+      <small>📅 ${item.date || "Vừa xong"}</small>
+    </div>
+  `
+    )
+    .join("");
+}
+
+// Tự động tải dữ liệu khi trang web mở ra
+document.addEventListener("DOMContentLoaded", fetchAnnouncements);
 const app = document.getElementById("app");
 const nav = document.getElementById("nav");
 const toast = document.getElementById("toast");
