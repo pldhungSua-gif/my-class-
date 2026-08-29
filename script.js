@@ -298,13 +298,10 @@ function announcementsPage() {
       </div>
 
       <!-- Bộ lọc nhỏ (Chỉ hiển thị khi ở tab Thông báo) -->
-      <div id="noticeSubFilter" style="display: ${currentTab === 'announcements' ? 'flex' : 'none'}; gap: 6px; background: #eae7ff; padding: 4px; border-radius: 20px;">
-        <button class="pill-btn ${currentNoticeFilter === 'all' ? 'active' : ''}" onclick="filterNoticeCategory('all', this)" style="padding: 5px 12px; border-radius: 14px; border: none; font-size: 12px; font-weight: 700; cursor: pointer;">Tất cả</button>
-        <button class="pill-btn ${currentNoticeFilter === 'Quan trọng' ? 'active' : ''}" onclick="filterNoticeCategory('Quan trọng', this)" style="padding: 5px 12px; border-radius: 14px; border: none; font-size: 12px; font-weight: 700; cursor: pointer;">Quan trọng</button>
-        <button class="pill-btn ${currentNoticeFilter === 'Họp lớp' ? 'active' : ''}" onclick="filterNoticeCategory('Họp lớp', this)" style="padding: 5px 12px; border-radius: 14px; border: none; font-size: 12px; font-weight: 700; cursor: pointer;">Họp lớp</button>
-        <button class="pill-btn ${currentNoticeFilter === 'Bài tập' ? 'active' : ''}" onclick="filterNoticeCategory('Bài tập', this)" style="padding: 5px 12px; border-radius: 14px; border: none; font-size: 12px; font-weight: 700; cursor: pointer;">Bài tập</button>
-        <button class="pill-btn ${currentNoticeFilter === 'Thông báo' ? 'active' : ''}" onclick="filterNoticeCategory('Thông báo', this)" style="padding: 5px 12px; border-radius: 14px; border: none; font-size: 12px; font-weight: 700; cursor: pointer;">Thông báo</button>
-      </div>
+     <!-- ✅ ĐOẠN MỚI NỐI TRỰC TIẾP VỚI HÀM LỌC -->
+<div id="noticeFilterContainer" style="display: flex; gap: 8px; flex-wrap: wrap;">
+  ${renderNoticeFilters()}
+</div>
     </div>
 
     <!-- Khung chứa nội dung chính -->
