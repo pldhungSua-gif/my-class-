@@ -314,7 +314,6 @@ function announcementsPage() {
     <!-- Modal Form Popup -->
     <div id="createModalContainer" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.4); z-index: 9999; justify-content: center; align-items: center;">
       <div id="createModalBody" style="background: #ffffff; width: 90%; max-width: 480px; border-radius: 20px; padding: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);"></div>
-    </div>
     // Hàm tải danh sách thông báo từ Backend Render
 async function fetchAnnouncements() {
   try {
@@ -326,6 +325,8 @@ async function fetchAnnouncements() {
     console.error("Lỗi khi kết nối Backend Render:", err);
   }
 }
+    </div>
+   
     `);
 }
 
