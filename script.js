@@ -350,7 +350,7 @@ function switchMainTab(tab) {
   }
 }
 
-// 1. Xử lý mở Modal tương ứng với Tab đang chọn
+// 1. Xử lý mở Modal Popup Form
 function handleCreateAction() {
   const modal = document.getElementById('createModalContainer');
   const modalBody = document.getElementById('createModalBody');
@@ -405,8 +405,8 @@ function handleCreateAction() {
           </div>
         </div>
         <div>
-          <label style="display: block; font-size: 12.5px; font-weight: 700; color: #4a4e69; margin-bottom: 6px;">Thời gian tổ chức (vd: 15/09/2026)</label>
-          <input type="text" id="eventDate" placeholder="Định dạng DD/MM/YYYY" required style="width: 100%; padding: 10px 14px; border-radius: 10px; border: 1px solid #dcd7ff; font-size: 13.5px; box-sizing: border-box;">
+          <label style="display: block; font-size: 12.5px; font-weight: 700; color: #4a4e69; margin-bottom: 6px;">Thời gian tổ chức</label>
+          <input type="text" id="eventDate" placeholder="vd: 15/09/2026" required style="width: 100%; padding: 10px 14px; border-radius: 10px; border: 1px solid #dcd7ff; font-size: 13.5px; box-sizing: border-box;">
         </div>
         <div>
           <label style="display: block; font-size: 12.5px; font-weight: 700; color: #4a4e69; margin-bottom: 6px;">Mô tả sự kiện</label>
@@ -423,13 +423,13 @@ function handleCreateAction() {
   modal.style.display = 'flex';
 }
 
-// 2. Đóng Modal Popup
+// 2. Đóng Modal
 function closeModal() {
   const modal = document.getElementById('createModalContainer');
   if (modal) modal.style.display = 'none';
 }
 
-// 3. Xử lý lưu Thông báo mới vào mảng
+// 3. Xử lý nộp Form Thông báo
 function submitNotice(e) {
   e.preventDefault();
   const title = document.getElementById('noticeTitle').value;
@@ -439,19 +439,14 @@ function submitNotice(e) {
   const today = new Date();
   const dateStr = `${String(today.getDate()).padStart(2, '0')}/${String(today.getMonth() + 1).padStart(2, '0')}/${today.getFullYear()}`;
 
-  announcements.unshift({
-    title: title,
-    content: content,
-    tag: tag,
-    date: dateStr
-  });
-
+  announcements.unshift({ title, content, tag, date: dateStr });
   closeModal();
+
   const container = document.getElementById('mainTabContentContainer');
   if (container) container.innerHTML = renderMainTabContent();
 }
 
-// 4. Xử lý lưu Sự kiện mới vào mảng
+// 4. Xử lý nộp Form Sự kiện
 function submitEvent(e) {
   e.preventDefault();
   const icon = document.getElementById('eventIcon').value;
@@ -459,51 +454,52 @@ function submitEvent(e) {
   const date = document.getElementById('eventDate').value;
   const desc = document.getElementById('eventDesc').value;
 
-  events.unshift({
-    icon: icon,
-    title: title,
-    date: date,
-    desc: desc,
-    daysLeft: 'Mới tạo'
-  });
-
+  events.unshift({ icon, title, date, desc, daysLeft: 'Sắp diễn ra' });
   closeModal();
+
   const container = document.getElementById('mainTabContentContainer');
   if (container) container.innerHTML = renderMainTabContent();
 }
 
-// Lọc thể loại thông báo
-function filterNoticeCategory(cat, btn) {
-  currentNoticeFilter = cat;
-  document.querySelectorAll('#noticeSubFilter .pill-btn').forEach(b => {
-    b.classList.remove('active');
-    b.style.background = 'transparent';
-    b.style.color = '#624cff';
-  });
-  btn.classList.add('active');
-  btn.style.background = '#624cff';
-  btn.style.color = '#ffffff';
-
-  const container = document.getElementById('mainTabContentContainer');
-  if (container) {
-    container.innerHTML = renderMainTabContent();
+// 5. Xóa Thông báo
+function deleteAnnouncement(index) {
+  if (confirm("Bạn có chắc chắn muốn xóa thông báo này?")) {
+    announcements.splice(index, 1);
+    const container = document.getElementById('mainTabContentContainer');
+    if (container) container.innerHTML = renderMainTabContent();
   }
 }
 
-// Hiển thị nội dung danh sách Thông báo hoặc Lưới Sự kiện
+// 6. Xóa Sự kiện
+function deleteEvent(index) {
+  if (confirm("Bạn có chắc chắn muốn xóa sự kiện này?")) {
+    events.splice(index, 1);
+    const container = document.getElementById('mainTabContentContainer');
+    if (container) container.innerHTML = renderMainTabContent();
+  }
+}
+
+// 7. Hàm Render chính duy nhất (Dùng chung cho cả Tab Thông báo và Sự kiện)
 function renderMainTabContent() {
   if (currentTab === 'events') {
+    if (!events || events.length === 0) {
+      return `<p style="text-align:center; color:#888; padding: 40px 0;">Chưa có sự kiện nào.</p>`;
+    }
+
     return `
       <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
-        ${events.map(ev => `
+        ${events.map((ev, index) => `
           <div style="background: #ffffff; border-radius: 16px; padding: 20px; border: 1px solid #e5e0ff; box-shadow: 0 4px 16px rgba(0,0,0,0.02); display: flex; flex-direction: column; justify-content: space-between; gap: 12px;">
             <div>
-              <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
-                <span style="font-size: 24px;">${ev.icon || '📝'}</span>
-                <div>
-                  <h4 style="font-weight: 800; font-size: 15px; color: #17182d; margin: 0;">${ev.title}</h4>
-                  <small style="color: #624cff; font-weight: 700;">${ev.date}</small>
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <span style="font-size: 24px;">${ev.icon || '📝'}</span>
+                  <div>
+                    <h4 style="font-weight: 800; font-size: 15px; color: #17182d; margin: 0;">${ev.title}</h4>
+                    <small style="color: #624cff; font-weight: 700;">${ev.date}</small>
+                  </div>
                 </div>
+                <button onclick="deleteEvent(${index})" style="background: #fee2e2; color: #ef4444; border: none; padding: 4px 8px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer;">🗑️ Xóa</button>
               </div>
               <p style="font-size: 13px; color: #555770; margin: 6px 0 0 0; line-height: 1.5;">${ev.desc}</p>
             </div>
@@ -518,83 +514,31 @@ function renderMainTabContent() {
     `;
   }
 
+  // Danh sách Thông báo
   const filteredNotices = announcements.filter(a => {
     if (currentNoticeFilter === 'all') return true;
     return a.tag === currentNoticeFilter;
   });
 
-  if (filteredNotices.length === 0) {
+  if (!filteredNotices || filteredNotices.length === 0) {
     return `<p style="text-align:center; color:#888; padding: 40px 0;">Không có thông báo nào thuộc danh mục này.</p>`;
   }
 
   return `
     <div style="display: flex; flex-direction: column; gap: 16px;">
-      ${filteredNotices.map(a => `
+      ${filteredNotices.map((a, index) => `
         <div style="background: #ffffff; border-radius: 16px; padding: 20px 24px; border: 1px solid #e5e0ff; box-shadow: 0 4px 16px rgba(0,0,0,0.02); display: flex; justify-content: space-between; align-items: flex-start; gap: 16px;">
           <div style="flex: 1;">
             <h4 style="font-weight: 800; font-size: 15px; color: #17182d; margin: 0 0 8px 0;">${a.title}</h4>
             <p style="font-size: 13.5px; color: #555770; margin: 0 0 12px 0; line-height: 1.5;">${a.content}</p>
             <small style="color: #624cff; font-weight: 700;">🕒 ${a.date}</small>
           </div>
-          <span style="background: #f0efff; color: #624cff; font-weight: 700; font-size: 11.5px; padding: 4px 12px; border-radius: 12px; white-space: nowrap;">
-            ${a.tag}
-          </span>
-        </div>
-      `).join('')}
-    </div>
-  `;
-}
-// Render nội dung tùy thuộc Tab đang chọn
-function renderMainTabContent() {
-  if (currentTab === 'events') {
-    // Giao diện Lưới Sự kiện (2 cột như trong ảnh)
-    return `
-      <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
-        ${events.map(ev => `
-          <div style="background: #ffffff; border-radius: 16px; padding: 20px; border: 1px solid #e5e0ff; box-shadow: 0 4px 16px rgba(0,0,0,0.02); display: flex; flex-direction: column; justify-content: space-between; gap: 12px;">
-            <div>
-              <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
-                <span style="font-size: 24px;">${ev.icon || '📝'}</span>
-                <div>
-                  <h4 style="font-weight: 800; font-size: 15px; color: #17182d; margin: 0;">${ev.title}</h4>
-                  <small style="color: #624cff; font-weight: 700;">${ev.date}</small>
-                </div>
-              </div>
-              <p style="font-size: 13px; color: #555770; margin: 6px 0 0 0; line-height: 1.5;">${ev.desc}</p>
-            </div>
-            <div>
-              <span style="display: inline-flex; align-items: center; gap: 4px; background: #fff5e6; color: #d97706; font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 12px;">
-                📅 ${ev.daysLeft || 'Sắp diễn ra'}
-              </span>
-            </div>
+          <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 10px;">
+            <span style="background: #f0efff; color: #624cff; font-weight: 700; font-size: 11.5px; padding: 4px 12px; border-radius: 12px; white-space: nowrap;">
+              ${a.tag}
+            </span>
+            <button onclick="deleteAnnouncement(${index})" style="background: #fee2e2; color: #ef4444; border: none; padding: 4px 10px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer;">🗑️ Xóa</button>
           </div>
-        `).join('')}
-      </div>
-    `;
-  }
-
-  // Giao diện Danh sách Thông báo
-  const filteredNotices = announcements.filter(a => {
-    if (currentNoticeFilter === 'all') return true;
-    return a.tag === currentNoticeFilter;
-  });
-
-  if (filteredNotices.length === 0) {
-    return `<p style="text-align:center; color:#888; padding: 40px 0;">Không có thông báo nào thuộc danh mục này.</p>`;
-  }
-
-  return `
-    <div style="display: flex; flex-direction: column; gap: 16px;">
-      ${filteredNotices.map(a => `
-        <div style="background: #ffffff; border-radius: 16px; padding: 20px 24px; border: 1px solid #e5e0ff; box-shadow: 0 4px 16px rgba(0,0,0,0.02); display: flex; justify-content: space-between; align-items: flex-start; gap: 16px;">
-          <div style="flex: 1;">
-            <h4 style="font-weight: 800; font-size: 15px; color: #17182d; margin: 0 0 8px 0;">${a.title}</h4>
-            <p style="font-size: 13.5px; color: #555770; margin: 0 0 12px 0; line-height: 1.5;">${a.content}</p>
-            <small style="color: #624cff; font-weight: 700;">🕒 ${a.date}</small>
-          </div>
-          <span style="background: #f0efff; color: #624cff; font-weight: 700; font-size: 11.5px; padding: 4px 12px; border-radius: 12px; white-space: nowrap;">
-            ${a.tag}
-          </span>
         </div>
       `).join('')}
     </div>
