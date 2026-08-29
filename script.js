@@ -311,10 +311,6 @@ function announcementsPage() {
     <div id="mainTabContentContainer">
       ${renderMainTabContent()}
     </div>
-  <!-- Khung chứa danh sách Nội dung chính -->
-    <div id="mainTabContentContainer">
-      ${renderMainTabContent()}
-    </div>
 
     <!-- Modal Form Popup -->
     <div id="createModalContainer" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.4); z-index: 9999; justify-content: center; align-items: center;">
