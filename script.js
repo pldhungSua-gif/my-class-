@@ -103,7 +103,7 @@ function renderMembersList() {
   if (bcsList.length > 0 && currentMemberRoleFilter !== 'member') {
     html += `
       <h3 style="margin: 20px 0 12px; font-weight: 800; color: #17182d; width: 100%;">| Ban cán sự</h3>
-      <div class="grid-3">
+      <div class="members-grid-6">
         ${bcsList.map(m => renderMemberCard(m)).join('')}
       </div>
     `;
