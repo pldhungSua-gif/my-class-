@@ -258,34 +258,46 @@ function togglePointRules() {
     section.style.display = showPointRules ? 'grid' : 'none';
   }
 }
-// Biến lưu trạng thái tab hiện tại ('announcements' hoặc 'events')
+// Biến lưu trạng thái tab hiện tại ('announcements' hoặc 'events') và bộ lọc thông báo
 let currentTab = 'announcements';
 let currentNoticeFilter = 'all';
 
 function announcementsPage() {
   return layout("Thông báo & Sự kiện", "Cập nhật những thông tin và sự kiện mới nhất của lớp", `
-    <!-- Thanh chuyển tab chính (Thông báo / Sự kiện) & Bộ lọc -->
+    <!-- Thanh chuyển tab & Nút tạo mới -->
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; flex-wrap: wrap; gap: 16px;">
       
-      <!-- Nút chuyển Tab chính -->
-      <div style="display: flex; gap: 8px; background: #eae7ff; padding: 4px; border-radius: 20px;">
+      <!-- Cụm bên trái: Tab chuyển đổi & Nút Tạo mới động -->
+      <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+        <!-- Nút chuyển Tab chính -->
+        <div style="display: flex; gap: 6px; background: #eae7ff; padding: 4px; border-radius: 20px;">
+          <button 
+            id="btnTabAnnounce" 
+            onclick="switchMainTab('announcements')" 
+            style="padding: 8px 18px; border-radius: 16px; border: none; font-weight: 700; font-size: 13.5px; cursor: pointer; transition: all 0.2s; ${currentTab === 'announcements' ? 'background: #624cff; color: #fff; box-shadow: 0 2px 8px rgba(98, 76, 255, 0.25);' : 'background: transparent; color: #624cff;'}"
+          >
+            🔔 Thông báo
+          </button>
+          <button 
+            id="btnTabEvents" 
+            onclick="switchMainTab('events')" 
+            style="padding: 8px 18px; border-radius: 16px; border: none; font-weight: 700; font-size: 13.5px; cursor: pointer; transition: all 0.2s; ${currentTab === 'events' ? 'background: #624cff; color: #fff; box-shadow: 0 2px 8px rgba(98, 76, 255, 0.25);' : 'background: transparent; color: #624cff;'}"
+          >
+            📅 Sự kiện
+          </button>
+        </div>
+
+        <!-- Nút Tạo Mới (Tự động đổi tên và chức năng theo Tab đang chọn) -->
         <button 
-          id="btnTabAnnounce" 
-          onclick="switchMainTab('announcements')" 
-          style="padding: 8px 18px; border-radius: 16px; border: none; font-weight: 700; font-size: 13.5px; cursor: pointer; transition: all 0.2s; ${currentTab === 'announcements' ? 'background: #624cff; color: #fff; box-shadow: 0 2px 8px rgba(98, 76, 255, 0.25);' : 'background: transparent; color: #624cff;'}"
+          id="btnCreateAction" 
+          onclick="handleCreateAction()" 
+          style="padding: 8px 16px; border-radius: 16px; border: none; background: #10b981; color: #ffffff; font-weight: 700; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 8px rgba(16, 185, 129, 0.25); transition: all 0.2s;"
         >
-          🔔 Thông báo
-        </button>
-        <button 
-          id="btnTabEvents" 
-          onclick="switchMainTab('events')" 
-          style="padding: 8px 18px; border-radius: 16px; border: none; font-weight: 700; font-size: 13.5px; cursor: pointer; transition: all 0.2s; ${currentTab === 'events' ? 'background: #624cff; color: #fff; box-shadow: 0 2px 8px rgba(98, 76, 255, 0.25);' : 'background: transparent; color: #624cff;'}"
-        >
-          📅 Sự kiện
+          <span style="font-size: 15px;">+</span> ${currentTab === 'announcements' ? 'Tạo thông báo' : 'Tạo sự kiện'}
         </button>
       </div>
 
-      <!-- Bộ lọc nhỏ cho phần Thông báo (Ẩn khi sang tab Sự kiện) -->
+      <!-- Bộ lọc nhỏ (Chỉ hiển thị khi ở tab Thông báo) -->
       <div id="noticeSubFilter" style="display: ${currentTab === 'announcements' ? 'flex' : 'none'}; gap: 6px; background: #eae7ff; padding: 4px; border-radius: 20px;">
         <button class="pill-btn ${currentNoticeFilter === 'all' ? 'active' : ''}" onclick="filterNoticeCategory('all', this)" style="padding: 5px 12px; border-radius: 14px; border: none; font-size: 12px; font-weight: 700; cursor: pointer;">Tất cả</button>
         <button class="pill-btn ${currentNoticeFilter === 'Quan trọng' ? 'active' : ''}" onclick="filterNoticeCategory('Quan trọng', this)" style="padding: 5px 12px; border-radius: 14px; border: none; font-size: 12px; font-weight: 700; cursor: pointer;">Quan trọng</button>
@@ -295,29 +307,31 @@ function announcementsPage() {
       </div>
     </div>
 
-    <!-- Khung chứa danh sách Nội dung chính -->
+    <!-- Khung chứa nội dung chính -->
     <div id="mainTabContentContainer">
       ${renderMainTabContent()}
     </div>
   `);
 }
 
-// Hàm xử lý chuyển đổi giữa Tab Thông báo & Tab Sự kiện
+// Chuyển đổi qua lại giữa Tab Thông báo & Tab Sự kiện
 function switchMainTab(tab) {
   currentTab = tab;
   
-  // Style nút tab active
   const btnA = document.getElementById('btnTabAnnounce');
   const btnE = document.getElementById('btnTabEvents');
+  const btnCreate = document.getElementById('btnCreateAction');
   const subFilter = document.getElementById('noticeSubFilter');
 
   if (tab === 'announcements') {
     btnA.style.cssText = "padding: 8px 18px; border-radius: 16px; border: none; font-weight: 700; font-size: 13.5px; cursor: pointer; transition: all 0.2s; background: #624cff; color: #fff; box-shadow: 0 2px 8px rgba(98, 76, 255, 0.25);";
     btnE.style.cssText = "padding: 8px 18px; border-radius: 16px; border: none; font-weight: 700; font-size: 13.5px; cursor: pointer; transition: all 0.2s; background: transparent; color: #624cff;";
+    if (btnCreate) btnCreate.innerHTML = '<span style="font-size: 15px;">+</span> Tạo thông báo';
     if (subFilter) subFilter.style.display = 'flex';
   } else {
     btnE.style.cssText = "padding: 8px 18px; border-radius: 16px; border: none; font-weight: 700; font-size: 13.5px; cursor: pointer; transition: all 0.2s; background: #624cff; color: #fff; box-shadow: 0 2px 8px rgba(98, 76, 255, 0.25);";
     btnA.style.cssText = "padding: 8px 18px; border-radius: 16px; border: none; font-weight: 700; font-size: 13.5px; cursor: pointer; transition: all 0.2s; background: transparent; color: #624cff;";
+    if (btnCreate) btnCreate.innerHTML = '<span style="font-size: 15px;">+</span> Tạo sự kiện';
     if (subFilter) subFilter.style.display = 'none';
   }
 
@@ -327,7 +341,16 @@ function switchMainTab(tab) {
   }
 }
 
-// Lọc phân loại cho Thông báo
+// Xử lý khi nhấn nút Tạo thông báo / Tạo sự kiện
+function handleCreateAction() {
+  if (currentTab === 'announcements') {
+    alert("Mở form Tạo thông báo mới!");
+  } else {
+    alert("Mở form Tạo sự kiện mới!");
+  }
+}
+
+// Lọc thể loại thông báo
 function filterNoticeCategory(cat, btn) {
   currentNoticeFilter = cat;
   document.querySelectorAll('#noticeSubFilter .pill-btn').forEach(b => {
@@ -345,6 +368,60 @@ function filterNoticeCategory(cat, btn) {
   }
 }
 
+// Hiển thị nội dung danh sách Thông báo hoặc Lưới Sự kiện
+function renderMainTabContent() {
+  if (currentTab === 'events') {
+    return `
+      <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+        ${events.map(ev => `
+          <div style="background: #ffffff; border-radius: 16px; padding: 20px; border: 1px solid #e5e0ff; box-shadow: 0 4px 16px rgba(0,0,0,0.02); display: flex; flex-direction: column; justify-content: space-between; gap: 12px;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                <span style="font-size: 24px;">${ev.icon || '📝'}</span>
+                <div>
+                  <h4 style="font-weight: 800; font-size: 15px; color: #17182d; margin: 0;">${ev.title}</h4>
+                  <small style="color: #624cff; font-weight: 700;">${ev.date}</small>
+                </div>
+              </div>
+              <p style="font-size: 13px; color: #555770; margin: 6px 0 0 0; line-height: 1.5;">${ev.desc}</p>
+            </div>
+            <div>
+              <span style="display: inline-flex; align-items: center; gap: 4px; background: #fff5e6; color: #d97706; font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 12px;">
+                📅 ${ev.daysLeft || 'Sắp diễn ra'}
+              </span>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+  }
+
+  const filteredNotices = announcements.filter(a => {
+    if (currentNoticeFilter === 'all') return true;
+    return a.tag === currentNoticeFilter;
+  });
+
+  if (filteredNotices.length === 0) {
+    return `<p style="text-align:center; color:#888; padding: 40px 0;">Không có thông báo nào thuộc danh mục này.</p>`;
+  }
+
+  return `
+    <div style="display: flex; flex-direction: column; gap: 16px;">
+      ${filteredNotices.map(a => `
+        <div style="background: #ffffff; border-radius: 16px; padding: 20px 24px; border: 1px solid #e5e0ff; box-shadow: 0 4px 16px rgba(0,0,0,0.02); display: flex; justify-content: space-between; align-items: flex-start; gap: 16px;">
+          <div style="flex: 1;">
+            <h4 style="font-weight: 800; font-size: 15px; color: #17182d; margin: 0 0 8px 0;">${a.title}</h4>
+            <p style="font-size: 13.5px; color: #555770; margin: 0 0 12px 0; line-height: 1.5;">${a.content}</p>
+            <small style="color: #624cff; font-weight: 700;">🕒 ${a.date}</small>
+          </div>
+          <span style="background: #f0efff; color: #624cff; font-weight: 700; font-size: 11.5px; padding: 4px 12px; border-radius: 12px; white-space: nowrap;">
+            ${a.tag}
+          </span>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
 // Render nội dung tùy thuộc Tab đang chọn
 function renderMainTabContent() {
   if (currentTab === 'events') {
