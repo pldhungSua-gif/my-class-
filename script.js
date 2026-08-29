@@ -124,18 +124,21 @@ function renderMembersList() {
 // 5. Render từng thẻ thành viên
 function renderMemberCard(m) {
   const index = members.indexOf(m);
+  // Bảng màu avatar sinh động ngẫu nhiên hoặc cố định
+  const bgColors = ['#624cff', '#10b981', '#ef4444', '#f59e0b', '#3b82f6'];
+  const bgColor = bgColors[index % bgColors.length];
+
   return `
-    <div class="card member-card" onclick="location.hash='member-${index}'">
-      <div style="display:flex; align-items:center; gap:12px;">
-        <div class="avatar">${initials(m[0])}</div>
-        <div class="grow">
-          <b>${m[0]}</b>
-          <small>${m[3] || 'Thành viên'}</small>
-        </div>
-        <div class="score" style="font-weight: 800;">${m[2]} điểm</div>
+    <div class="member-card-centered" onclick="location.hash='member-${index}'">
+      <div class="avatar-box" style="background-color: ${bgColor};">
+        ${initials(m[0])}
       </div>
+      <div class="member-name">${m[0]}</div>
+      <div class="role-tag">${m[3] || 'Thành viên'}</div>
+      <div class="points-text">${m[2]} điểm</div>
     </div>
   `;
+}
 }
 function rankingPage(){
  const sorted=[...members].sort((a,b)=>b[2]-a[2]);
