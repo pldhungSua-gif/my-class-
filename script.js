@@ -556,8 +556,10 @@ function render(){
  app.innerHTML=pages[page]?pages[page]():home();
  document.querySelectorAll("nav a").forEach(a=>a.classList.toggle("active",a.dataset.page===page));
  if(page==="members"){
-   const input=document.getElementById("memberSearch");
-   input.oninput=()=>document.getElementById("memberGrid").innerHTML=members.filter(m=>m[0].toLowerCase().includes(input.value.toLowerCase())).map(memberCard).join("");
+  const input = document.getElementById("memberSearch");
+  if (input) {
+    input.oninput = () => document.getElementById("memberGrid").innerHTML = members.filter(m => m[0].toLowerCase().includes(input.value.toLowerCase())).map(memberCard).join("");
+  }
  }
  window.scrollTo({top:0,behavior:"smooth"}); nav.classList.remove("open");
 }
