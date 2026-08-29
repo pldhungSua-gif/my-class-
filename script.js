@@ -33,7 +33,7 @@ let currentMemberRoleFilter = 'all';
 function membersPage() {
   return layout("Thành viên lớp", "Gặp gỡ 37 thành viên tuyệt vời của lớp 10 Toán 1", `
     <div class="members-filter-bar">
-      <!-- Ô tìm kiếm gọi trực tiếp hàm xử lý -->
+      <!-- Ô tìm kiếm -->
       <div class="search-box">
         <input 
           type="text" 
@@ -52,7 +52,7 @@ function membersPage() {
       </div>
     </div>
 
-    <!-- Khung chứa danh sách thẻ thành viên (Cần thiết để JS render) -->
+    <!-- Khung chứa danh sách thẻ thành viên -->
     <div id="membersListContainer">
       ${renderMembersList()}
     </div>
@@ -102,7 +102,7 @@ function renderMembersList() {
 
   if (bcsList.length > 0 && currentMemberRoleFilter !== 'member') {
     html += `
-      <h3 style="margin: 20px 0 12px; font-weight: 800; color: #17182d; width: 100%;">| Ban cán sự</h3>
+      <div class="group-title-label">Ban cán sự</div>
       <div class="members-grid-6">
         ${bcsList.map(m => renderMemberCard(m)).join('')}
       </div>
@@ -111,8 +111,8 @@ function renderMembersList() {
 
   if (memberList.length > 0 && currentMemberRoleFilter !== 'bcs') {
     html += `
-      <h3 style="margin: 24px 0 12px; font-weight: 800; color: #17182d; width: 100%;">| Thành viên</h3>
-      <div class="grid-3">
+      <div class="group-title-label">Thành viên</div>
+      <div class="members-grid-6">
         ${memberList.map(m => renderMemberCard(m)).join('')}
       </div>
     `;
@@ -121,10 +121,9 @@ function renderMembersList() {
   return html;
 }
 
-// 5. Render từng thẻ thành viên
+// 5. Render từng thẻ thành viên dạng căn giữa
 function renderMemberCard(m) {
   const index = members.indexOf(m);
-  // Bảng màu avatar sinh động ngẫu nhiên hoặc cố định
   const bgColors = ['#624cff', '#10b981', '#ef4444', '#f59e0b', '#3b82f6'];
   const bgColor = bgColors[index % bgColors.length];
 
