@@ -656,3 +656,34 @@ function renderNoticeFilters() {
     return `<button onclick="setNoticeFilter('${f.id}')" style="${style} border: none; padding: 6px 14px; border-radius: 12px; font-size: 13px; font-weight: 700; cursor: pointer; transition: 0.2s;">${f.label}</button>`;
   }).join('');
 };
+// Xử lý khi bấm nút gởi Form tạo thông báo
+async function handleAddAnnouncement(event) {
+  event.preventDefault();
+
+  const titleInput = document.getElementById("notice-title").value;
+  const contentInput = document.getElementById("notice-content").value;
+  const tagInput = document.getElementById("notice-tag").value;
+
+  const newNotice = {
+    title: titleInput,
+    content: contentInput,
+    tag: tagInput,
+  };
+
+  try {
+    const response = await fetch(API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newNotice),
+    });
+
+    if (response.ok) {
+      alert("Đã thêm thông báo thành công!");
+      fetchAnnouncements(); // Tải lại danh sách mới
+    }
+  } catch (error) {
+    console.error("Lỗi khi thêm thông báo:", error);
+  }
+}
