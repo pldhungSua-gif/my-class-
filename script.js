@@ -341,13 +341,126 @@ function switchMainTab(tab) {
   }
 }
 
-// Xử lý khi nhấn nút Tạo thông báo / Tạo sự kiện
+// 1. Xử lý mở Modal tương ứng với Tab đang chọn
 function handleCreateAction() {
+  const modal = document.getElementById('createModalContainer');
+  const modalBody = document.getElementById('createModalBody');
+  
+  if (!modal || !modalBody) return;
+
   if (currentTab === 'announcements') {
-    alert("Mở form Tạo thông báo mới!");
+    modalBody.innerHTML = `
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h3 style="margin: 0; font-size: 18px; color: #17182d; font-weight: 800;">🔔 Tạo Thông Báo Mới</h3>
+        <button onclick="closeModal()" style="background: none; border: none; font-size: 20px; cursor: pointer; color: #888;">&times;</button>
+      </div>
+      <form onsubmit="submitNotice(event)" style="display: flex; flex-direction: column; gap: 14px;">
+        <div>
+          <label style="display: block; font-size: 12.5px; font-weight: 700; color: #4a4e69; margin-bottom: 6px;">Tiêu đề thông báo</label>
+          <input type="text" id="noticeTitle" placeholder="Nhập tiêu đề..." required style="width: 100%; padding: 10px 14px; border-radius: 10px; border: 1px solid #dcd7ff; font-size: 13.5px; box-sizing: border-box;">
+        </div>
+        <div>
+          <label style="display: block; font-size: 12.5px; font-weight: 700; color: #4a4e69; margin-bottom: 6px;">Nội dung thông báo</label>
+          <textarea id="noticeContent" rows="4" placeholder="Nhập nội dung chi tiết..." required style="width: 100%; padding: 10px 14px; border-radius: 10px; border: 1px solid #dcd7ff; font-size: 13.5px; box-sizing: border-box; resize: vertical;"></textarea>
+        </div>
+        <div>
+          <label style="display: block; font-size: 12.5px; font-weight: 700; color: #4a4e69; margin-bottom: 6px;">Phân loại</label>
+          <select id="noticeTag" style="width: 100%; padding: 10px 14px; border-radius: 10px; border: 1px solid #dcd7ff; font-size: 13.5px; background: #fff;">
+            <option value="Thông báo">Thông báo</option>
+            <option value="Quan trọng">Quan trọng</option>
+            <option value="Họp lớp">Họp lớp</option>
+            <option value="Bài tập">Bài tập</option>
+          </select>
+        </div>
+        <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 10px;">
+          <button type="button" onclick="closeModal()" style="padding: 10px 18px; border-radius: 10px; border: none; background: #f0efff; color: #624cff; font-weight: 700; cursor: pointer;">Hủy</button>
+          <button type="submit" style="padding: 10px 20px; border-radius: 10px; border: none; background: #624cff; color: #fff; font-weight: 700; cursor: pointer;">Đăng thông báo</button>
+        </div>
+      </form>
+    `;
   } else {
-    alert("Mở form Tạo sự kiện mới!");
+    modalBody.innerHTML = `
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h3 style="margin: 0; font-size: 18px; color: #17182d; font-weight: 800;">📅 Tạo Sự Kiện Mới</h3>
+        <button onclick="closeModal()" style="background: none; border: none; font-size: 20px; cursor: pointer; color: #888;">&times;</button>
+      </div>
+      <form onsubmit="submitEvent(event)" style="display: flex; flex-direction: column; gap: 14px;">
+        <div style="display: grid; grid-template-columns: 70px 1fr; gap: 10px;">
+          <div>
+            <label style="display: block; font-size: 12.5px; font-weight: 700; color: #4a4e69; margin-bottom: 6px;">Icon</label>
+            <input type="text" id="eventIcon" value="📝" required style="width: 100%; text-align: center; padding: 10px; border-radius: 10px; border: 1px solid #dcd7ff; font-size: 16px; box-sizing: border-box;">
+          </div>
+          <div>
+            <label style="display: block; font-size: 12.5px; font-weight: 700; color: #4a4e69; margin-bottom: 6px;">Tên sự kiện</label>
+            <input type="text" id="eventTitle" placeholder="Nhập tên sự kiện..." required style="width: 100%; padding: 10px 14px; border-radius: 10px; border: 1px solid #dcd7ff; font-size: 13.5px; box-sizing: border-box;">
+          </div>
+        </div>
+        <div>
+          <label style="display: block; font-size: 12.5px; font-weight: 700; color: #4a4e69; margin-bottom: 6px;">Thời gian tổ chức (vd: 15/09/2026)</label>
+          <input type="text" id="eventDate" placeholder="Định dạng DD/MM/YYYY" required style="width: 100%; padding: 10px 14px; border-radius: 10px; border: 1px solid #dcd7ff; font-size: 13.5px; box-sizing: border-box;">
+        </div>
+        <div>
+          <label style="display: block; font-size: 12.5px; font-weight: 700; color: #4a4e69; margin-bottom: 6px;">Mô tả sự kiện</label>
+          <textarea id="eventDesc" rows="3" placeholder="Nhập mô tả..." required style="width: 100%; padding: 10px 14px; border-radius: 10px; border: 1px solid #dcd7ff; font-size: 13.5px; box-sizing: border-box; resize: vertical;"></textarea>
+        </div>
+        <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 10px;">
+          <button type="button" onclick="closeModal()" style="padding: 10px 18px; border-radius: 10px; border: none; background: #f0efff; color: #624cff; font-weight: 700; cursor: pointer;">Hủy</button>
+          <button type="submit" style="padding: 10px 20px; border-radius: 10px; border: none; background: #624cff; color: #fff; font-weight: 700; cursor: pointer;">Tạo sự kiện</button>
+        </div>
+      </form>
+    `;
   }
+  
+  modal.style.display = 'flex';
+}
+
+// 2. Đóng Modal Popup
+function closeModal() {
+  const modal = document.getElementById('createModalContainer');
+  if (modal) modal.style.display = 'none';
+}
+
+// 3. Xử lý lưu Thông báo mới vào mảng
+function submitNotice(e) {
+  e.preventDefault();
+  const title = document.getElementById('noticeTitle').value;
+  const content = document.getElementById('noticeContent').value;
+  const tag = document.getElementById('noticeTag').value;
+
+  const today = new Date();
+  const dateStr = `${String(today.getDate()).padStart(2, '0')}/${String(today.getMonth() + 1).padStart(2, '0')}/${today.getFullYear()}`;
+
+  announcements.unshift({
+    title: title,
+    content: content,
+    tag: tag,
+    date: dateStr
+  });
+
+  closeModal();
+  const container = document.getElementById('mainTabContentContainer');
+  if (container) container.innerHTML = renderMainTabContent();
+}
+
+// 4. Xử lý lưu Sự kiện mới vào mảng
+function submitEvent(e) {
+  e.preventDefault();
+  const icon = document.getElementById('eventIcon').value;
+  const title = document.getElementById('eventTitle').value;
+  const date = document.getElementById('eventDate').value;
+  const desc = document.getElementById('eventDesc').value;
+
+  events.unshift({
+    icon: icon,
+    title: title,
+    date: date,
+    desc: desc,
+    daysLeft: 'Mới tạo'
+  });
+
+  closeModal();
+  const container = document.getElementById('mainTabContentContainer');
+  if (container) container.innerHTML = renderMainTabContent();
 }
 
 // Lọc thể loại thông báo
