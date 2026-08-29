@@ -683,20 +683,5 @@ submit.onclick=()=>{
  else {const saved=JSON.parse(localStorage.getItem("demoUser")||"null"); if(!saved||saved.user!==user||saved.pass!==pass)return showToast("Sai tài khoản hoặc mật khẩu!"); showToast("Đăng nhập thành công 👋");}
  modal.classList.remove("show");
 }
-// Hàm xóa thông báo theo chỉ số (index)
-function deleteAnnouncement(index) {
-  if (confirm("Bạn có chắc chắn muốn xóa thông báo này không?")) {
-    announcements.splice(index, 1);
-    const container = document.getElementById('mainTabContentContainer');
-    if (container) container.innerHTML = renderMainTabContent();
-  }
-}
 
-// Hàm xóa sự kiện theo chỉ số (index)
-function deleteEvent(index) {
-  if (confirm("Bạn có chắc chắn muốn xóa sự kiện này không?")) {
-    events.splice(index, 1);
-    const container = document.getElementById('mainTabContentContainer');
-    if (container) container.innerHTML = renderMainTabContent();
-  }
-};
+;
