@@ -139,9 +139,124 @@ function renderMemberCard(m) {
   `;
 }
 
-function rankingPage(){
- const sorted=[...members].sort((a,b)=>b[2]-a[2]);
- return layout("Bảng xếp hạng","Điểm thi đua = học tốt + hành xử đẹp + tích cực.","<div class='podium'>"+sorted.slice(0,3).map((m,i)=>`<div class="podium-item p${i}"><div class="avatar xl">${initials(m[0])}</div><b>#${i+1}</b><h3>${m[0]}</h3><strong>${m[2]} điểm</strong></div>`).join("")+"</div><div class='card table-card'>"+sorted.map((m,i)=>rankRow(m,i+1)).join("")+"</div>");
+// Biến toàn cục quản lý trạng thái hiển thị khung cách tính điểm
+let showPointRules = false;
+
+function rankingPage() {
+  const sorted = [...members].sort((a, b) => b[2] - a[2]);
+  const top1 = sorted[0];
+  const top2 = sorted[1];
+  const top3 = sorted[2];
+
+  return layout("Bảng xếp hạng", "Theo dõi điểm thi đua và thứ hạng các thành viên", `
+    <!-- Thanh điều hướng trên cùng của Bảng xếp hạng -->
+    <div style="display: flex; justify-content: flex-end; align-items: center; margin-bottom: 20px;">
+      <button 
+        onclick="togglePointRules()" 
+        style="background: none; border: none; color: #624cff; font-weight: 700; font-size: 13.5px; cursor: pointer; display: flex; align-items: center; gap: 6px;"
+      >
+        <span style="display: inline-block; width: 10px; height: 10px; background-color: #624cff; border-radius: 2px;"></span>
+        Cách tính điểm
+      </button>
+    </div>
+
+    <!-- Khung Hướng dẫn cách tính điểm (Ẩn/Hiện theo nút click) -->
+    <div id="pointRulesSection" style="display: ${showPointRules ? 'grid' : 'none'}; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 32px;">
+      <!-- Khung Cộng Điểm -->
+      <div style="background: #ffffff; border-radius: 16px; padding: 24px; border-top: 4px solid #10b981; box-shadow: 0 4px 16px rgba(0,0,0,0.03);">
+        <h4 style="color: #10b981; font-size: 16px; font-weight: 800; margin-bottom: 14px; display: flex; align-items: center; gap: 8px;">
+          <span style="font-size: 18px;">+</span> Danh Mục Cộng Điểm
+        </h4>
+        <ul style="list-style: none; padding: 0; margin: 0; font-size: 13px; color: #4a4e69; line-height: 1.8;">
+          <li style="margin-bottom: 8px;"><b>• Tham gia HSGQG:</b> Đạt giải / Tham gia đội tuyển thi Học sinh giỏi Quốc gia.</li>
+          <li style="margin-bottom: 8px;"><b>• HSGKV:</b> Đạt giải các kỳ thi Học sinh giỏi Khu vực (Duyên hải, 30/4,...).</li>
+          <li style="margin-bottom: 8px;"><b>• HD CLB:</b> Ban chủ nhiệm, thành viên đóng góp tích cực cho CLB.</li>
+          <li><b>• Các cuộc thi khác:</b> Cuộc thi KHKT, Tin học trẻ, Thể thao, Văn nghệ...</li>
+        </ul>
+      </div>
+
+      <!-- Khung Trừ Điểm -->
+      <div style="background: #ffffff; border-radius: 16px; padding: 24px; border-top: 4px solid #ef4444; box-shadow: 0 4px 16px rgba(0,0,0,0.03);">
+        <h4 style="color: #ef4444; font-size: 16px; font-weight: 800; margin-bottom: 14px; display: flex; align-items: center; gap: 8px;">
+          <span style="font-size: 18px;">—</span> Danh Mục Trừ Điểm
+        </h4>
+        <ul style="list-style: none; padding: 0; margin: 0; font-size: 13px; color: #4a4e69; line-height: 1.8;">
+          <li style="margin-bottom: 8px;"><b>• Vi phạm tác phong:</b> Đồng phục không đúng, thiếu thẻ học sinh, tóc tai vi phạm quy định.</li>
+          <li><b>• Luật:</b> Đi trễ, mất trật tự, dùng điện thoại trong giờ học, vi phạm quy định nhà trường.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Top 3 Bục Vinh Quang -->
+    <div style="display: grid; grid-template-columns: 1fr 1.1fr 1fr; gap: 20px; align-items: flex-end; margin-bottom: 36px; padding: 0 20px;">
+      <!-- Hạng 2 -->
+      <div style="background: #ffffff; border-radius: 20px; padding: 28px 16px; text-align: center; border: 1px solid #f0ebff; box-shadow: 0 4px 16px rgba(0,0,0,0.02);">
+        <div style="width: 64px; height: 64px; border-radius: 18px; background: linear-gradient(135deg, #3b82f6, #60a5fa); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 20px; margin: 0 auto 16px;">
+          ${initials(top2[0])}
+        </div>
+        <div style="font-size: 13px; font-weight: 800; color: #624cff; margin-bottom: 6px;">#2</div>
+        <div style="font-weight: 800; font-size: 15px; color: #17182d; margin-bottom: 4px;">${top2[0]}</div>
+        <div style="font-size: 13px; font-weight: 700; color: #624cff;">${top2[2]} điểm</div>
+      </div>
+
+      <!-- Hạng 1 (Nhỉnh hơn chút) -->
+      <div style="background: #f6f5ff; border-radius: 20px; padding: 36px 16px; text-align: center; border: 2px solid #e2d9ff; box-shadow: 0 8px 24px rgba(98, 76, 255, 0.08); transform: translateY(-10px);">
+        <div style="width: 72px; height: 72px; border-radius: 20px; background: linear-gradient(135deg, #624cff, #818cf8); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 22px; margin: 0 auto 16px;">
+          ${initials(top1[0])}
+        </div>
+        <div style="font-size: 14px; font-weight: 800; color: #624cff; margin-bottom: 6px;">#1</div>
+        <div style="font-weight: 800; font-size: 16px; color: #17182d; margin-bottom: 4px;">${top1[0]}</div>
+        <div style="font-size: 13.5px; font-weight: 800; color: #624cff;">${top1[2]} điểm</div>
+      </div>
+
+      <!-- Hạng 3 -->
+      <div style="background: #ffffff; border-radius: 20px; padding: 28px 16px; text-align: center; border: 1px solid #f0ebff; box-shadow: 0 4px 16px rgba(0,0,0,0.02);">
+        <div style="width: 64px; height: 64px; border-radius: 18px; background: linear-gradient(135deg, #3b82f6, #60a5fa); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 20px; margin: 0 auto 16px;">
+          ${initials(top3[0])}
+        </div>
+        <div style="font-size: 13px; font-weight: 800; color: #624cff; margin-bottom: 6px;">#3</div>
+        <div style="font-weight: 800; font-size: 15px; color: #17182d; margin-bottom: 4px;">${top3[0]}</div>
+        <div style="font-size: 13px; font-weight: 700; color: #624cff;">${top3[2]} điểm</div>
+      </div>
+    </div>
+
+    <!-- Bảng danh sách thành viên -->
+    <div style="background: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04); border: 1px solid #f0ebff;">
+      <table style="width: 100%; border-collapse: collapse; text-align: left;">
+        <thead>
+          <tr style="background-color: #046347; color: #ffffff; font-size: 13.5px; font-weight: 700;">
+            <th style="padding: 16px 20px; width: 80px;">Hạng</th>
+            <th style="padding: 16px 20px;">Họ và Tên <span style="font-weight: 400; font-size: 12px; opacity: 0.85;">(Nhấp vào tên để xem lý do)</span></th>
+            <th style="padding: 16px 20px; text-align: center; width: 120px;">Điểm Cộng</th>
+            <th style="padding: 16px 20px; text-align: center; width: 120px;">Điểm Trừ</th>
+            <th style="padding: 16px 20px; text-align: right; width: 120px;">Tổng Điểm</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${sorted.map((m, idx) => `
+            <tr style="border-bottom: 1px solid #f4f3ff; font-size: 13.5px; transition: background 0.2s;" onmouseover="this.style.background='#fbfaff'" onmouseout="this.style.background='transparent'">
+              <td style="padding: 14px 20px; font-weight: 700; color: #4a4e69;">${idx + 1}</td>
+              <td style="padding: 14px 20px;">
+                <a href="#member-${members.indexOf(m)}" style="color: #2563eb; font-weight: 700; text-decoration: none;">${m[0]}</a>
+              </td>
+              <td style="padding: 14px 20px; text-align: center; color: #10b981; font-weight: 700;">+0</td>
+              <td style="padding: 14px 20px; text-align: center; color: #ef4444; font-weight: 700;">0</td>
+              <td style="padding: 14px 20px; text-align: right; font-weight: 800; color: #17182d;">${m[2]}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+  `);
+}
+
+// Hàm bổ sung để bật/tắt khung Cách tính điểm
+function togglePointRules() {
+  showPointRules = !showPointRules;
+  const section = document.getElementById('pointRulesSection');
+  if (section) {
+    section.style.display = showPointRules ? 'grid' : 'none';
+  }
 }
 function announcementsPage(){
  return layout("Thông báo","Có chuyện gì mới? Vào đây là biết ngay.","<div class='news-list'>"+announcements.map(a=>`<article class='news card'><span class='tag'>${a.tag}</span><div><small>${a.date}</small><h2>${a.title}</h2><p>${a.text}</p></div></article>`).join("")+"</div>");
