@@ -39,7 +39,6 @@ const members = [
 ];
 
 const announcements = [
-  {title:"Chào mừng đến với 10 Toán 1!",date:"28/08/2026",tag:"Lớp",text:"Website lớp đã chính thức lên sóng. Vào đây để xem thông báo, điểm thi đua và lịch lớp nhé!"}
 ];
 
 const events = [
