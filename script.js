@@ -579,4 +579,40 @@ submit.onclick=()=>{
  if(register){localStorage.setItem("demoUser",JSON.stringify({user,pass,name:document.getElementById("registerName").value.trim()}));showToast("Đăng ký thành công 🎉");}
  else {const saved=JSON.parse(localStorage.getItem("demoUser")||"null"); if(!saved||saved.user!==user||saved.pass!==pass)return showToast("Sai tài khoản hoặc mật khẩu!"); showToast("Đăng nhập thành công 👋");}
  modal.classList.remove("show");
+}
+  // Hàm chuyển đổi bộ lọc và vẽ lại danh sách thông báo
+function setNoticeFilter(filter) {
+  currentNoticeFilter = filter;
+  
+  // 1. Cập nhật lại màu sắc của các nút lọc
+  const filterContainer = document.getElementById('noticeFilterContainer');
+  if (filterContainer) {
+    filterContainer.innerHTML = renderNoticeFilters();
+  }
+
+  // 2. Cập nhật lại danh sách thông báo tương ứng
+  const contentContainer = document.getElementById('mainTabContentContainer');
+  if (contentContainer) {
+    contentContainer.innerHTML = renderMainTabContent();
+  }
+}
+
+// Hàm sinh mã HTML cho thanh danh sách nút bộ lọc
+function renderNoticeFilters() {
+  const filters = [
+    { id: 'all', label: 'Tất cả' },
+    { id: 'Quan trọng', label: 'Quan trọng' },
+    { id: 'Họp lớp', label: 'Họp lớp' },
+    { id: 'Bài tập', label: 'Bài tập' },
+    { id: 'Thông báo', label: 'Thông báo' }
+  ];
+
+  return filters.map(f => {
+    const isActive = currentNoticeFilter === f.id;
+    const style = isActive 
+      ? 'background: #624cff; color: #ffffff;' 
+      : 'background: #f0efff; color: #624cff;';
+
+    return `<button onclick="setNoticeFilter('${f.id}')" style="${style} border: none; padding: 6px 14px; border-radius: 12px; font-size: 13px; font-weight: 700; cursor: pointer; transition: 0.2s;">${f.label}</button>`;
+  }).join('');
 };
