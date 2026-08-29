@@ -2,3 +2,46 @@
 
 @media(max-width:900px){.header{padding:0 20px}.header nav{display:none;position:absolute;top:76px;left:0;right:0;background:#fff;padding:12px;flex-direction:column;box-shadow:0 15px 30px #0001}.header nav.open{display:flex}.header nav a{padding:13px}.menu-btn{display:block;margin-left:auto}.login-btn{display:none}.hero{padding:55px 7%;min-height:550px}.math-art{position:absolute;right:-130px;opacity:.35}.stats{margin:20px;border-radius:15px;grid-template-columns:repeat(2,1fr)}.stats div:nth-child(2){border:0}.grid-2,.member-grid,.event-grid,.about-grid{grid-template-columns:1fr}.podium{gap:7px}.podium-item{width:33%;padding:15px 5px}.podium-item h3{font-size:11px}.section-head h1{font-size:36px}footer{display:block}footer div:last-child{margin-top:15px}}
 @media(max-width:500px){.hero h1{font-size:50px}.hero p{font-size:14px}.stats{margin:15px}.stats div{padding:18px 8px}.page{padding-top:35px}.news{display:block}.news .tag{margin-bottom:10px}}
+/* --- Khung bộ lọc và thanh tìm kiếm thành viên --- */
+.members-filter-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-box input {
+  padding: 10px 16px 10px 38px !important;
+  border-radius: 20px !important;
+  border: 1px solid #e2d9ff !important;
+  background-color: #ffffff !important;
+  font-size: 13.5px !important;
+  outline: none !important;
+  width: 260px !important;
+  height: 40px !important;
+  box-sizing: border-box !important;
+  color: #17182d !important;
+}
+
+.search-box input:focus {
+  border-color: #624cff !important;
+  box-shadow: 0 0 0 3px rgba(98, 76, 255, 0.12) !important;
+}
+
+.search-box::before {
+  content: "🔍";
+  position: absolute;
+  left: 14px;
+  font-size: 13px;
+  pointer-events: none;
+  opacity: 0.6;
+  z-index: 2;
+}
