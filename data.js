@@ -39,16 +39,10 @@ const members = [
 ];
 
 const announcements = [
-  {title:"Chào mừng đến với 10 Toán 1!",date:"28/08/2026",tag:"Lớp",text:"Website lớp đã chính thức lên sóng. Vào đây để xem thông báo, điểm thi đua và lịch lớp nhé!"},
-  {title:"Nhắc lịch sinh hoạt lớp",date:"29/08/2026",tag:"Quan trọng",text:"Sinh hoạt lớp vào tiết 5 thứ Sáu. Nhớ mang theo sổ ghi chép."},
-  {title:"Tuần thi đua mới bắt đầu",date:"01/09/2026",tag:"Thi đua",text:"Mỗi hành động tốt đều có thể giúp tổ của bạn leo rank. Cố lên!"},
-  {title:"Cập nhật nội quy lớp",date:"03/09/2026",tag:"Lớp",text:"Nội quy mới đã được cập nhật. Mọi người kiểm tra tại mục Về lớp."}
+  {title:"Chào mừng đến với 10 Toán 1!",date:"28/08/2026",tag:"Lớp",text:"Website lớp đã chính thức lên sóng. Vào đây để xem thông báo, điểm thi đua và lịch lớp nhé!"}
 ];
 
 const events = [
-  {title:"Sinh hoạt lớp",date:"2026-08-29",time:"10:15",place:"Phòng học 10T1"},
-  {title:"Kiểm tra Toán",date:"2026-09-05",time:"08:00",place:"Phòng học 10T1"},
-  {title:"Hoạt động ngoại khóa",date:"2026-09-12",time:"07:30",place:"Sân trường"}
 ];
 
 const schedule = [
