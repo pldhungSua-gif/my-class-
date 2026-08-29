@@ -139,7 +139,7 @@ function renderMemberCard(m) {
     </div>
   `;
 }
-}
+
 function rankingPage(){
  const sorted=[...members].sort((a,b)=>b[2]-a[2]);
  return layout("Bảng xếp hạng","Điểm thi đua = học tốt + hành xử đẹp + tích cực.","<div class='podium'>"+sorted.slice(0,3).map((m,i)=>`<div class="podium-item p${i}"><div class="avatar xl">${initials(m[0])}</div><b>#${i+1}</b><h3>${m[0]}</h3><strong>${m[2]} điểm</strong></div>`).join("")+"</div><div class='card table-card'>"+sorted.map((m,i)=>rankRow(m,i+1)).join("")+"</div>");
