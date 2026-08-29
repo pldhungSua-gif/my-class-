@@ -544,21 +544,30 @@ function renderMainTabContent() {
     </div>
   `;
 }
-// Render nội dung tùy thuộc Tab đang chọn
+// Render nội dung tùy thuộc Tab đang chọn (Đã thêm nút Xóa)
 function renderMainTabContent() {
   if (currentTab === 'events') {
-    // Giao diện Lưới Sự kiện (2 cột như trong ảnh)
+    if (!events || events.length === 0) {
+      return `<p style="text-align:center; color:#888; padding: 40px 0;">Chưa có sự kiện nào.</p>`;
+    }
+
     return `
       <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
-        ${events.map(ev => `
+        ${events.map((ev, index) => `
           <div style="background: #ffffff; border-radius: 16px; padding: 20px; border: 1px solid #e5e0ff; box-shadow: 0 4px 16px rgba(0,0,0,0.02); display: flex; flex-direction: column; justify-content: space-between; gap: 12px;">
             <div>
-              <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
-                <span style="font-size: 24px;">${ev.icon || '📝'}</span>
-                <div>
-                  <h4 style="font-weight: 800; font-size: 15px; color: #17182d; margin: 0;">${ev.title}</h4>
-                  <small style="color: #624cff; font-weight: 700;">${ev.date}</small>
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <span style="font-size: 24px;">${ev.icon || '📝'}</span>
+                  <div>
+                    <h4 style="font-weight: 800; font-size: 15px; color: #17182d; margin: 0;">${ev.title}</h4>
+                    <small style="color: #624cff; font-weight: 700;">${ev.date}</small>
+                  </div>
                 </div>
+                <!-- Nút Xóa Sự kiện bổ sung -->
+                <button onclick="deleteEvent(${index})" style="background: #fee2e2; color: #ef4444; border: none; padding: 4px 8px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; transition: 0.2s;" title="Xóa sự kiện">
+                  🗑️ Xóa
+                </button>
               </div>
               <p style="font-size: 13px; color: #555770; margin: 6px 0 0 0; line-height: 1.5;">${ev.desc}</p>
             </div>
@@ -572,6 +581,40 @@ function renderMainTabContent() {
       </div>
     `;
   }
+
+  // Giao diện Danh sách Thông báo
+  const filteredNotices = announcements.filter(a => {
+    if (currentNoticeFilter === 'all') return true;
+    return a.tag === currentNoticeFilter;
+  });
+
+  if (!filteredNotices || filteredNotices.length === 0) {
+    return `<p style="text-align:center; color:#888; padding: 40px 0;">Không có thông báo nào thuộc danh mục này.</p>`;
+  }
+
+  return `
+    <div style="display: flex; flex-direction: column; gap: 16px;">
+      ${filteredNotices.map((a, index) => `
+        <div style="background: #ffffff; border-radius: 16px; padding: 20px 24px; border: 1px solid #e5e0ff; box-shadow: 0 4px 16px rgba(0,0,0,0.02); display: flex; justify-content: space-between; align-items: flex-start; gap: 16px;">
+          <div style="flex: 1;">
+            <h4 style="font-weight: 800; font-size: 15px; color: #17182d; margin: 0 0 8px 0;">${a.title}</h4>
+            <p style="font-size: 13.5px; color: #555770; margin: 0 0 12px 0; line-height: 1.5;">${a.content}</p>
+            <small style="color: #624cff; font-weight: 700;">🕒 ${a.date}</small>
+          </div>
+          <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 10px;">
+            <span style="background: #f0efff; color: #624cff; font-weight: 700; font-size: 11.5px; padding: 4px 12px; border-radius: 12px; white-space: nowrap;">
+              ${a.tag}
+            </span>
+            <!-- Nút Xóa Thông báo bổ sung -->
+            <button onclick="deleteAnnouncement(${index})" style="background: #fee2e2; color: #ef4444; border: none; padding: 4px 10px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; transition: 0.2s;" title="Xóa thông báo">
+              🗑️ Xóa
+            </button>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
 
   // Giao diện Danh sách Thông báo
   const filteredNotices = announcements.filter(a => {
@@ -640,3 +683,20 @@ submit.onclick=()=>{
  else {const saved=JSON.parse(localStorage.getItem("demoUser")||"null"); if(!saved||saved.user!==user||saved.pass!==pass)return showToast("Sai tài khoản hoặc mật khẩu!"); showToast("Đăng nhập thành công 👋");}
  modal.classList.remove("show");
 };
+// Hàm xóa thông báo theo chỉ số (index)
+function deleteAnnouncement(index) {
+  if (confirm("Bạn có chắc chắn muốn xóa thông báo này không?")) {
+    announcements.splice(index, 1);
+    const container = document.getElementById('mainTabContentContainer');
+    if (container) container.innerHTML = renderMainTabContent();
+  }
+}
+
+// Hàm xóa sự kiện theo chỉ số (index)
+function deleteEvent(index) {
+  if (confirm("Bạn có chắc chắn muốn xóa sự kiện này không?")) {
+    events.splice(index, 1);
+    const container = document.getElementById('mainTabContentContainer');
+    if (container) container.innerHTML = renderMainTabContent();
+  }
+}
