@@ -302,7 +302,11 @@ function togglePointRules() {
 let currentTab = 'announcements';
 let currentNoticeFilter = 'all';
 
+// 1. Hàm dựng giao diện trang Thông báo & Sự kiện
 function announcementsPage() {
+  // Tự động gọi API lấy thông báo từ MongoDB sau khi DOM đã dựng xong
+  setTimeout(loadAnnouncementsFromBackend, 100);
+
   return layout("Thông báo & Sự kiện", "Cập nhật những thông tin và sự kiện mới nhất của lớp", `
     <!-- Thanh chuyển tab & Nút tạo mới -->
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; flex-wrap: wrap; gap: 16px;">
@@ -321,7 +325,7 @@ function announcementsPage() {
           <button 
             id="btnTabEvents" 
             onclick="switchMainTab('events')" 
-            style="padding: 8px 18px; border-radius: 16px; border: none; font-weight: 700; font-size: 13.5px; cursor: pointer; transition: all 0.2s; ${currentTab === 'events' ? 'background: #624cff; color: #fff; box-shadow: 0 2px 8px rgba(98, 76, 255, 0.25);' : 'background: transparent; color: #624cff;'}"
+            style="padding: 8px 18px; border-radius: 16px; border: none; font-weight: 700; font-size: 13.5px; cursor: pointer; transition: all 0.2s; ${currentTab === 'announcements' ? 'background: transparent; color: #624cff;' : 'background: #624cff; color: #fff; box-shadow: 0 2px 8px rgba(98, 76, 255, 0.25);'}"
           >
             📅 Sự kiện
           </button>
@@ -338,10 +342,9 @@ function announcementsPage() {
       </div>
 
       <!-- Bộ lọc nhỏ (Chỉ hiển thị khi ở tab Thông báo) -->
-     <!-- ✅ ĐOẠN MỚI NỐI TRỰC TIẾP VỚI HÀM LỌC -->
-<div id="noticeFilterContainer" style="display: flex; gap: 8px; flex-wrap: wrap;">
-  ${renderNoticeFilters()}
-</div>
+      <div id="noticeFilterContainer" style="display: flex; gap: 8px; flex-wrap: wrap;">
+        ${renderNoticeFilters()}
+      </div>
     </div>
 
     <!-- Khung chứa nội dung chính -->
@@ -353,10 +356,53 @@ function announcementsPage() {
     <div id="createModalContainer" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.4); z-index: 9999; justify-content: center; align-items: center;">
       <div id="createModalBody" style="background: #ffffff; width: 90%; max-width: 480px; border-radius: 20px; padding: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);"></div>
     </div>
-   
-    `);
+  `);
 }
 
+// 2. Hàm kết nối Backend Render để lấy danh sách thông báo thực tế
+async function loadAnnouncementsFromBackend() {
+  const container = document.getElementById("mainTabContentContainer");
+  if (!container || currentTab !== "announcements") return;
+
+  try {
+    const response = await fetch(BACKEND_API_URL);
+    const announcements = await response.json();
+
+    if (!announcements || announcements.length === 0) {
+      container.innerHTML = `
+        <div style="text-align: center; padding: 40px; color: #6b7280;">
+          <p style="font-size: 16px;">📭 Chưa có thông báo nào trong cơ sở dữ liệu.</p>
+        </div>
+      `;
+      return;
+    }
+
+    // Đổ danh sách thông báo nhận từ MongoDB ra HTML
+    container.innerHTML = announcements
+      .map(
+        (item) => `
+        <div style="background: #ffffff; border-radius: 16px; padding: 20px; margin-bottom: 16px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); border: 1px solid #f3f4f6;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <span style="background: #eef2ff; color: #4f46e5; padding: 4px 12px; border-radius: 12px; font-weight: 600; font-size: 12px;">
+              ${item.tag || "Chung"}
+            </span>
+            <span style="color: #9ca3af; font-size: 13px;">📅 ${item.date || "Mới đây"}</span>
+          </div>
+          <h3 style="margin: 0 0 8px 0; color: #1f2937; font-size: 17px;">${item.title}</h3>
+          <p style="margin: 0; color: #4b5563; line-height: 1.5; font-size: 14px;">${item.content}</p>
+        </div>
+      `
+      )
+      .join("");
+  } catch (error) {
+    console.error("Lỗi khi tải thông báo từ Backend:", error);
+    container.innerHTML = `
+      <div style="text-align: center; padding: 40px; color: #ef4444;">
+        <p>❌ Không thể kết nối tới cơ sở dữ liệu. Vui lòng kiểm tra lại Backend.</p>
+      </div>
+    `;
+  }
+}
 // Chuyển đổi qua lại giữa Tab Thông báo & Tab Sự kiện
 function switchMainTab(tab) {
   currentTab = tab;
