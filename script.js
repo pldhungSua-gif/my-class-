@@ -403,7 +403,6 @@ async function loadAnnouncementsFromBackend() {
     `;
   }
 }
-// Chuyển đổi qua lại giữa Tab Thông báo & Tab Sự kiện
 function switchMainTab(tab) {
   currentTab = tab;
   
@@ -428,8 +427,12 @@ function switchMainTab(tab) {
   if (container) {
     container.innerHTML = renderMainTabContent();
   }
-}
 
+  // ✅ KÍCH HOẠT TẢI DỮ LIỆU TỪ BACKEND KHI MỞ TAB THÔNG BÁO
+  if (tab === 'announcements') {
+    loadAnnouncementsFromBackend();
+  }
+}
 // 1. Xử lý mở Modal Popup Form
 function handleCreateAction() {
   const modal = document.getElementById('createModalContainer');
