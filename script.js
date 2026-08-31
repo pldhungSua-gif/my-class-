@@ -829,3 +829,48 @@ if (submit) {
     if (modal) modal.classList.remove("show");
   };
 }
+// Hàm hiển thị giao diện theo trạng thái đăng nhập
+function renderUI() {
+  const currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
+
+  // Ẩn tất cả các khu vực giao diện
+  document.getElementById('defaultView').style.display = 'none';
+  document.getElementById('memberView').style.display = 'none';
+  document.getElementById('adminView').style.display = 'none';
+
+  if (!currentUser) {
+    // 1. Chưa đăng nhập -> Hiện giao diện Mặc định
+    document.getElementById('defaultView').style.display = 'block';
+  } else if (currentUser.role === 'admin') {
+    // 2. Quyền Admin -> Hiện giao diện Admin
+    document.getElementById('adminView').style.display = 'block';
+  } else if (currentUser.role === 'member') {
+    // 3. Quyền Member -> Hiện giao diện Thành viên
+    document.getElementById('memberView').style.display = 'block';
+  }
+}
+
+// Xử lý sự kiện Submit Form Đăng nhập
+document.getElementById('loginForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const usernameInput = document.getElementById('username').value;
+  const passwordInput = document.getElementById('password').value;
+
+  const foundUser = users.find(u => u.username === usernameInput && u.password === passwordInput);
+
+  if (foundUser) {
+    sessionStorage.setItem('currentUser', JSON.stringify(foundUser));
+    renderUI();
+  } else {
+    alert('Tài khoản hoặc mật khẩu không chính xác!');
+  }
+});
+
+// Xử lý Đăng xuất
+function logout() {
+  sessionStorage.removeItem('currentUser');
+  renderUI();
+}
+
+// Chạy kiểm tra ngay khi tải trang
+document.addEventListener('DOMContentLoaded', renderUI);
