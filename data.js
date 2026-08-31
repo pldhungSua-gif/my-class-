@@ -52,3 +52,7 @@ const schedule = [
   ["Thứ 6","Toán","Vật lý","Ngữ văn","Sinh","Sinh hoạt"],
   ["Thứ 7","—","—","Hoạt động lớp","—","—"]
 ];
+const users = [
+  { username: "admin", password: "123", role: "admin", name: "Quản trị viên" },
+  { username: "hocsinh01", password: "123", role: "member", name: "Nguyễn Văn A" }
+];
