@@ -762,30 +762,10 @@ if (document.getElementById("menuBtn")) {
     nav.classList.toggle("open");
 }
 
-// Modal Đăng nhập / Đăng ký Demo
-const modal = document.getElementById("authModal"),
-  title = document.getElementById("authTitle"),
-  desc = document.getElementById("authDesc");
-const nameWrap = document.getElementById("registerNameWrap"),
-  submit = document.getElementById("submitAuth"),
-  switchBtn = document.getElementById("switchAuth");
-let register = false;
-
-function auth() {
-  register = !register;
-  if (title) title.textContent = register ? "Đăng ký" : "Đăng nhập";
-  if (desc)
-    desc.textContent = register
-      ? "Tạo tài khoản demo cho website lớp."
-      : "Chào mừng bạn quay lại lớp!";
-  if (nameWrap) nameWrap.classList.toggle("hidden", !register);
-  if (submit)
-    submit.textContent = register ? "Tạo tài khoản" : "Đăng nhập";
-  if (switchBtn)
-    switchBtn.textContent = register
-      ? "Đã có tài khoản? Đăng nhập"
-      : "Chưa có tài khoản? Đăng ký";
-}
+// ==========================================
+// 1. Xử lý Mở / Đóng Modal Đăng nhập
+// ==========================================
+const modal = document.getElementById("authModal");
 
 if (document.getElementById("loginBtn")) {
   document.getElementById("loginBtn").onclick = () => {
@@ -794,83 +774,75 @@ if (document.getElementById("loginBtn")) {
 }
 
 if (document.getElementById("closeModal")) {
-  document.getElementById("closeModal").onclick = () =>
-    modal.classList.remove("show");
-}
-
-if (switchBtn) switchBtn.onclick = auth;
-
-if (submit) {
-  submit.onclick = () => {
-    const user = document.getElementById("authUser").value.trim();
-    const pass = document.getElementById("authPass").value;
-    if (
-      !user ||
-      !pass ||
-      (register && !document.getElementById("registerName").value.trim())
-    )
-      return showToast("Vui lòng nhập đủ thông tin!");
-    if (register) {
-      localStorage.setItem(
-        "demoUser",
-        JSON.stringify({
-          user,
-          pass,
-          name: document.getElementById("registerName").value.trim(),
-        })
-      );
-      showToast("Đăng ký thành công 🎉");
-    } else {
-      const saved = JSON.parse(localStorage.getItem("demoUser") || "null");
-      if (!saved || saved.user !== user || saved.pass !== pass)
-        return showToast("Sai tài khoản hoặc mật khẩu!");
-      showToast("Đăng nhập thành công 👋");
-    }
+  document.getElementById("closeModal").onclick = () => {
     if (modal) modal.classList.remove("show");
   };
 }
-// Hàm hiển thị giao diện theo trạng thái đăng nhập
+
+// ==========================================
+// 2. Hàm hiển thị giao diện theo 3 phần (Default, Member, Admin)
+// ==========================================
 function renderUI() {
   const currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
 
-  // Ẩn tất cả các khu vực giao diện
-  document.getElementById('defaultView').style.display = 'none';
-  document.getElementById('memberView').style.display = 'none';
-  document.getElementById('adminView').style.display = 'none';
+  const defaultView = document.getElementById('defaultView');
+  const memberView = document.getElementById('memberView');
+  const adminView = document.getElementById('adminView');
 
+  // Ẩn tất cả các giao diện
+  if (defaultView) defaultView.style.display = 'none';
+  if (memberView) memberView.style.display = 'none';
+  if (adminView) adminView.style.display = 'none';
+
+  // Hiển thị theo vai trò
   if (!currentUser) {
-    // 1. Chưa đăng nhập -> Hiện giao diện Mặc định
-    document.getElementById('defaultView').style.display = 'block';
+    // Chưa đăng nhập -> Default interface
+    if (defaultView) defaultView.style.display = 'block';
   } else if (currentUser.role === 'admin') {
-    // 2. Quyền Admin -> Hiện giao diện Admin
-    document.getElementById('adminView').style.display = 'block';
+    // Admin -> Admin interface
+    if (adminView) adminView.style.display = 'block';
   } else if (currentUser.role === 'member') {
-    // 3. Quyền Member -> Hiện giao diện Thành viên
-    document.getElementById('memberView').style.display = 'block';
+    // Thành viên -> Members interface
+    if (memberView) memberView.style.display = 'block';
   }
 }
 
-// Xử lý sự kiện Submit Form Đăng nhập
-document.getElementById('loginForm').addEventListener('submit', function(e) {
-  e.preventDefault();
-  const usernameInput = document.getElementById('username').value;
-  const passwordInput = document.getElementById('password').value;
+// ==========================================
+// 3. Xử lý Đăng nhập duy nhất (Không có đăng ký)
+// ==========================================
+const submitBtn = document.getElementById("submitAuth");
+if (submitBtn) {
+  submitBtn.onclick = () => {
+    const usernameInput = document.getElementById("authUser")?.value.trim();
+    const passwordInput = document.getElementById("authPass")?.value;
 
-  const foundUser = users.find(u => u.username === usernameInput && u.password === passwordInput);
+    if (!usernameInput || !passwordInput) {
+      return showToast("Vui lòng nhập đầy đủ tài khoản và mật khẩu!");
+    }
 
-  if (foundUser) {
-    sessionStorage.setItem('currentUser', JSON.stringify(foundUser));
-    renderUI();
-  } else {
-    alert('Tài khoản hoặc mật khẩu không chính xác!');
-  }
-});
+    // Kiểm tra tài khoản trong danh sách users (khai báo tại data.js)
+    const foundUser = typeof users !== 'undefined' 
+      ? users.find(u => u.username === usernameInput && u.password === passwordInput)
+      : null;
 
-// Xử lý Đăng xuất
+    if (foundUser) {
+      sessionStorage.setItem('currentUser', JSON.stringify(foundUser));
+      if (modal) modal.classList.remove("show");
+      showToast("Đăng nhập thành công 👋");
+      renderUI();
+    } else {
+      showToast("Tài khoản hoặc mật khẩu không chính xác!");
+    }
+  };
+}
+
+// ==========================================
+// 4. Xử lý Đăng xuất
+// ==========================================
 function logout() {
   sessionStorage.removeItem('currentUser');
   renderUI();
 }
 
-// Chạy kiểm tra ngay khi tải trang
+// Tự động kiểm tra giao diện khi tải trang
 document.addEventListener('DOMContentLoaded', renderUI);
